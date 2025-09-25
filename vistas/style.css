@@ -1,0 +1,178 @@
+/* Degradado general */
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a0030 0%, #4a035f 100%);
+  color: #f2f2f2;
+}
+
+/* Sidebar */
+.sidebar {
+  background-color: rgba(0,0,0,0.6);
+  backdrop-filter: blur(6px);
+  min-height: 100vh;
+}
+.sidebar .nav-link {
+  color: #cfc6d9;
+  font-weight: 500;
+}
+.sidebar .nav-link.active,
+.sidebar .nav-link:hover {
+  background-color: rgba(74,3,95,0.5);
+  color: #fff;
+  border-radius: .5rem;
+}
+
+/* Cards / Contenido */
+.card-custom {
+  background-color: rgba(255,255,255,0.08);
+  border: none;
+  border-radius: 1rem;
+  color: #fff;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Botones */
+.btn-main {
+  background-color: #7a2bbf;
+  border: none;
+  color: #fff;
+  border-radius: 50px;
+  padding: .5rem 1.5rem;
+}
+.btn-main:hover {
+  background-color: #a04be0;
+  color: #fff;
+}
+/* Tabla  */
+ .table-custom {
+      width: 100%;
+      background-color: rgba(255,255,255,0.08);
+      color: #f2f2f2;
+      border-radius: 1rem;
+      overflow: hidden;
+    }
+    .table-custom th, .table-custom td {
+      border: none;
+      padding: 0.75rem;
+      vertical-align: middle;
+    }
+    .table-custom th {
+      background-color: rgba(255,255,255,0.12);
+    }
+    .list-group-item-custom {
+      background-color: rgba(255,255,255,0.08);
+      color: #f2f2f2;
+      border: none;
+      margin-bottom: 0.5rem;
+      border-radius: 0.75rem;
+      padding: 1rem;
+    }
+
+    /* Cards de equipo */
+    .team-card {
+      background-color: rgba(255,255,255,0.08);
+      border-radius: 1rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      color: #f2f2f2;
+    }
+    /* Inputs de búsqueda */
+    .search-input {
+      background-color: rgba(255,255,255,0.08);
+      color: #f2f2f2;
+      border: none;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+      margin-right: 0.5rem;
+    }
+    .search-input::placeholder {
+      color: #cfc6d9;
+    }
+    .btn-main {
+      background-color: #7a2bbf;
+      border: none;
+      color: #fff;
+      border-radius: 50px;
+      padding: .5rem 1.5rem;
+    }
+    .btn-main:hover {
+      background-color: #a04be0;
+    }
+
+
+    /*búsqueda equipo-filtro equipo */
+    .search-input {
+      background-color: rgba(255,255,255,0.08);
+      color: #f2f2f2;
+      border: none;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+      margin-right: 0.5rem;
+    }
+
+    .search-input::placeholder {
+      color: #cfc6d9;
+    }
+
+    /* Para que el select muestre el texto claro */
+    .search-input:focus {
+      outline: none;
+    }
+    .search-input option {
+      background-color: #1a0030; /* fondo oscuro para las opciones */
+      color: #f2f2f2; /* texto claro */
+    }
+
+    /*crear equipo*/
+    .form-card {
+      background-color: rgba(255,255,255,0.08);
+      border-radius: 1rem;
+      padding: 2rem;
+      color: #f2f2f2;
+    }
+    .form-control, .form-select {
+      background-color: rgba(255,255,255,0.08);
+      color: #f2f2f2;
+      border: none;
+      margin-bottom: 1rem;
+    }
+    .form-control::placeholder {
+      color: #cfc6d9;
+    }
+    .btn-main {
+      background-color: #7a2bbf;
+      border: none;
+      color: #fff;
+      border-radius: 50px;
+      padding: .5rem 1.5rem;
+    }
+    .btn-main:hover {
+      background-color: #a04be0;
+    }
+ 
+
+   /* Inputs, selects y textarea estilo dark */
+.form-control, .form-select, textarea {
+  background-color: rgba(255,255,255,0.08) !important; /* fondo semitransparente */
+  color: #f2f2f2 !important; /* texto claro */
+  border: none;
+  margin-bottom: 1rem;
+}
+
+.form-control::placeholder,
+textarea::placeholder {
+  color: #cfc6d9; /* placeholder más claro */
+}
+
+.form-select option {
+  background-color: #1a0030; /* fondo oscuro de opciones */
+  color: #f2f2f2;          /* texto claro */
+}
+
+.form-control:focus,
+.form-select:focus,
+textarea:focus {
+  outline: none;
+  box-shadow: none; /* quita el borde azul por defecto al hacer focus */
+}
