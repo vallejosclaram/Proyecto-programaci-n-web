@@ -16,14 +16,14 @@ body {
 }
 
 .btn-guardar {
-  background: #0d6efd;          /* Azul Bootstrap */
+  background: #0d6efd;          
   color: #fff;
   border-radius: 0.5rem;
   transition: background-color 0.2s;
 }
 
 .btn-guardar:hover {
-  background: #0b5ed7;          /* Azul más oscuro en hover */
+  background: #0b5ed7;          
   color: #fff;
 }
 
