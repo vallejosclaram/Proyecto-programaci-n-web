@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Crear Equipo</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 <div class="container-fluid">
   <div class="row">
-   
+    
     <nav class="col-md-2 d-md-block sidebar p-3">
       <h3 class="text-white mb-4">UPE-SPORT</h3>
       <ul class="nav flex-column">
@@ -24,43 +22,49 @@
       </ul>
     </nav>
 
-   
     <main class="col-md-10 p-4">
-      <h2 class="mb-4">Crear Equipo</h2>
-
+      <h1 class="mb-4">Crear Equipo</h1>
       <div class="form-card">
-        <form>
-          <label for="teamName" class="form-label">Nombre del Equipo</label>
-          <input type="text" class="form-control" id="teamName" placeholder="Escribe el nombre de tu equipo">
-
-          <label for="gameSelect" class="form-label">Juego</label>
-          <select id="gameSelect" class="form-select">
+        <form id="form-crear-equipo">
+          <input type="text" id="nombreEquipo" class="form-control" placeholder="Nombre del equipo" required>
+          <select id="juego" class="form-select" required>
             <option value="">Selecciona un juego</option>
-            <option value="LoL">League of Legends</option>
+            <option value="League of Legends">League of Legends</option>
             <option value="Valorant">Valorant</option>
             <option value="CS2">CS2</option>
+            <option value="Dota 2">Dota 2</option>
           </select>
-
-          <label for="playersCount" class="form-label">Cantidad de Jugadores</label>
-          <input type="number" class="form-control" id="playersCount" min="2" max="10" placeholder="Máximo 10 jugadores">
-
-          <label for="region" class="form-label">Región (opcional)</label>
-          <input type="text" class="form-control" id="region" placeholder="Ej: LATAM, NA, EU">
-
-          <label for="description" class="form-label">Descripción del Equipo (opcional)</label>
-          <textarea class="form-control" id="description" rows="3" placeholder="Slogan o información adicional"></textarea>
-
-          <div class="d-flex justify-content-between mt-3">
-            <a href="equipos.html" class="btn btn-main">Volver a Equipos</a>
-            <button type="submit" class="btn btn-main">Crear Equipo</button>
+          <input type="number" id="jugadores" class="form-control" placeholder="Cantidad de jugadores" min="1" max="10" required>
+          <textarea id="descripcion" class="form-control" placeholder="Descripción (opcional)"></textarea>
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-crear-equipo">Crear Equipo</button>
+            <a href="equipos.html" class="btn btn-volver">Volver</a>
           </div>
         </form>
       </div>
-
     </main>
   </div>
 </div>
 
 
+<div class="modal fade" id="modalCreado" tabindex="-1" aria-labelledby="modalCreadoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalCreadoLabel">Equipo Creado</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        El equipo se ha creado correctamente.
+      </div>
+      <div class="modal-footer">
+        <a href="equipos.html" class="btn btn-main">Ver Equipos</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="crear-equipo.js"></script>
 </body>
 </html>
