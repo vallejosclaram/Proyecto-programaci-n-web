@@ -1,11 +1,13 @@
-/* Degradado general */
+
 body {
   min-height: 100vh;
   background: linear-gradient(135deg, #1a0030 0%, #4a035f 100%);
   color: #f2f2f2;
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+
 }
 
-/* Sidebar */
+
 .sidebar {
   background-color: rgba(0,0,0,0.6);
   backdrop-filter: blur(6px);
@@ -22,7 +24,7 @@ body {
   border-radius: .5rem;
 }
 
-/* Cards / Contenido */
+
 .card-custom {
   background-color: rgba(255,255,255,0.08);
   border: none;
@@ -32,7 +34,6 @@ body {
   margin-bottom: 1rem;
 }
 
-/* Botones */
 .btn-main {
   background-color: #7a2bbf;
   border: none;
@@ -44,7 +45,7 @@ body {
   background-color: #a04be0;
   color: #fff;
 }
-/* Tabla  */
+
  .table-custom {
       width: 100%;
       background-color: rgba(255,255,255,0.08);
@@ -69,7 +70,7 @@ body {
       padding: 1rem;
     }
 
-    /* Cards de equipo */
+  
     .team-card {
       background-color: rgba(255,255,255,0.08);
       border-radius: 1rem;
@@ -77,7 +78,7 @@ body {
       margin-bottom: 1rem;
       color: #f2f2f2;
     }
-    /* Inputs de búsqueda */
+    
     .search-input {
       background-color: rgba(255,255,255,0.08);
       color: #f2f2f2;
@@ -101,7 +102,7 @@ body {
     }
 
 
-    /*búsqueda equipo-filtro equipo */
+    
     .search-input {
       background-color: rgba(255,255,255,0.08);
       color: #f2f2f2;
@@ -115,16 +116,16 @@ body {
       color: #cfc6d9;
     }
 
-    /* Para que el select muestre el texto claro */
+   
     .search-input:focus {
       outline: none;
     }
     .search-input option {
-      background-color: #1a0030; /* fondo oscuro para las opciones */
-      color: #f2f2f2; /* texto claro */
+      background-color: #1a0030; 
+      color: #f2f2f2; 
     }
 
-    /*crear equipo*/
+
     .form-card {
       background-color: rgba(255,255,255,0.08);
       border-radius: 1rem;
@@ -152,27 +153,27 @@ body {
     }
  
 
-   /* Inputs, selects y textarea estilo dark */
+   
 .form-control, .form-select, textarea {
-  background-color: rgba(255,255,255,0.08) !important; /* fondo semitransparente */
-  color: #f2f2f2 !important; /* texto claro */
+  background-color: rgba(255,255,255,0.08) !important;
+  color: #f2f2f2 !important; 
   border: none;
   margin-bottom: 1rem;
 }
 
 .form-control::placeholder,
 textarea::placeholder {
-  color: #cfc6d9; /* placeholder más claro */
+  color: #cfc6d9; 
 }
 
 .form-select option {
-  background-color: #1a0030; /* fondo oscuro de opciones */
-  color: #f2f2f2;          /* texto claro */
+  background-color: #1a0030; 
+  color: #f2f2f2;          
 }
 
 .form-control:focus,
 .form-select:focus,
 textarea:focus {
   outline: none;
-  box-shadow: none; /* quita el borde azul por defecto al hacer focus */
+  box-shadow: none; 
 }
