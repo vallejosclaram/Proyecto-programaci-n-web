@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Visualizar Torneos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="torneos.js"></script>
+    <link rel="stylesheet" href="style-torneos.css">
+</head>
+<body>
+  <div class="container-fluid split-layout">
+    <div class="row flex-nowrap">
+      <nav class="col-auto sidebar p-3">
+        <h3 class="text-white mb-4">UPE-SPORT</h3>
+        <ul class="nav flex-column">
+        <li class="nav-item"><a class="nav-link" href="pantalla-principal.html">Principal</a></li>
+        <li class="nav-item"><a class="nav-link active" href="#">Torneos</a></li>
+        <li class="nav-item"><a class="nav-link" href="visualizar-ranking.html">Ranking</a></li>
+        <li class="nav-item"><a class="nav-link" href="visualizar-perfil.html">Mi Perfil</a></li>
+        <li class="nav-item"><a class="nav-link" href="visualizar-solicitudes.html">Solicitudes</a></li>
+        </ul>
+      </nav>
+
+
+      <main class="col main-content p-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <h2>Visualizar Torneos</h2>
+            <p class="mb-0 text-muted">Aquí puedes ver y gestionar los torneos organizados.</p>
+          </div>
+          <div>
+            <a href="crear-torneo.html" class="btn" id="crear-torneo">+ Nuevo Torneo</a>
+          </div>
+        </div>
+      <div class="card-custom p-3">
+        <div class="controls mb-3">
+          <input id="search" class="form-control search-input" placeholder="Buscar por nombre, juego o lugar..." />
+          <select id="filter-status" class="form-select" style="max-width:200px">
+          <option value="all">Todas</option>
+          <option value="upcoming">Próximos</option>
+          <option value="active">Activos</option>
+          <option value="finished">Finalizados</option>
+          </select>
+          <button id="clear-btn" class="btn btn-outline-secondary">Limpiar</button>
+        </div>
+
+
+        <div id="listado-torneos" class="row g-3">
+        <!-- Renderizado por JS -->
+      </div>
+
+
+      <div id="empty" class="empty-state d-none">
+        <h5>No hay torneos para mostrar</h5>
+        <p>Cuando crees torneos aparecerán aquí.</p>
+      </div>
+      </div>
+      </main>
+      </div>
+      </div>
+
+
+      <!-- Modal ver detalles -->
+      <div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+      <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title" id="detail-title">Detalle del Torneo</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="detail-body">
+      <!-- contenido por JS -->
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      <button id="detail-edit" type="button" class="btn btn-primary">Editar</button>
+      </div>
+      </div>
+      </div>
+      </div>
+
+
+      <!-- Modal confirm deletion -->
+      <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-sm modal-dialog-centered">
+      <div class="modal-content">
+      <div class="modal-body text-center">
+      <p id="confirm-text">¿Eliminar este torneo?</p>
+      <div class="d-flex justify-content-center gap-2">
+      <button id="confirm-delete" class="btn btn-danger">Eliminar</button>
+      <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+      </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

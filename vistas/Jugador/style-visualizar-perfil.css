@@ -1,0 +1,154 @@
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a0030 0%, #4a035f 100%);
+  color: #f2f2f2;
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+
+.sidebar {
+  background-color: rgba(0,0,0,0.6);
+  backdrop-filter: blur(6px);
+  min-height: 100vh;
+  padding-top: 2rem;
+}
+
+.sidebar h3 {
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.sidebar .nav-link {
+  color: #cfc6d9;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.sidebar .nav-link.active,
+.sidebar .nav-link:hover {
+  background-color: rgba(74,3,95,0.5);
+  color: #fff;
+  border-radius: 0.5rem;
+}
+
+
+main {
+  padding: 2rem;
+}
+
+
+.card-custom {
+  background-color: rgba(255,255,255,0.08);
+  border: none;
+  border-radius: 1rem;
+  color: #fff;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+
+.btn-main {
+  background-color: #7a2bbf;
+  border: none;
+  color: #fff;
+  border-radius: 50px;
+  padding: 0.5rem 1.5rem;
+  transition: background-color 0.3s;
+}
+
+.btn-main:hover {
+  background-color: #a04be0;
+  color: #fff;
+}
+
+
+.table-custom {
+  width: 100%;
+  background-color: rgba(255,255,255,0.08);
+  color: #f2f2f2;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.table-custom th, .table-custom td {
+  border: none;
+  padding: 0.75rem;
+  vertical-align: middle;
+}
+
+.table-custom th {
+  background-color: rgba(255,255,255,0.12);
+}
+
+
+.list-group-item-custom,
+.team-card {
+  background-color: rgba(255,255,255,0.08);
+  color: #f2f2f2;
+  border: none;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+
+.form-card,
+.form-control,
+.form-select,
+textarea {
+  background-color: rgba(255,255,255,0.08);
+  color: #f2f2f2;
+  border: none;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+}
+
+.form-control::placeholder,
+textarea::placeholder {
+  color: #cfc6d9;
+}
+
+.form-select option {
+  background-color: #1a0030;
+  color: #f2f2f2;
+}
+
+.form-control:focus,
+.form-select:focus,
+textarea:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+
+.search-input {
+  background-color: rgba(255,255,255,0.08);
+  color: #f2f2f2;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  margin-right: 0.5rem;
+}
+
+.search-input::placeholder {
+  color: #cfc6d9;
+}
+
+.search-input:focus {
+  outline: none;
+}
+
+
+a {
+  color: #cfc6d9;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #fff;
+  text-decoration: none;
+}
