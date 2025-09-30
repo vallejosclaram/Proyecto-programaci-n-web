@@ -1,8 +1,8 @@
 :root{
     --primary:#4a035f;
     --bg-1:linear-gradient(135deg,#030d1d,#4a035f);
-    --card-bg:#fff;
-    --muted:#6c757d;
+    --card-bg:rgba(255,255,255,0.08);;
+    --muted:#0e0e0f;
 }
 
 body{
@@ -66,7 +66,7 @@ main p.mb-0.text-muted {
     display:flex;
     align-items:center;
     gap:12px;
-    background:#f8f8f8;
+    background-color: rgba(255,255,255,0.08);
     transition: transform 0.2s;
 }
 
@@ -91,6 +91,7 @@ main p.mb-0.text-muted {
 .meta h5{
     margin:0;
     font-weight:600;
+    color:#000000;
 }
 
 .meta small{

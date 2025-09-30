@@ -43,8 +43,8 @@ body {
     color: #f2f2f2;
     border: none;
     border-radius: 0.5rem;
-    margin-bottom: 1rem;
-    padding: 0.5rem 1rem;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem 0.5rem;
 }
 
 .form-control::placeholder,
@@ -79,25 +79,13 @@ textarea:focus {
     color: #fff;
 }
 
-.btn-outline-secondary {
-    border-radius: 50px;
-    color: #fff;
-    border-color: #fff;
-    background: transparent;
-}
-
-.btn-outline-secondary:hover {
-    background: #a04be0;
-    border-color: #a04be0;
-    color: #fff;
-}
 
 .btn-approve {
     background: linear-gradient(135deg,#7a2bbf,#a04be0);
     color:#fff;
     border:none;
     border-radius:50px;
-    padding:.5rem 1.5rem;
+    padding:.4rem 1.5rem;
     transition: 0.3s;
 }
 
@@ -116,18 +104,23 @@ textarea:focus {
 .btn-reject:hover {
     background-color: #666;
 }
+#clear-btn {
+    background: var(--primary);
+    color: #fff;
+    border-radius: 10px;
+    font-weight: 500;
+}
+#clear-btn:hover {
+    background: #6a1b9a; 
+    color: #fff;
+}
 
 .controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
+    display:flex;
+    gap:8px;flex-wrap:wrap;
+    margin-bottom:1rem
 }
-
-.search-input {
-    flex: 1;
-    min-width: 200px;
-}
+.search-input{max-width:360px}
 
 .empty-state {
     text-align: center;

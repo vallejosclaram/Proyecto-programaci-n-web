@@ -1,4 +1,3 @@
-
     body {
     min-height: 100vh;
     background: linear-gradient(135deg, #1a0030 0%, #4a035f 100%);
@@ -40,12 +39,12 @@
     border-radius: 0.5rem;
     }
 
-    /* Main */
+
     main {
     padding: 2rem;
     }
 
-    /* Card formulario */
+
     .card-custom {
     background-color: rgba(255,255,255,0.08);
     border: none;
@@ -56,7 +55,6 @@
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
 
-    /* Inputs y textarea */
     .form-control,
     textarea {
     background-color: rgba(255,255,255,0.08);
@@ -78,7 +76,6 @@
     box-shadow: none;
     }
 
-    /* Botones */
     .btn-create-torneo {
     background: linear-gradient(135deg, #7a2bbf, #4a035f);
     border: none;
@@ -101,7 +98,6 @@
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
     }
 
-    /* Botones secundarios */
     .btn-outline-light {
     border: 1px solid #fff;
     color: #fff;
@@ -114,7 +110,6 @@
     color: #fff;
     }
 
-    /* Team row */
     .team-row {
     display: flex;
     align-items: center;
@@ -130,8 +125,6 @@
     .team-row button {
     flex: 0 0 auto;
     }
-
-    /* Links */
     a {
     color: #cfc6d9;
     text-decoration: none;
