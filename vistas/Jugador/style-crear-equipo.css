@@ -1,0 +1,108 @@
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a0030 0%, #4a035f 100%);
+  color: #f2f2f2;
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  min-height: 100vh;
+}
+.sidebar .nav-link {
+  color: #cfc6d9;
+  font-weight: 500;
+}
+.sidebar .nav-link.active,
+.sidebar .nav-link:hover {
+  background-color: rgba(74, 3, 95, 0.5);
+  color: #fff;
+  border-radius: .5rem;
+}
+
+/* --- FORMULARIO --- */
+.form-card {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  padding: 2rem;
+  color: #f2f2f2;
+}
+.form-control, .form-select, textarea {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  color: #f2f2f2 !important; 
+  border: none;
+  margin-bottom: 1rem;
+}
+.form-control::placeholder,
+textarea::placeholder {
+  color: #cfc6d9; 
+}
+.form-select option {
+  background-color: #1a0030; 
+  color: #f2f2f2;          
+}
+.form-control:focus,
+.form-select:focus,
+textarea:focus {
+  outline: none;
+  box-shadow: none; 
+}
+
+/* --- BOTONES --- */
+.btn-crear-equipo {
+  background: linear-gradient(135deg, #7a2bbf, #a04be0);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  padding: .5rem 1.5rem;
+  transition: 0.3s;
+}
+.btn-crear-equipo:hover {
+  background: linear-gradient(135deg, #a04be0, #7a2bbf);
+  color: #fff;
+}
+.btn-volver {
+  background-color: #444;
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  padding: .5rem 1.5rem;
+}
+.btn-volver:hover {
+  background-color: #666;
+}
+.btn-main {
+  background-color: #7a2bbf;
+  border: none;
+  color: #fff;
+  border-radius: 50px;
+  padding: .5rem 1.5rem;
+}
+.btn-main:hover {
+  background-color: #a04be0;
+}
+
+/* --- MODAL --- */
+.modal-content {
+  background-color: rgba(26, 0, 48, 0.95);
+  color: #f2f2f2;
+  border-radius: 1rem;
+  border: none;
+}
+.modal-header,
+.modal-footer {
+  border: none;
+}
+.modal-title {
+  font-weight: 600;
+  color: #fff;
+}
+.modal-body {
+  font-size: 1rem;
+  color: #e0e0e0;
+}
+.modal-backdrop.show {
+  background-color: rgba(0, 0, 0, 0.7);
+}
