@@ -1,0 +1,125 @@
+:root{
+    --primary:#4a035f;
+    --bg-1:linear-gradient(135deg,#030d1d,#4a035f);
+    --card-bg:rgba(255,255,255,0.08);;
+    --muted:#0e0e0f;
+}
+
+body{
+    font-family: Roboto, system-ui, -apple-system, 'Segoe UI', sans-serif; 
+    background:var(--bg-1); 
+    min-height:100vh;
+}
+
+.split-layout .sidebar{
+    background:var(--primary); 
+    min-width:220px;
+}
+
+.sidebar h3{
+    color:#fff;
+}
+
+.nav-link{
+    color:rgba(255,255,255,0.9);
+}
+
+.nav-link.active{
+    font-weight:600;
+}
+
+.main-content{
+    background:transparent;
+}
+
+.card-custom{
+    background:var(--card-bg); 
+    border-radius:12px; 
+    box-shadow:0 6px 16px rgba(0,0,0,0.12);
+}
+
+/* SOLO los títulos y subtítulo del encabezado principal */
+main h2 {
+    color:#ffffff;
+}
+
+main p.mb-0.text-muted {
+    color:#f0f0f0 !important;
+}
+
+/* Area de ranking */
+.controls{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:1rem;
+}
+
+.search-input{
+    max-width:360px;
+}
+
+.solicitud-card{
+    border-radius:10px;
+    padding:1rem;
+    margin-bottom:.9rem;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background-color: rgba(255,255,255,0.08);
+    transition: transform 0.2s;
+}
+
+.solicitud-card:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.avatar{
+    width:64px;
+    height:64px;
+    border-radius:8px;
+    background:linear-gradient(135deg,#eee,#ddd);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    color:var(--primary);
+    font-size:1.2rem;
+}
+
+.meta h5{
+    margin:0;
+    font-weight:600;
+    color:#000000;
+}
+
+.meta small{
+    color:var(--muted);
+    display:block;
+}
+
+/* Empty state */
+.empty-state{
+    padding:2rem;
+    text-align:center;
+    color:#666;
+}
+
+/* Botones */
+.btn-white-outline{
+    color:#fff;
+    border:1px solid #fff;
+    border-radius:999px;
+}
+
+.btn-white-outline:hover{
+    background:#fff;
+    color:var(--primary);
+    transition:0.2s;
+}
+
+/* Responsive */
+@media (max-width:768px){ 
+    .sidebar{display:none} 
+}

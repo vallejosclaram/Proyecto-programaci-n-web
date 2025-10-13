@@ -1,0 +1,200 @@
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a0030 0%, #4a035f 100%);
+    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    margin: 0;
+    color: #f2f2f2;
+}
+
+.sidebar {
+    background-color: rgba(0,0,0,0.7);
+    backdrop-filter: blur(6px);
+    min-height: 100vh;
+}
+
+.sidebar .nav-link {
+    color: #f2f2f2;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.sidebar .nav-link.active,
+.sidebar .nav-link:hover {
+    background-color: rgba(122,43,191,0.6);
+    color: #fff;
+    border-radius: .5rem;
+}
+
+.main-content h2, 
+.main-content p {
+    color: #f2f2f2;
+}
+
+.card-custom {
+    background-color: rgba(255,255,255,0.08);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    color: #f2f2f2;
+    margin-bottom: 1rem;
+}
+
+.form-control, .form-select, textarea {
+    background-color: rgba(255,255,255,0.1);
+    color: #f2f2f2;
+    border: none;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem 0.5rem;
+}
+
+.form-control::placeholder,
+textarea::placeholder {
+    color: #d1cde6;
+}
+
+.form-select option {
+    background-color: #1a0030;
+    color: #f2f2f2;
+}
+
+.form-control:focus,
+.form-select:focus,
+textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(122,43,191,0.6);
+}
+
+.btn-white-outline {
+    border: 1px solid #fff;
+    color: #fff;
+    border-radius: 50px;
+    padding: 0.5rem 1.5rem;
+    background: transparent;
+    transition: 0.3s;
+}
+
+.btn-white-outline:hover {
+    background: #7a2bbf;
+    border-color: #7a2bbf;
+    color: #fff;
+}
+
+
+.btn-approve {
+    background: linear-gradient(135deg,#7a2bbf,#a04be0);
+    color:#fff;
+    border:none;
+    border-radius:50px;
+    padding:.4rem 1.5rem;
+    transition: 0.3s;
+}
+
+.btn-approve:hover {
+    background: linear-gradient(135deg,#a04be0,#7a2bbf);
+}
+
+.btn-reject {
+    background-color: #444;
+    color:#fff;
+    border:none;
+    border-radius:50px;
+    padding:.5rem 1.5rem;
+}
+
+.btn-reject:hover {
+    background-color: #666;
+}
+#clear-btn {
+    background: var(--primary);
+    color: #fff;
+    border-radius: 10px;
+    font-weight: 500;
+}
+#clear-btn:hover {
+    background: #6a1b9a; 
+    color: #fff;
+}
+
+.controls {
+    display:flex;
+    gap:8px;flex-wrap:wrap;
+    margin-bottom:1rem
+}
+.search-input{max-width:360px}
+
+.empty-state {
+    text-align: center;
+    padding: 2rem;
+    color: #d1cde6;
+}
+
+.modal-content {
+    background-color: rgba(26, 0, 48, 0.95);
+    color: #f2f2f2;
+    border-radius: 1rem;
+    border: none;
+}
+
+.modal-header,
+.modal-footer {
+    border: none;
+}
+
+.modal-backdrop.show {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.solicitud-card {
+    background-color: rgba(255,255,255,0.08) !important; /* override bg-light */
+    color: #f2f2f2 !important;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.solicitud-card .avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #7a2bbf;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.solicitud-card .meta {
+    font-size: 0.85rem;
+    color: #d1cde6;
+}
+
+
+.badge-status {
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge-status.bg-secondary { 
+    background-color: rgba(255,255,0,0.3) !important;
+    color: #fff !important;
+}
+
+
+.solicitud-card .badge-status:contains('Aprobada') {
+    background-color: rgba(0,255,0,0.3) !important;
+    color: #fff !important;
+}
+
+
+.solicitud-card .badge-status:contains('Rechazada') {
+    background-color: rgba(255,0,0,0.3) !important;
+    color: #fff !important;
+}

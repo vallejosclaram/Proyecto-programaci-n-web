@@ -177,3 +177,52 @@ textarea:focus {
   outline: none;
   box-shadow: none; 
 }
+
+.modal-content {
+  background-color: rgba(26, 0, 48, 0.95); 
+  color: #f2f2f2;                          
+  border-radius: 1rem;
+  border: none;
+}
+
+.modal-header,
+.modal-footer {
+  border: none; 
+}
+
+.modal-title {
+  font-weight: 600;
+  color: #fff;
+}
+
+.modal-body {
+  font-size: 1rem;
+  color: #e0e0e0;
+}
+
+.modal-backdrop.show {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+.btn-crear-equipo{
+  background: linear-gradient(135deg,#7a2bbf,#a04be0);
+  color:#fff;
+  border:none;
+  border-radius:50px;
+  padding:.5rem 1.5rem;
+  transition: 0.3s;
+}
+.btn-crear-equipo:hover{
+  background: linear-gradient(135deg,#a04be0,#7a2bbf);
+  color:#fff;
+}
+
+.btn-volver{
+  background-color: #444;
+  color:#fff;
+  border:none;
+  border-radius:50px;
+  padding:.5rem 1.5rem;
+}
+.btn-volver:hover{
+  background-color: #666;
+}

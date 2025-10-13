@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ranking de Jugadores</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="ranking.js" defer></script>
+    <link rel="stylesheet" href="style-ranking.css">
+</head>
+<body>
+<div class="container-fluid split-layout">
+    <div class="row flex-nowrap">
+        <!-- Sidebar -->
+        <nav class="col-auto sidebar p-3">
+            <h3 class="text-white mb-4">UPE-SPORT</h3>
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link" href="pantalla-principal.html">Principal</a></li>
+                <li class="nav-item"><a class="nav-link" href="visualizar-torneo.html">Torneos</a></li>
+                <li class="nav-item"><a class="nav-link active" href="visualizar-ranking.html">Ranking</a></li>
+                <li class="nav-item"><a class="nav-link" href="visualizar-perfil.html">Mi Perfil</a></li>
+                <li class="nav-item"><a class="nav-link" href="solicitud.html">Solicitudes</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="col main-content p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2>Ranking de Jugadores</h2>
+                    <p class="mb-0 text-muted">Consulta la posición de los jugadores o torneos y sus estadísticas.</p>
+                </div>
+                <div>
+                    <a href="visualizar-torneo.html" class="btn btn-white-outline">Volver a Torneos</a>
+                </div>
+            </div>
+
+            <!-- Filtros -->
+            <div class="card-custom p-3 mb-4">
+                <div class="controls mb-3">
+                    <input id="search-ranking" class="form-control search-input" placeholder="Buscar por jugador o torneo..." />
+                    <select id="filter-torneo" class="form-select" style="max-width:200px">
+                        <option value="all">Todos</option>
+                        <option value="jugador">Jugadores</option>
+                        <option value="torneo">Torneos</option>
+                    </select>
+                    <button id="clear-ranking" class="btn btn-outline-secondary">Limpiar</button>
+                </div>
+            </div>
+
+            <!-- Listado Ranking -->
+            <div class="card-custom p-3">
+                <div id="listado-ranking"></div>
+                <div id="empty-ranking" class="empty-state d-none">
+                    <h5>No hay resultados para mostrar</h5>
+                    <p>Cuando se registren jugadores o torneos aparecerán aquí.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Modal Jugador -->
+<div class="modal fade" id="playerModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Detalles del Jugador</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+            <p id="modal-nombre"></p>
+            <p id="modal-torneos"></p>
+            <p id="modal-puntos"></p>
+            <p id="modal-torneo-actual"></p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Torneo -->
+<div class="modal fade" id="torneoModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Detalles del Torneo</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+            <p id="modal-torneo-nombre"></p>
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                <th>Equipo</th>
+                <th>Puntos</th>
+                </tr>
+            </thead>
+            <tbody id="modal-torneo-equipos"></tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+

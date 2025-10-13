@@ -1,0 +1,78 @@
+:root{
+--primary:#4a035f;
+--bg-1:linear-gradient(135deg,#030d1d,#4a035f);
+--card-bg:#ffffff;
+--muted:#000000;
+}
+body{font-family: Roboto, system-ui, -apple-system, 'Segoe UI', sans-serif; background:var(--bg-1); min-height:100vh;}
+.split-layout .sidebar{background:var(--primary); min-width:220px;}
+.sidebar h3{color:#fff}
+.nav-link{color:rgb(255, 255, 255);}
+.nav-link.active{font-weight:600}
+.main-content{background:transparent}
+.card-custom{background-color: rgba(255,255,255,0.08);}
+#crear-torneo {
+    background: var(--primary);
+    color: #fff;
+    border-radius: 10px;
+    font-weight: 500;
+}
+#crear-torneo:hover {
+    background: #6a1b9a; 
+    color: #fff;
+}
+#clear-btn {
+    background: var(--primary);
+    color: #fff;
+    border-radius: 10px;
+    font-weight: 500;
+}
+#clear-btn:hover {
+    background: #6a1b9a; 
+    color: #fff;
+}
+.form-control, .form-select  {
+    background-color: rgba(255,255,255,0.08);
+    color: #f2f2f2;
+    border: none;
+    border-radius: 0.5rem;
+    margin-bottom: 0,5rem;
+    padding: 0.5rem 1rem;
+}
+.form-select option {
+    background-color: #1a0030;
+    color: #f2f2f2;
+}
+
+.form-control::placeholder{
+    color: #cfc6d9;
+}
+
+.form-control:focus, 
+.form-select:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+
+
+main h2 {color:#ffffff;}
+main p.mb-0.text-muted {color:#f0f0f0 !important;}
+
+
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem}
+.search-input{max-width:360px}
+
+
+.torneo-card{border-radius:10px;padding:1rem;  color: #000000; background-color: rgba(255,255,255,0.08)}
+.torneo-title{font-weight:700; color: #000000;}
+.torneo-meta small{color:var(--muted)}
+.badge-upcoming{background:#0d6efd;color:#fff}
+.badge-active{background:#198754;color:#fff}
+.badge-finished{background:#6c757d;color:#fff}
+
+
+.empty-state{padding:2rem;text-align:center;color:#666}
+
+
+@media (max-width:768px){ .sidebar{display:none} }
