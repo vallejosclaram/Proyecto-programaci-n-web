@@ -1,115 +1,138 @@
 window.onload = function() {
-    let formCrear = document.getElementById('formCrear');
-    formCrear.addEventListener('submit', validarForm);
+    const formCrear = document.getElementById('formCrear');
+    const showPass = document.getElementById('showPass');
 
+    // Mostrar / Ocultar contraseña
+    showPass.addEventListener('change', () => {
+        const pass = document.getElementById('password');
+        pass.type = showPass.checked ? 'text' : 'password';
+    });
+
+    // Validación en tiempo real
+    document.getElementById('usuario').addEventListener('input', validarUsuario);
+    document.getElementById('email').addEventListener('input', validarEmail);
+    document.getElementById('fechaNacimiento').addEventListener('input', validarFecha);
+    document.getElementById('password').addEventListener('input', validarPassword);
+    document.getElementById('confirmPassword').addEventListener('input', validarConfirmPassword);
+
+    formCrear.addEventListener('submit', registrarUsuario);
+};
+
+// Validaciones individuales
+function validarUsuario(){
+    const usuario = document.getElementById('usuario');
+    const validuser = document.getElementById('validuser');
+    const regexUser = /^[A-Za-z0-9_]+$/;
+    if(!regexUser.test(usuario.value.trim())){
+        usuario.classList.add('is-invalid');
+        usuario.classList.remove('is-valid');
+        validuser.style.display='block';
+        return false;
+    } else {
+        usuario.classList.add('is-valid');
+        usuario.classList.remove('is-invalid');
+        validuser.style.display='none';
+        return true;
+    }
 }
 
-
-
-function validarForm(e) {
-    e.preventDefault(); 
-    console.log("hola");
-    let usuario = document.getElementById('usuario');
-    let validuser = document.getElementById('validuser');
-    let email = document.getElementById('email');
-    let validemail = document.getElementById('validemail');
-    let fechaNacimiento = document.getElementById('fechaNacimiento');
-    let validfecha = document.getElementById('validfecha');
-    let pass1 = document.getElementById('pass1');
-    let validpass1 = document.getElementById('validpass1');
-    let validpass2 = document.getElementById('validpass2');
-    let pass2 = document.getElementById('pass2');
-
-    let flag = true;
-    let regexUser = /^[A-Za-z0-9]+$/;
-    let regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    let regexPass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-   
-   
-    // Validación usuario
-    if (!regexUser.test(usuario.value.trim())) {
-        console.log("usuario no valido");
-        usuario.classList.add("is-invalid");
-        validuser.classList.remove("d-none");
-        usuario.classList.remove("is-valid");
-        flag = false;
-    }else {
-         console.log("valido");
-        usuario.classList.remove("is-invalid");
-        validuser.classList.add("d-none");
-        usuario.classList.add("is-valid");
-    }
-
-
-    // Validación email
-    if (!regexEmail.test(email.value.trim())) {
-        email.classList.add("is-invalid");
-        validemail.classList.remove("d-none");
-        flag = false;
+function validarEmail(){
+    const email = document.getElementById('email');
+    const validemail = document.getElementById('validemail');
+    if(!email.value.includes('@')){
+        email.classList.add('is-invalid');
+        email.classList.remove('is-valid');
+        validemail.style.display='block';
+        return false;
     } else {
-        email.classList.remove("is-invalid");
-        validemail.classList.add("d-none");
-        email.classList.add("is-valid");
+        email.classList.add('is-valid');
+        email.classList.remove('is-invalid');
+        validemail.style.display='none';
+        return true;
     }
+}
 
-    // Validación fecha de nacimiento   
-
-    let hoy = new Date();
-    let fechaIngresada = new Date(fechaNacimiento.value);
-    let edad = hoy.getFullYear() - fechaIngresada.getFullYear();
-    let mes = hoy.getMonth() - fechaIngresada.getMonth();
-    let dia = hoy.getDate() - fechaIngresada.getDate();
-
-    
-    
+function validarFecha(){
+    const fechaNacimiento = document.getElementById('fechaNacimiento');
+    const validfecha = document.getElementById('validfecha');
+    const hoy = new Date();
+    const fecha = new Date(fechaNacimiento.value);
+    let edad = hoy.getFullYear() - fecha.getFullYear();
+    let m = hoy.getMonth() - fecha.getMonth();
+    if(m < 0 || (m===0 && hoy.getDate()<fecha.getDate())) edad--;
     if(edad < 13){
-        validfecha.classList.remove("d-none");
-        fechaNacimiento.classList.add("is-invalid");
-        console.log(edad);
-        flag = false;
-    }else{
-        if (mes < 0 || (mes === 0 && dia < 0)) {
-            edad--;
-            validfecha.classList.remove("d-none");
-            fechaNacimiento.classList.add("is-invalid");
-            flag = false;
-        }else{
-            validfecha.classList.add("d-none");
-            fechaNacimiento.classList.remove("is-invalid");
-            fechaNacimiento.classList.add("is-valid");
-        }
-    }
-
-
-    // Validación contraseñas
-
-    if (pass1.value.trim().length < 8 || !regexPass.test(pass1.value.trim())) {
-        validpass1.classList.remove("d-none");
-        pass1.classList.add("is-invalid");
-        flag = false;
+        fechaNacimiento.classList.add('is-invalid');
+        fechaNacimiento.classList.remove('is-valid');
+        validfecha.style.display='block';
+        return false;
     } else {
-        validpass1.classList.add("d-none");
-        document.getElementById('pass1').classList.remove("is-invalid");
-        document.getElementById('pass1').classList.add("is-valid");
+        fechaNacimiento.classList.add('is-valid');
+        fechaNacimiento.classList.remove('is-invalid');
+        validfecha.style.display='none';
+        return true;
     }
-    if (pass1.value.trim() !== pass2.value.trim()) {
-        validpass2.classList.remove("d-none");
-        document.getElementById('pass2').classList.add("is-invalid");
-        flag = false;
-    } else {
-        validpass2.classList.add("d-none");
-        pass2.classList.add("is-valid");
-        pass2.classList.remove("is-invalid");
-    }    
+}
 
-    // Validación modal
-     if(flag){
-        let modal = new bootstrap.Modal(document.getElementById("exampleModal"));
-        modal.show();
-        form.reset();
-        let tag=document.getElementsByTagName("input");
-        for(let i=0;i<tag.length;i++){
-            tag[i].classList.remove("is-valid");
-        }
+function validarPassword(){
+    const password = document.getElementById('password');
+    const validpass1 = document.getElementById('validpass1');
+    const regexPass = /^(?=.*[0-9]).{8,}$/;
+    if(!regexPass.test(password.value.trim())){
+        password.classList.add('is-invalid');
+        password.classList.remove('is-valid');
+        validpass1.style.display='block';
+        return false;
+    } else {
+        password.classList.add('is-valid');
+        password.classList.remove('is-invalid');
+        validpass1.style.display='none';
+        validarConfirmPassword(); // revalida confirm password
+        return true;
     }
+}
+
+function validarConfirmPassword(){
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirmPassword');
+    const validpass2 = document.getElementById('validpass2');
+    if(confirmPassword.value.trim() !== password.value.trim()){
+        confirmPassword.classList.add('is-invalid');
+        confirmPassword.classList.remove('is-valid');
+        validpass2.style.display='block';
+        return false;
+    } else {
+        confirmPassword.classList.add('is-valid');
+        confirmPassword.classList.remove('is-invalid');
+        validpass2.style.display='none';
+        return true;
+    }
+}
+
+// Registro final
+function registrarUsuario(e){
+    e.preventDefault();
+
+    // Verificar todas las validaciones
+    if(!validarUsuario() || !validarEmail() || !validarFecha() || !validarPassword() || !validarConfirmPassword()){
+        return; // si alguna falla, no registrar
+    }
+
+    // Guardar usuario en LocalStorage
+    const jugadores = JSON.parse(localStorage.getItem('jugadores')) || [];
+    jugadores.push({
+        usuario: document.getElementById('usuario').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        fechaNacimiento: document.getElementById('fechaNacimiento').value,
+        password: document.getElementById('password').value.trim()
+    });
+    localStorage.setItem('jugadores', JSON.stringify(jugadores));
+
+    // Mostrar modal de éxito
+    const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+    modal.show();
+
+    // Limpiar formulario
+    document.getElementById('formCrear').reset();
+    const inputs = document.querySelectorAll('#formCrear input');
+    inputs.forEach(input => input.classList.remove('is-valid'));
 }

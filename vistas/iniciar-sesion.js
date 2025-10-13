@@ -1,60 +1,47 @@
-window.onload = function() {
-    let form = document.getElementById('loginForm');
-    form.addEventListener('submit', validarLogin);
-    let enviar = document.getElementById('enviar');
-    enviar.addEventListener('click', function(e) {
-        if(!validarLogin(e)){
-            e.preventDefault();
-        }else{
-            enviar.innerHTML= '<a href="pantalla-principal.html" id="enviar"><button type="submit"  class="btn w-100 btn-login">Entrar</button></a>'
-    }
-    })
-}
+window.onload = function(){
+    const loginForm = document.getElementById('loginForm');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const showPass = document.getElementById('showPass');
+    const validEmail = document.getElementById('validemail');
+    const validPass = document.getElementById('validpass');
 
-function validarLogin(event) {
-    event.preventDefault(); 
+    // Mostrar contraseña
+    showPass.addEventListener('change', ()=>{
+        passwordInput.type = showPass.checked ? 'text' : 'password';
+    });
 
+    loginForm.addEventListener('submit', (e)=>{
+        e.preventDefault();
 
-    let email = document.getElementById('email');
-    let validemail = document.getElementById('validemail');
-    let password = document.getElementById('password');
-    let validpass = document.getElementById('validpass');
-    let flag = true;
-    let regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    let regexPass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
+        const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+        const usuario = usuarios.find(u => u.email === email);
 
-    // Validación email
-    if (!regexEmail.test(email.value.trim())) {
-        email.classList.add("is-invalid");
-        validemail.classList.remove("d-none");
-        flag = false;
-    } else {
-        email.classList.remove("is-invalid");
-        validemail.classList.add("d-none");
-        email.classList.add("is-valid");
-    }       
-
-    // Validación contraseña            
-    if (password.value.trim().length < 8) {
-        password.classList.add("is-invalid");
-        validpass.classList.remove("d-none");
-        flag = false;
-    } else {
-        if(!regexPass.test(password.value.trim())){
-            password.classList.add("is-invalid");
-            validpass.classList.remove("d-none");
-            flag = false;
-        
-        }else{
-            password.classList.remove("is-invalid");
-            validpass.classList.add("d-none");
-            password.classList.add("is-valid");
+        if(!usuario){
+            validEmail.classList.remove('d-none');
+            emailInput.classList.add('is-invalid');
+            return;
+        } else {
+            validEmail.classList.add('d-none');
+            emailInput.classList.remove('is-invalid');
         }
-    }
 
-    if(flag){
-        return true;
-    }else{
-        return false;
-    }
+        if(usuario.password !== password){
+            validPass.classList.remove('d-none');
+            passwordInput.classList.add('is-invalid');
+            return;
+        } else {
+            validPass.classList.add('d-none');
+            passwordInput.classList.remove('is-invalid');
+        }
+
+        alert("Inicio de sesión correcto!");
+        loginForm.reset();
+        showPass.checked = false;
+
+        // Aquí iría la redirección a la vista principal
+        // window.location.href = "vista-principal.html";
+    });
 }
