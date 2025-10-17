@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const emailInput = document.getElementById('email');
 const validEmail = document.getElementById('validemail');
 
-  // Mostrar contraseña
   showPass.addEventListener('change', () => {
     passwordInput.type = showPass.checked ? 'text' : 'password';
     confirmInput.type = showPass.checked ? 'text' : 'password';
@@ -18,7 +17,6 @@ const validEmail = document.getElementById('validemail');
   form.addEventListener('submit', function (e) {
     e.preventDefault();
 
-    // Limpiar estados previos
     [fechaInput, passwordInput, confirmInput].forEach(input => {
       input.classList.remove('is-invalid');
     });
@@ -33,7 +31,6 @@ const validEmail = document.getElementById('validemail');
 
     let valido = true;
 
-    // Validar edad
     const hoy = new Date();
     const nacimiento = new Date(fechaNacimiento);
     const edad = hoy.getFullYear() - nacimiento.getFullYear();
@@ -46,7 +43,6 @@ const validEmail = document.getElementById('validemail');
       valido = false;
     }
 
-    // Validar contraseñas
     if (password !== confirmPassword) {
       confirmInput.classList.add('is-invalid');
       validPass.classList.remove('d-none');
@@ -60,7 +56,6 @@ const validEmail = document.getElementById('validemail');
         validEmail.classList.add('d-none');
         }
 
-    // Validar campos vacíos (HTML5 ya lo hace, pero reforzamos)
     if (!usuario || !email || !fechaNacimiento || !password || !confirmPassword) {
       form.classList.add('was-validated');
       valido = false;
@@ -68,16 +63,16 @@ const validEmail = document.getElementById('validemail');
 
     if (!valido) return;
 
-    // Guardar en localStorage
-    const organizador = {
+    
+    const jugador = {
     usuario,
     email,
     password,
-    rol: 'organizador'
+    rol: 'jugador'
   };
-  localStorage.setItem('organizador', JSON.stringify(organizador));
+  localStorage.setItem('jugador', JSON.stringify(jugador));
 
-  // Mostrar modal o redirigir
+  
   const modal = new bootstrap.Modal(document.getElementById('registroExitoso'));
   modal.show();
   });
