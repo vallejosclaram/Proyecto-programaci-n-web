@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const validEmail = document.getElementById('validemail');
   const validPass = document.getElementById('validpass');
 
-  // Mostrar contraseña
   showPass.addEventListener('change', () => {
     passwordInput.type = showPass.checked ? 'text' : 'password';
   });
@@ -14,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', function (e) {
     e.preventDefault();
 
-    // Limpiar errores previos
     emailInput.classList.remove('is-invalid');
     passwordInput.classList.remove('is-invalid');
     validEmail.classList.add('d-none');
@@ -23,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const email = emailInput.value.trim();
     const password = passwordInput.value;
 
-    // Obtener usuarios guardados
     const jugador = JSON.parse(localStorage.getItem('jugador'));
     const organizador = JSON.parse(localStorage.getItem('organizador'));
 
@@ -43,14 +40,12 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Login exitoso
     const mensaje = document.getElementById('mensajeBienvenida');
     mensaje.textContent = `¡Hola ${usuario.usuario}! Has iniciado sesión como ${usuario.rol}.`;
 
     const modal = new bootstrap.Modal(document.getElementById('loginExitoso'));
     modal.show();
 
-    // Redirigir al hacer clic en el botón del modal
     document.getElementById('irDashboard').addEventListener('click', () => {
     if (usuario.rol === 'organizador') {
         window.location.href = '../organizador/dashboard.html';

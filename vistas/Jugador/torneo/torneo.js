@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  /* -------------------- Menú lateral (seguro) -------------------- */
   const sidebar = document.getElementById('sidebar');
   const menuToggle = document.getElementById('menuToggle');
   const closeBtn = document.getElementById('closeBtn');
@@ -15,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* -------------------- Datos y elementos DOM -------------------- */
   let torneos = JSON.parse(localStorage.getItem('torneos')) || [];
   const jugador = JSON.parse(localStorage.getItem('jugador')) || { usuario: 'invitado' };
 
@@ -32,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const seccionDenuncias = document.getElementById('seccionDenuncias');
   const denunciaContainer = document.getElementById('denunciaContainer');
 
-  /* -------------------- Helpers -------------------- */
   function saveTorneos() { localStorage.setItem('torneos', JSON.stringify(torneos)); }
   function escapeHtml(text) {
     return String(text || '').replace(/[&<>"'`=\/]/g, s => ({
@@ -70,7 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return card;
   }
 
-  /* -------------------- Render listas (buscar + filtro) -------------------- */
   function mostrarListas() {
     const texto = (inputBuscar?.value || '').toLowerCase();
     const juego = (filtroJuego?.value || '').toLowerCase();
@@ -122,7 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* -------------------- Modal: ver torneo y acciones -------------------- */
   window.verTorneo = function (id) {
     const torneo = torneos.find(t => t.id === id);
     if (!torneo) return alert('Torneo no encontrado');

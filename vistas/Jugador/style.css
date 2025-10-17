@@ -7,7 +7,7 @@ body {
   transition: margin-left 0.3s ease;
 }
 
-/* Top bar */
+
 .topbar {
   background-color: #2c2c3e;
   padding: 15px 20px;
@@ -22,7 +22,6 @@ body {
   cursor: pointer;
 }
 
-/* Sidebar */
 .sidebar {
   position: fixed;
   top: 0;
@@ -64,7 +63,6 @@ body {
   cursor: pointer;
 }
 
-/* Navigation */
 .nav-links {
   flex-grow: 1;
 }
@@ -86,7 +84,6 @@ body {
   color: #1a1a2e;
 }
 
-/* Logout */
 .logout {
   margin-top: auto;
 }
@@ -96,7 +93,6 @@ body {
   font-weight: bold;
 }
 
-/* Main content */
 .main-content {
   padding: 40px;
   transition: margin-left 0.3s ease;
