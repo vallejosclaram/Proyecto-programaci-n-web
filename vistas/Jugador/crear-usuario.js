@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const emailInput = document.getElementById('email');
 const validEmail = document.getElementById('validemail');
 
-  
   showPass.addEventListener('change', () => {
     passwordInput.type = showPass.checked ? 'text' : 'password';
     confirmInput.type = showPass.checked ? 'text' : 'password';
@@ -18,7 +17,6 @@ const validEmail = document.getElementById('validemail');
   form.addEventListener('submit', function (e) {
     e.preventDefault();
 
-    
     [fechaInput, passwordInput, confirmInput].forEach(input => {
       input.classList.remove('is-invalid');
     });
@@ -33,7 +31,6 @@ const validEmail = document.getElementById('validemail');
 
     let valido = true;
 
-    
     const hoy = new Date();
     const nacimiento = new Date(fechaNacimiento);
     const edad = hoy.getFullYear() - nacimiento.getFullYear();
@@ -66,14 +63,16 @@ const validEmail = document.getElementById('validemail');
 
     if (!valido) return;
 
-    const organizador = {
+    
+    const jugador = {
     usuario,
     email,
     password,
-    rol: 'organizador'
+    rol: 'jugador'
   };
-  localStorage.setItem('organizador', JSON.stringify(organizador));
+  localStorage.setItem('jugador', JSON.stringify(jugador));
 
+  
   const modal = new bootstrap.Modal(document.getElementById('registroExitoso'));
   modal.show();
   });

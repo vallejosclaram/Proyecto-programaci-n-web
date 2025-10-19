@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Crear Torneo - UPE-SPORT</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="crear-torneo.js" defer></script>
+    <link rel="stylesheet" href="style-crear-torneo.css">
+    </head>
+    <body>
+    <div class="container-fluid split-layout">
+    <div class="row flex-nowrap">
+        <nav class="col-auto sidebar p-3">
+        <h3 class="text-white mb-4">UPE-SPORT</h3>
+        <ul class="nav flex-column">
+            <li class="nav-item"><a class="nav-link" href="../pantalla-principal.html">Principal</a></li>
+            <li class="nav-item"><a class="nav-link" href="visualizar-torneo.html">Torneos</a></li>
+            <li class="nav-item"><a class="nav-link" href="visualizar-ranking.html">Ranking</a></li>
+            <li class="nav-item"><a class="nav-link" href="visualizar-perfil.html">Mi Perfil</a></li>
+            <li class="nav-item"><a class="nav-link" href="solicitud.html">Solicitudes</a></li>
+        </ul>
+        </nav>
+
+        <main class="col main-content p-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+            <h2 class="fw-bold text-white display-5 text-shadow">Crear Torneo</h2>
+            <p class="text-light small mb-0 text-shadow-sm">Rellena los datos para crear un nuevo torneo.</p>
+            </div>
+            <div>
+            <a href="visualizar-torneo.html" class="btn btn-outline-light rounded-pill px-4 py-2 fw-bold">Volver a Torneos</a>
+            </div>
+        </div>
+
+        <div class="card-custom p-4">
+            <div id="alert-placeholder"></div>
+
+            <form id="create-tournament-form" novalidate>
+            <div class="row g-3">
+                <div class="col-md-6">
+                <label class="form-label">Nombre del torneo <span class="required">*</span></label>
+                <input id="tName" class="form-control" type="text" required maxlength="80" placeholder="Ej: Torneo FIFA Verano 2025">
+                </div>
+
+                <div class="col-md-6">
+                <label class="form-label">Juego / Modalidad <span class="required">*</span></label>
+                <input id="tGame" class="form-control" type="text" required maxlength="50" placeholder="Ej: FIFA 23">
+                </div>
+
+                <div class="col-md-4">
+                <label class="form-label">Fecha de inicio <span class="required">*</span></label>
+                <input id="tStart" class="form-control" type="date" required>
+                </div>
+
+                <div class="col-md-4">
+                <label class="form-label">Fecha de fin</label>
+                <input id="tEnd" class="form-control" type="date">
+                <div class="small-muted">Opcional — si queda vacío será indefinido.</div>
+                </div>
+
+                <div class="col-md-4">
+                <label class="form-label">Sistema de puntuación</label>
+                <select id="tScoring" class="form-select">
+                    <option value="pts_simple">Puntos por partido</option>
+                    <option value="liga">Liga (victoria/empate/derrota)</option>
+                    <option value="playoff">Playoff / Eliminación</option>
+                </select>
+                </div>
+
+                <div class="col-12 mt-3">
+                <label class="form-label">Equipos participantes <span class="required">*</span></label>
+                <div id="teams-list" class="mb-2">
+                    <!-- filas dinámicas de equipos -->
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button id="add-team" type="button" class="btn btn-outline-primary">Agregar equipo</button>
+                    <button id="reset-teams" type="button" class="btn btn-outline-secondary">Limpiar equipos</button>
+                </div>
+                <div class="small-muted mt-2">Se requieren al menos 2 equipos.</div>
+                </div>
+
+                <div class="col-12">
+                <label class="form-label">Descripción</label>
+                <textarea id="tDesc" class="form-control" rows="3" maxlength="500" placeholder="Detalles, reglas, prize pool, etc."></textarea>
+                </div>
+
+                <div class="col-12 d-flex justify-content-end mt-3">
+                    <button id="create-btn" class="btn-create-torneo" type="submit">
+                    <i class="bi bi-trophy-fill"></i> Crear Torneo
+                    </button>
+                </div>
+            </div>
+            </form>
+        </div>
+        </main>
+    </div>
+    </div>
+
+    <!-- Modal confirm creación corta -->
+    <div class="modal fade" id="createdModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+        <div class="modal-body text-center">
+            <p id="created-text" class="mb-3">Torneo creado con éxito</p>
+            <div class="d-flex justify-content-center gap-2">
+            <button id="created-ok" class="btn btn-approve" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
