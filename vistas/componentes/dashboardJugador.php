@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -20,7 +19,7 @@
     </div>
     <nav class="nav-links">
       <a href="dashboard.html" class="nav-item active">🏠 Dashboard</a>
-      <a href="perfil/ver.html" class="nav-item">👤 Mi perfil</a>
+      <a href="Jugador/perfil/ver.php" class="nav-item">👤 Mi perfil</a>
       <a href="equipo/equipos.html" class="nav-item">🛡️ Equipos</a>
       <a href="torneo/torneo.html" class="nav-item">🏆 Torneos</a>
       <a href="ranking.html" class="nav-item">📊 Ranking</a>

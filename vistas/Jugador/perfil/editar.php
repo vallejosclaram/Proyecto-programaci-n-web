@@ -10,26 +10,8 @@
   <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
-  <header class="topbar">
-    <button class="menu-toggle" id="menuToggle">☰</button>
-  </header>
-
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <span class="logo">🎮 UPE-SPORT</span>
-      <button class="close-btn" id="closeBtn">✖</button>
-    </div>
-    <nav class="nav-links">
-      <a href="../dashboard.html" class="nav-item">🏠 Dashboard</a>
-      <a href="ver.html" class="nav-item active">👤 Mi perfil</a>
-      <a href="../equipo/equipos.html" class="nav-item">🛡️ Equipos</a>
-      <a href="../torneo/torneo.html" class="nav-item">🏆 Torneos</a>
-      <a href="../ranking.html" class="nav-item">📊 Ranking</a>
-    </nav>
-    <div class="logout">
-      <a href="../../auth/login.html" class="nav-item logout-btn">🚪 Cerrar sesión</a>
-    </div>
-  </aside>
+  
+  <?php require_once __DIR__ . '/../../componentes/dashboardJugador.php'; ?>
 
   <main class="main-content" id="mainContent">
     <h1>✏️ Editar Perfil</h1>
@@ -50,8 +32,8 @@
       <textarea id="descripcion" class="form-control" rows="3"></textarea>
 
       <div class="perfil-actions">
-        <a href="ver.html" class="btn-editar" >Atras</a>
-      </div>
+        <a href="ver.html" class="btn-editar">Atras</a>
+        </div>
       <button type="submit" class="btn btn-primary mt-3">Guardar cambios</button>
     </form>
   </main>

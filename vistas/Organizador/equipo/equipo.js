@@ -13,4 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
     sidebar.classList.remove('open');
     body.classList.remove('menu-open');
   });
-});
+})
+
+;

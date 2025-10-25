@@ -5,31 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Torneos - UPE-SPORT</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="torneo.js"></script>
   <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
-  <header class="topbar">
-    <button class="menu-toggle" id="menuToggle">☰</button>
-  </header>
-
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <span class="logo">🎮 UPE-SPORT</span>
-      <button class="close-btn" id="closeBtn">✖</button>
-    </div>
-    <nav class="nav-links">
-      <a href="../dashboard.html" class="nav-item">🏠 Dashboard</a>
-      <a href="../perfil/ver.html" class="nav-item">👤 Mi perfil</a>
-      <a href="../equipo/equipos.html" class="nav-item">🛡️ Equipos</a>
-      <a href="torneos.html" class="nav-item active">🏆 Torneos</a>
-      <a href="../ranking.html" class="nav-item">📊 Ranking</a>
-    </nav>
-    <div class="logout">
-      <a href="../auth/login.html" class="nav-item logout-btn">🚪 Cerrar sesión</a>
-    </div>
-  </aside>
+  
+   <?php require_once __DIR__ . '/../../componentes/dashboardJugador.php'; ?>
 
   <main class="main-content" id="mainContent">
     
@@ -56,27 +36,27 @@
     </form>
 
     <section class="mb-5">
-      <h3 class="section-title">🎯 Torneos disponibles</h3>
-      <div id="listaTorneos" class="cards-container"></div>
+      <h3>🎯 Torneos disponibles</h3>
+      <div id="listaTorneos"></div>
     </section>
 
     <section class="mb-5">
-      <h3 class="section-title">📅 Mis torneos</h3>
-      <div id="misTorneos" class="cards-container"></div>
+      <h3>📅 Mis torneos</h3>
+      <div id="misTorneos"></div>
     </section>
 
     <section class="mb-5">
-      <h3 class="section-title">📆 Calendario de mis torneos</h3>
-      <div id="scheduleBoard" class="schedule-board"></div>
+      <h3>📆 Calendario de mis torneos</h3>
+      <div id="calendarioTorneos"></div>
     </section>
 
     <section class="mb-5" id="seccionResultados" style="display:none;">
-      <h3 class="section-title">📤 Cargar resultado de partido</h3>
+      <h3>📤 Cargar resultado de partido</h3>
       <div id="resultadoFormContainer"></div>
     </section>
 
     <section class="mb-5" id="seccionDenuncias" style="display:none;">
-      <h3 class="section-title">⚠️ Denunciar torneo</h3>
+      <h3>⚠️ Denunciar torneo</h3>
       <div id="denunciaContainer"></div>
     </section>
   </main>
@@ -85,12 +65,15 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content bg-dark text-white">
         <div class="modal-header border-0">
-          <h5 class="modal-title" id="modalTorneoTitulo"></h5>
+          <h5 class="modal-title" id="modalTorneoTitulo">Detalles del torneo</h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body" id="modalTorneoContenido"></div>
       </div>
     </div>
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="torneo.js"></script>
 </body>
 </html>
