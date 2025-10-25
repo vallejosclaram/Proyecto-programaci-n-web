@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Torneos - UPE-SPORT</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  
+   <?php require_once __DIR__ . '/../../componentes/dashboardJugador.php'; ?>
+
+  <main class="main-content" id="mainContent">
+    
+
+    <form id="formBuscarTorneos" class="row g-3 align-items-end mb-4">
+      <div class="col-md-5">
+        <label for="buscadorTorneos" class="form-label">Buscar torneo</label>
+        <input type="text" id="buscadorTorneos" class="form-control" placeholder="Ej: Copa Valorant, FIFA 1v1..." />
+      </div>
+      <div class="col-md-4">
+        <label for="filtroJuego" class="form-label">Filtrar por juego</label>
+        <select id="filtroJuego" class="form-select">
+          <option value="">Todos</option>
+          <option value="Valorant">Valorant</option>
+          <option value="FIFA">FIFA</option>
+          <option value="League of Legends">League of Legends</option>
+          <option value="CS:GO">CS:GO</option>
+          <option value="Rocket League">Rocket League</option>
+        </select>
+      </div>
+      <div class="col-md-3 text-end">
+        <button type="submit" class="btn btn-violeta w-100">🔎 Buscar</button>
+      </div>
+    </form>
+
+    <section class="mb-5">
+      <h3>🎯 Torneos disponibles</h3>
+      <div id="listaTorneos"></div>
+    </section>
+
+    <section class="mb-5">
+      <h3>📅 Mis torneos</h3>
+      <div id="misTorneos"></div>
+    </section>
+
+    <section class="mb-5">
+      <h3>📆 Calendario de mis torneos</h3>
+      <div id="calendarioTorneos"></div>
+    </section>
+
+    <section class="mb-5" id="seccionResultados" style="display:none;">
+      <h3>📤 Cargar resultado de partido</h3>
+      <div id="resultadoFormContainer"></div>
+    </section>
+
+    <section class="mb-5" id="seccionDenuncias" style="display:none;">
+      <h3>⚠️ Denunciar torneo</h3>
+      <div id="denunciaContainer"></div>
+    </section>
+  </main>
+
+  <div class="modal fade" id="modalTorneo" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-dark text-white">
+        <div class="modal-header border-0">
+          <h5 class="modal-title" id="modalTorneoTitulo">Detalles del torneo</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="modalTorneoContenido"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="torneo.js"></script>
+</body>
+</html>
