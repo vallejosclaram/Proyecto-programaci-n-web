@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // ===== UI: sidebar =====
   const sidebar = document.getElementById('sidebar');
   const menuToggle = document.getElementById('menuToggle');
   const closeBtn = document.getElementById('closeBtn');
@@ -15,11 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ===== Estado inicial =====
   let torneos = JSON.parse(localStorage.getItem('torneos')) || [];
   const jugador = JSON.parse(localStorage.getItem('jugador')) || { usuario: 'invitado' };
 
-  // ===== Elementos DOM =====
   const formBuscar = document.getElementById('formBuscarTorneos');
   const inputBuscar = document.getElementById('buscadorTorneos');
   const filtroJuego = document.getElementById('filtroJuego');
@@ -33,11 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const seccionDenuncias = document.getElementById('seccionDenuncias');
   const denunciaContainer = document.getElementById('denunciaContainer');
 
-  // ===== Utilidades =====
   function saveTorneos() { localStorage.setItem('torneos', JSON.stringify(torneos)); }
-
   function escapeHtml(text) {
-    return String(text || '').replace(/[&<>"'`=\/]/g, s => ( {
+    return String(text || '').replace(/[&<>"'`=\/]/g, s => ({
       '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;',
       "'": '&#39;', '/': '&#x2F;', '`': '&#x60;', '=': '&#x3D;'
     })[s]);
@@ -48,58 +43,30 @@ document.addEventListener('DOMContentLoaded', () => {
     if (torneo.tipo === 'individual') {
       return Array.isArray(torneo.inscriptos) && torneo.inscriptos.includes(jugador.usuario);
     } else {
-      return Array.isArray(torneo.inscriptosEquipos) &&
-        torneo.inscriptosEquipos.some(eq => Array.isArray(eq.miembros) && eq.miembros.includes(jugador.usuario));
+      return Array.isArray(torneo.inscriptosEquipos) && torneo.inscriptosEquipos.some(eq => Array.isArray(eq.miembros) && eq.miembros.includes(jugador.usuario));
     }
   }
 
-  // ===== Crear card de torneo (usada en listas) =====
   function crearCardTorneo(torneo, esPropio) {
     const card = document.createElement('div');
-    card.className = 'card mb-3 p-3 torneo-card';
-    const fechaLabel = torneo.fecha ? (new Date(torneo.fecha)).toLocaleDateString() : 'Sin fecha';
+    card.className = 'card mb-3 p-3';
     card.innerHTML = `
-      <div class="d-flex justify-content-between align-items-start gap-3">
-        <div class="d-flex align-items-start gap-3" style="flex:1">
-          <div class="torneo-date-badge">${escapeHtml(fechaLabel)}</div>
-          <div style="flex:1">
-            <h5 class="mb-1">${escapeHtml(torneo.nombre)}</h5>
-            <p class="mb-1 small text-muted">${escapeHtml(torneo.juego || '')} • ${escapeHtml(torneo.tipo || '')}</p>
-            <p class="mb-0 small text-secondary lugar-line"><strong>Sede:</strong> ${escapeHtml(torneo.lugar || torneo.sede || 'No especificado')}</p>
-          </div>
+      <div class="d-flex justify-content-between align-items-start">
+        <div>
+          <h5 class="mb-1">${escapeHtml(torneo.nombre)}</h5>
+          <p class="mb-1"><strong>Juego:</strong> ${escapeHtml(torneo.juego)}</p>
+          <p class="mb-1"><strong>Tipo:</strong> ${escapeHtml(torneo.tipo)}</p>
+          <p class="mb-1 text-truncate" style="max-width:520px;"><strong>Fecha:</strong> ${escapeHtml(torneo.fecha || 'Sin fecha')}</p>
         </div>
-        <div class="text-end d-flex flex-column align-items-end gap-2">
-          <div>
-            <button class="btn btn-sm btn-secondary me-1" onclick="verTorneo('${torneo.id}')">Ver</button>
-            <button class="btn btn-sm btn-outline-secondary" id="btnCalendario_${torneo.id}">Calendario</button>
-          </div>
+        <div class="text-end">
+          <button class="btn btn-sm btn-secondary mb-2" onclick="verTorneo('${torneo.id}')">Ver torneo</button>
+          ${esPropio ? `<button class="btn btn-sm btn-outline-secondary" onclick="irACalendarizar('${torneo.id}')">Calendario</button>` : ''}
         </div>
       </div>
     `;
-
-    // Handler para el botón "Calendario" (comportamiento según tenga fecha)
-    setTimeout(() => {
-      const btnCal = document.getElementById(`btnCalendario_${torneo.id}`);
-      if (!btnCal) return;
-      if (!torneo.fecha) {
-        btnCal.classList.add('disabled');
-        btnCal.title = 'Este torneo no tiene fecha asignada';
-        btnCal.addEventListener('click', (e) => {
-          e.preventDefault();
-          alert('Este torneo no tiene fecha definida.');
-        });
-      } else {
-        btnCal.addEventListener('click', () => {
-          // si existe scheduleBoard, usar irACalendarizar (centra y resalta)
-          irACalendarizar(torneo.id);
-        });
-      }
-    }, 50);
-
     return card;
   }
 
-  // ===== Mostrar listas (disponibles / mis torneos / calendario pequeño) =====
   function mostrarListas() {
     const texto = (inputBuscar?.value || '').toLowerCase();
     const juego = (filtroJuego?.value || '').toLowerCase();
@@ -113,10 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (seccionDenuncias) seccionDenuncias.style.display = 'none';
 
     torneos.forEach(t => {
-      const matchesText = texto === '' ||
-        (t.nombre && t.nombre.toLowerCase().includes(texto)) ||
-        (t.juego && t.juego.toLowerCase().includes(texto));
-
+      const matchesText = texto === '' || (t.nombre && t.nombre.toLowerCase().includes(texto)) || (t.juego && t.juego.toLowerCase().includes(texto));
       const matchesJuego = juego === '' || (t.juego && t.juego.toLowerCase() === juego);
       if (!matchesText || !matchesJuego) return;
 
@@ -152,12 +116,8 @@ document.addEventListener('DOMContentLoaded', () => {
       empty.innerText = 'No hay entradas en tu calendario para la búsqueda actual.';
       calendarioTorneos.appendChild(empty);
     }
-
-    // actualizar vista de scheduleBoard si está presente
-    try { renderScheduleBoard(); } catch (err) { /* no bloquear la UI */ }
   }
 
-  // Exponer verTorneo globalmente para botones inline
   window.verTorneo = function (id) {
     const torneo = torneos.find(t => t.id === id);
     if (!torneo) return alert('Torneo no encontrado');
@@ -200,11 +160,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     modalContenido.innerHTML = contenido;
-    const modalEl = document.getElementById('modalTorneo');
-    const modal = new bootstrap.Modal(modalEl);
+    const modal = new bootstrap.Modal(document.getElementById('modalTorneo'));
     modal.show();
 
-    // handlers (usamos setTimeout/nextTick para que existan los elementos)
     setTimeout(() => {
       const btnInscribirIndividual = document.getElementById('btnInscribirIndividual');
       const btnInscribirEquipo = document.getElementById('btnInscribirEquipo');
@@ -327,117 +285,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 50);
   };
 
-  // ===== irACalendarizar: busca fila en scheduleBoard y la resalta; si no existe, abre modal con fecha =====
   window.irACalendarizar = function (id) {
     const torneo = torneos.find(t => t.id === id);
-    if (!torneo) return alert('Torneo no encontrado.');
-
-    const board = document.getElementById('scheduleBoard');
-    if (board) {
-      const fila = board.querySelector(`.schedule-row[data-torneo-id="${id}"]`);
-      if (fila) {
-        fila.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        fila.classList.add('highlight');
-        setTimeout(() => fila.classList.remove('highlight'), 2200);
-        return;
-      }
-    }
-
-    // fallback: mostrar modal con fecha y opciones si no existe scheduleBoard/fila
-    const fecha = torneo.fecha ? (new Date(torneo.fecha)).toLocaleString() : 'Sin fecha definida';
-    const modalHtml = `
-      <div class="card p-3">
-        <h5>${escapeHtml(torneo.nombre)}</h5>
-        <p><strong>Fecha:</strong> ${escapeHtml(fecha)}</p>
-        <p><strong>Sede:</strong> ${escapeHtml(torneo.lugar || torneo.sede || 'No especificado')}</p>
-        <div class="mt-3 d-flex gap-2">
-          <button id="abrirEnCalendario" class="btn btn-violeta">Abrir en calendario</button>
-          <button id="copiarFecha" class="btn btn-secondary">Copiar fecha</button>
-        </div>
-      </div>
-    `;
-    if (modalTitulo && modalContenido) {
-      modalTitulo.textContent = 'Calendario - ' + (torneo.nombre || '');
-      modalContenido.innerHTML = modalHtml;
-      const modalEl = document.getElementById('modalTorneo');
-      const modal = new bootstrap.Modal(modalEl);
-      modal.show();
-
-      setTimeout(() => {
-        document.getElementById('abrirEnCalendario')?.addEventListener('click', () => {
-          if (!torneo.fecha) return alert('Fecha inválida para crear evento de calendario.');
-          const start = new Date(torneo.fecha).toISOString().replace(/-|:|\.\d+/g,'');
-          const url = `https://calendar.google.com/calendar/r/eventedit?text=${encodeURIComponent(torneo.nombre)}&dates=${start}/${start}`;
-          window.open(url, '_blank');
-        });
-        document.getElementById('copiarFecha')?.addEventListener('click', () => {
-          navigator.clipboard?.writeText(fecha).then(() => alert('Fecha copiada al portapapeles'));
-        });
-      }, 50);
-    } else {
-      alert(`Fecha: ${fecha}`);
-    }
+    if (!torneo) return alert('Torneo no encontrado');
+    alert(`Calendario para: ${torneo.nombre} — Fecha: ${torneo.fecha || 'Sin fecha'}`);
   };
 
-  // ===== renderScheduleBoard: pinta la "tabla" de programación en #scheduleBoard =====
-  function renderScheduleBoard() {
-    const copy = [...torneos].sort((a, b) => {
-      if (!a.fecha) return 1;
-      if (!b.fecha) return -1;
-      return new Date(a.fecha) - new Date(b.fecha);
-    });
-
-    const board = document.getElementById('scheduleBoard');
-    if (!board) return;
-
-    board.innerHTML = `
-      <div class="schedule-header">
-        <div style="text-align:center">Fecha</div>
-        <div style="text-align:left">Evento</div>
-        <div style="text-align:left">Lugar / Info</div>
-        <div style="text-align:center">Acciones</div>
-      </div>
-    `;
-
-    if (copy.length === 0) {
-      board.innerHTML += `<div class="p-3 text-muted">No hay eventos programados.</div>`;
-      return;
-    }
-
-    copy.forEach(t => {
-      const fechaLabel = t.fecha ? (new Date(t.fecha)).toLocaleDateString() : 'Sin fecha';
-      const lugar = t.lugar || t.sede || 'No especificado';
-      const juego = t.juego || 'Desconocido';
-      const tipo = t.tipo || '';
-
-      const row = document.createElement('div');
-      row.className = 'schedule-row';
-      row.setAttribute('data-torneo-id', t.id || '');
-
-      row.innerHTML = `
-        <div class="schedule-date">${escapeHtml(fechaLabel)}</div>
-        <div class="schedule-info">
-          <h5>${escapeHtml(t.nombre)}</h5>
-          <p><span class="badge-game">🎮 ${escapeHtml(juego)} ${tipo ? '• ' + escapeHtml(tipo) : ''}</span></p>
-        </div>
-        <div class="schedule-place">
-          <div><strong>Sede:</strong> ${escapeHtml(lugar)}</div>
-          <div><small>Organizador: ${escapeHtml(t.organizador || '—')}</small></div>
-        </div>
-        <div class="schedule-actions">
-          <button class="btn btn-sm btn-violeta" onclick="verTorneo('${t.id}')">Ver</button>
-        </div>
-      `;
-      board.appendChild(row);
-    });
-  }
-
-  // ===== Safe wrapper para mostrarListas (no rompe si hay error) =====
   function mostrarListasSafe() {
     try { mostrarListas(); } catch (err) { console.error(err); }
   }
 
-  // ===== Listeners de búsqueda/filtro y storage =====
   if (formBuscar) {
     formBuscar.addEventListener('submit', e => {
       e.preventDefault();
@@ -447,7 +304,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (inputBuscar) inputBuscar.addEventListener('input', mostrarListasSafe);
   if (filtroJuego) filtroJuego.addEventListener('change', mostrarListasSafe);
 
-  // render inicial
   mostrarListasSafe();
 
   window.addEventListener('storage', e => {

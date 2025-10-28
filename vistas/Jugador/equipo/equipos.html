@@ -11,9 +11,6 @@
 </head>
 
 <body>
-  <header class="topbar">
-    <button class="menu-toggle" id="menuToggle">☰</button>
-  </header>
 
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
@@ -31,10 +28,27 @@
       <a href="../../auth/login.html" class="nav-item logout-btn">🚪 Cerrar sesión</a>
     </div>
   </aside>
+    <div id="sidebarOverlay" class="sidebar-overlay" tabindex="-1" aria-hidden="true"></div>
+              <!-- TOPBAR --> 
+    <header class="topbar"> 
+      <!-- Izquierda --> 
+      <div class="topbar-inner"> 
+        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" title="Abrir menú">☰</button> 
+        <!-- Centro --> 
+        <div class="topbar-center"> 
+          <span class="topbar-logo">🎮 UPE-SPORT</span> 
+        </div> 
+        <!-- Derecha --> 
+        <div id="usuarioResumen" class="usuario-resumen" aria-live="polite"> 
+          <div id="usuarioNombre">Hola, Jugador</div> 
+          <small id="usuarioRol" class="text-muted"></small> 
+        </div> 
+      </div> 
+    </header> 
 
   <main class="main-content" id="mainContent">
     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-      <h1 class="mb-2">🛡️ Equipos</h1>
+      <h2 class="mb-2">🛡️ Equipos</h2>
       <a href="crear-equipo.html" class="btn btn-violeta">➕ Crear equipo</a>
     </div>
 
@@ -60,17 +74,17 @@
     </form>
 
     <section class="mb-5">
-      <h3>📌 Tus equipos</h3>
+      <h2>📌 Tus equipos</h2>
       <div id="misEquipos"></div>
     </section>
 
     <section class="mb-5">
-      <h3>🧩 Equipos disponibles</h3>
+      <h2>🧩 Equipos disponibles</h2>
       <div id="equiposDisponibles"></div>
     </section>
 
     <section class="mb-5" id="solicitudesSection" style="display:none;">
-      <h3>📥 Solicitudes recibidas</h3>
+      <h2>📥 Solicitudes recibidas</h2>
       <div id="listaSolicitudes"></div>
     </section>
   </main>

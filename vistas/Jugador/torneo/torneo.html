@@ -4,93 +4,194 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Torneos - UPE-SPORT</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="torneo.js"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"> 
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="../style.css" />
 </head>
-<body>
-  <header class="topbar">
-    <button class="menu-toggle" id="menuToggle">☰</button>
-  </header>
+<body class="dashboard-page">
+  <aside class="sidebar" id="sidebar" aria-hidden="true">
+  <div class="sidebar-header">
+    <span class="logo">🎮 UPE-SPORT</span>
+    <button class="close-btn" id="closeBtn" aria-label="Cerrar menú">✖</button>
+  </div>
+  <nav class="nav-links" role="navigation" aria-label="Menú principal">
+    <a href="../dashboard.html" class="nav-item active">🏠 Dashboard</a>
+    <a href="../perfil/ver.html" class="nav-item">👤 Mi perfil</a>
+    <a href="../equipo/equipos.html" class="nav-item">🛡️ Equipos</a>
+    <a href="../torneo/torneo.html" class="nav-item">🏆 Torneos</a>
+    <a href="../ranking.html" class="nav-item">📊 Ranking</a>
+  </nav>
+  <div class="logout">
+    <a href="../auth/login.html" class="nav-item logout-btn">🚪 Cerrar sesión</a>
+  </div>
+</aside>
 
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <span class="logo">🎮 UPE-SPORT</span>
-      <button class="close-btn" id="closeBtn">✖</button>
+<!-- overlay para cuando el sidebar está abierto (clic para cerrar) -->
+<div id="sidebarOverlay" class="sidebar-overlay" tabindex="-1" aria-hidden="true"></div>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <!-- Izquierda -->
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" title="Abrir menú">☰</button>
+
+    <!-- Centro -->
+    <div class="topbar-center">
+      <span class="topbar-logo">🎮 UPE-SPORT</span>
     </div>
-    <nav class="nav-links">
-      <a href="../dashboard.html" class="nav-item">🏠 Dashboard</a>
-      <a href="../perfil/ver.html" class="nav-item">👤 Mi perfil</a>
-      <a href="../equipo/equipos.html" class="nav-item">🛡️ Equipos</a>
-      <a href="torneos.html" class="nav-item active">🏆 Torneos</a>
-      <a href="../ranking.html" class="nav-item">📊 Ranking</a>
-    </nav>
-    <div class="logout">
-      <a href="../auth/login.html" class="nav-item logout-btn">🚪 Cerrar sesión</a>
+
+    <!-- Derecha -->
+    <div id="usuarioResumen" class="usuario-resumen" aria-live="polite">
+      <div id="usuarioNombre">Hola, Jugador</div>
+      <small id="usuarioRol" class="text-muted"></small>
     </div>
-  </aside>
+  </div>
+</header>
 
-  <main class="main-content" id="mainContent">
-    
-
-    <form id="formBuscarTorneos" class="row g-3 align-items-end mb-4">
-      <div class="col-md-5">
-        <label for="buscadorTorneos" class="form-label">Buscar torneo</label>
-        <input type="text" id="buscadorTorneos" class="form-control" placeholder="Ej: Copa Valorant, FIFA 1v1..." />
-      </div>
-      <div class="col-md-4">
-        <label for="filtroJuego" class="form-label">Filtrar por juego</label>
-        <select id="filtroJuego" class="form-select">
-          <option value="">Todos</option>
-          <option value="Valorant">Valorant</option>
-          <option value="FIFA">FIFA</option>
-          <option value="League of Legends">League of Legends</option>
-          <option value="CS:GO">CS:GO</option>
-          <option value="Rocket League">Rocket League</option>
-        </select>
-      </div>
-      <div class="col-md-3 text-end">
-        <button type="submit" class="btn btn-violeta w-100">🔎 Buscar</button>
-      </div>
-    </form>
-
-    <section class="mb-5">
-      <h3 class="section-title">🎯 Torneos disponibles</h3>
-      <div id="listaTorneos" class="cards-container"></div>
-    </section>
-
-    <section class="mb-5">
-      <h3 class="section-title">📅 Mis torneos</h3>
-      <div id="misTorneos" class="cards-container"></div>
-    </section>
-
-    <section class="mb-5">
-      <h3 class="section-title">📆 Calendario de mis torneos</h3>
-      <div id="scheduleBoard" class="schedule-board"></div>
-    </section>
-
-    <section class="mb-5" id="seccionResultados" style="display:none;">
-      <h3 class="section-title">📤 Cargar resultado de partido</h3>
-      <div id="resultadoFormContainer"></div>
-    </section>
-
-    <section class="mb-5" id="seccionDenuncias" style="display:none;">
-      <h3 class="section-title">⚠️ Denunciar torneo</h3>
-      <div id="denunciaContainer"></div>
-    </section>
-  </main>
-
-  <div class="modal fade" id="modalTorneo" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content bg-dark text-white">
-        <div class="modal-header border-0">
-          <h5 class="modal-title" id="modalTorneoTitulo"></h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+  <main class="container py-4">
+      <section class="main-content" id="mainContent" tabindex="-1">
+        <div class="banner-container">
+          <img src="../img/imgen.jpg" alt="Publicidad de torneos" class="banner-img" />
+          
+            <!-- FILTRO flotante -->
+            <div class="banner-filters-floating ">
+              <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input id="globalSearchInput" type="search" placeholder="Buscar torneos...">
+              </div>
+              <select id="searchScope" class="form-select">
+                  <option value="">Todos</option>
+                  <option value="Valorant">Valorant</option>
+                  <option value="FIFA">FIFA</option>
+                  <option value="League of Legends">League of Legends</option>
+                  <option value="CS:GO">CS:GO</option>
+                  <option value="Rocket League">Rocket League</option>
+              </select>
+              <button type="submit" class="clear-btn">Buscar</button>
+            </div>
         </div>
-        <div class="modal-body" id="modalTorneoContenido"></div>
+      </section>
+
+
+    <div class="section">
+    <h2><img src="https://cdn-icons-png.flaticon.com/512/1111/1111799.png" width="32"> Torneos disponibles</h2>
+
+    <div class="scroll-container">
+      <div class="card">
+        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/230410/header.jpg" alt="Valorant">
+        <div class="card-body">
+          <h5 class="card-title">Valorant Cup</h5>
+          <p>Inicio: 05/11/2025<br>Estado: <span class="status-open">Abierto</span></p>
+          <button class="btn btn-custom w-100 mb-2" 
+                  data-bs-toggle="modal" 
+                  data-bs-target="#torneoModal"
+                  data-nombre="Valorant Cup"
+                  data-juego="Valorant"
+                  data-fecha="05/11/2025"
+                  data-descripcion="Torneo competitivo de Valorant con premios en skins.">
+                  Ver
+          </button>
+          <button class="btn btn-outline-light w-100 btn-inscribir">Inscribirme</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg" alt="CS2">
+        <div class="card-body">
+          <h5 class="card-title">CS2 Championship</h5>
+          <p>Inicio: 10/11/2025<br>Estado: <span class="status-open">Abierto</span></p>
+          <button class="btn btn-custom w-100 mb-2" 
+                  data-bs-toggle="modal" 
+                  data-bs-target="#torneoModal"
+                  data-nombre="CS2 Championship"
+                  data-juego="CS2"
+                  data-fecha="10/11/2025"
+                  data-descripcion="Competencia 5v5 en formato suizo.">
+                  Ver
+          </button>
+          <button class="btn btn-outline-light w-100 btn-inscribir">Inscribirme</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/570/header.jpg" alt="Dota 2">
+        <div class="card-body">
+          <h5 class="card-title">Dota 2 Masters</h5>
+          <p>Inicio: 18/11/2025<br>Estado: <span class="status-closed">Cerrado</span></p>
+          <button class="btn btn-custom w-100 mb-2" 
+                  data-bs-toggle="modal" 
+                  data-bs-target="#torneoModal"
+                  data-nombre="Dota 2 Masters"
+                  data-juego="Dota 2"
+                  data-fecha="18/11/2025"
+                  data-descripcion="Evento internacional cerrado con cupos limitados.">
+                  Ver
+          </button>
+          <button class="btn btn-outline-light w-100" disabled>Inscripción cerrada</button>
+        </div>
       </div>
     </div>
   </div>
+
+  <hr>
+
+  <!-- ====== MIS TORNEOS ====== -->
+  <div class="section">
+    <h2><img src="https://cdn-icons-png.flaticon.com/512/3300/3300120.png" width="32"> Mis torneos</h2>
+    <div class="list-group mt-3">
+      <a href="#" class="list-group-item list-group-item-action bg-dark text-white border-0 mb-2 rounded">🎮 FIFA Ultimate Cup — <small>Inicio: 12/11/2025</small></a>
+      <a href="#" class="list-group-item list-group-item-action bg-dark text-white border-0 mb-2 rounded">⚔️ League of Legends Pro Series — <small>Inicio: 15/11/2025</small></a>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- ====== CALENDARIO GENERAL ====== -->
+  <div class="section">
+    <h2><img src="https://cdn-icons-png.flaticon.com/512/747/747310.png" width="32"> Calendario general de torneos</h2>
+    <div class="calendar mt-3">
+      <div class="day">Lun</div><div class="day">Mar</div><div class="day">Mié</div>
+      <div class="day">Jue</div><div class="day">Vie</div><div class="day">Sáb</div><div class="day">Dom</div>
+
+      <div class="day"></div><div class="day event">1<br><small>LoL</small></div><div class="day">2</div>
+      <div class="day">3</div><div class="day event">4<br><small>Valorant</small></div><div class="day">5</div><div class="day">6</div>
+      <div class="day">7</div><div class="day event">8<br><small>CS2</small></div><div class="day">9</div>
+      <div class="day">10</div><div class="day event">11<br><small>FIFA</small></div><div class="day">12</div><div class="day">13</div>
+      <div class="day">14</div><div class="day event">15<br><small>Dota</small></div><div class="day">16</div>
+      <div class="day">17</div><div class="day event">18<br><small>LoL</small></div><div class="day">19</div><div class="day">20</div>
+      <div class="day">21</div><div class="day event">22<br><small>Valorant</small></div><div class="day">23</div>
+      <div class="day">24</div><div class="day">25</div><div class="day event">26<br><small>CS2</small></div><div class="day">27</div>
+      <div class="day">28</div><div class="day event">29<br><small>Final</small></div><div class="day">30</div>
+    </div>
+  </div>
+
+  <!-- ====== MODAL ====== -->
+  <div class="modal fade" id="torneoModal" tabindex="-1" aria-labelledby="torneoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="torneoModalLabel">Detalles del Torneo</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Nombre:</strong> <span id="modalNombre"></span></p>
+          <p><strong>Juego:</strong> <span id="modalJuego"></span></p>
+          <p><strong>Fecha:</strong> <span id="modalFecha"></span></p>
+          <p><strong>Descripción:</strong> <span id="modalDescripcion"></span></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-custom btn-inscribirme-modal">Inscribirme</button>
+          <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap + JS propio -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="torneo.js"></script>
 </body>
 </html>
