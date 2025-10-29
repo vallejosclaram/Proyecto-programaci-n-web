@@ -3,37 +3,111 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard Jugador</title>
+  <title>Dashboard Organizador</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="dashboard.js"></script>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <header class="topbar">
-    <button class="menu-toggle" id="menuToggle">☰</button>
-  </header>
-
+<body >
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <span class="logo">🎮 UPE-SPORT</span>
-      <button class="close-btn" id="closeBtn">✖</button>
+      <button class="close-btn" id="closeBtn"><i class="fa-solid fa-xmark"></i></button>
     </div>
+
     <nav class="nav-links">
-      <a href="dashboard.html" class="nav-item active">🏠 Dashboard</a>
-      <a href="perfil/ver.html" class="nav-item">👤 Mi perfil</a>
-      <a href="equipo/equipo.html" class="nav-item">🛡️ Equipos</a>
-      <a href="torneo/torneo.html" class="nav-item">🏆 Torneos</a>
-      <a href="ranking.html" class="nav-item">📊 Ranking</a>
+      <a href="dashboard.html" class="nav-item active"><i class="fa-solid fa-house"></i> Dashboard</a>
+      <a href="perfil/ver.html" class="nav-item"><i class="fa-solid fa-user-gear" style="color:#c84dff;"></i> Mi perfil</a>
+      <a href="../Organizador/torneo/mis-torneos.html" class="nav-item"><i class="fa-solid fa-trophy" style="color:#ffb84d;"></i> Mis Torneos</a>
+      <a href="../Organizador/equipo/equipo.html" class="nav-item"><i class="fa-solid fa-people-group" style="color:#4dffb8;"></i> Equipos</a>
+      <a href="ranking.html" class="nav-item active"><i class="fa-solid fa-ranking-star" style="color:#ffb84d;"></i> Ranking</a>
+      <a href="solicitudes.html" class="nav-item"><i class="fa-solid fa-bell" style="color:#ff4d94;"></i> Solicitudes</a>
     </nav>
+
     <div class="logout">
-      <a href="../auth/login.html" class="nav-item logout-btn">🚪 Cerrar sesión</a>
+      <a href="../auth/login.html" class="nav-item logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</a>
     </div>
   </aside>
 
-  <main class="main-content" id="mainContent">
-    <h1>Bienvenido al panel del organizador</h1>
-    <p>Usá el menú para acceder a tus funcionalidades.</p>
+  <!-- Overlay -->
+  <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+  <!-- ===== HEADER / TOPBAR ===== -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <!-- Botón de menú -->
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú"><i class="fa-solid fa-bars"></i></button>
+
+      <!-- Logo central -->
+      <div class="topbar-center">
+        <span class="topbar-logo">🎮 UPE-SPORT</span>
+      </div>
+
+      <!-- Derecha: campanita -->
+      <div id="usuarioResumen" class="usuario-resumen" aria-live="polite"> 
+          <div id="usuarioNombre">Hola, Organizador </div> 
+          <small id="usuarioRol" class="text-muted"></small> 
+        </div> 
+    </div>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main-content">
+    <h1>Panel del Organizador</h1>
+
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card card-link" data-link="torneos-activos.html">
+          <i class="fa-solid fa-trophy" style="color:#ffb84d;"></i>
+          <h4>Torneos Activos</h4>
+          <p>3 torneos en curso</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card card-link" data-link="equipos.html">
+          <i class="fa-solid fa-users" style="color:#4dffb8;"></i>
+          <h4>Equipos Registrados</h4>
+          <p>12 equipos totales</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card card-link" data-link="solicitudes.html">
+          <i class="fa-solid fa-bell" style="color:#ff4d94;"></i>
+          <h4>Solicitudes Pendientes</h4>
+          <p>5 por revisar</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4 mt-4">
+      <div class="col-md-6">
+        <div class="card card-link" data-link="estadisticas.html">
+          <i class="fa-solid fa-chart-pie" style="color:#c84dff;"></i>
+          <h4>Ranking</h4>
+          <p>Visualiza rendimiento y participación</p>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card card-link" data-link="crear-torneo.html">
+          <i class="fa-solid fa-plus-circle" style="color:#5ecbff;"></i>
+          <h4>Crear Nuevo Torneo</h4>
+          <p>Comienza un nuevo evento competitivo</p>
+        </div>
+      </div>
+    </div>
+        <!-- ===== ACTIVIDAD RECIENTE ===== -->
+    <section class="actividad-reciente mt-5">
+      <h2>Actividad Reciente</h2>
+      <ul id="actividadLista" class="actividad-lista">
+        <!-- Se rellena dinámicamente desde JS -->
+      </ul>
+    </section>
   </main>
 
-  <script src="dashboard.js"></script>
+  <script src="dashboard-org.js"></script>
 </body>
 </html>

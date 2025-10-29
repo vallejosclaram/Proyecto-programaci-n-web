@@ -1,0 +1,126 @@
+/* ===== CONTENEDOR ===== */
+.estadisticas-section {
+  padding: 40px;
+  text-align: center;
+}
+
+.estadisticas-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.estadisticas-header h2 {
+  font-family: 'Orbitron', sans-serif;
+  color: #c84dff;
+  margin-bottom: 15px;
+}
+
+/* ===== TABS ===== */
+.ranking-tabs {
+  display: flex;
+  gap: 10px;
+}
+
+.tab-btn {
+  background: none;
+  border: 2px solid #c84dff;
+  color: #c84dff;
+  border-radius: 30px;
+  padding: 8px 20px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.tab-btn.active,
+.tab-btn:hover {
+  background: #c84dff;
+  color: #fff;
+  box-shadow: 0 0 10px #c84dff;
+}
+
+/* ===== RANKING ===== */
+.ranking-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 30px;
+  max-width: 700px;
+  margin-inline: auto;
+}
+
+.ranking-card {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(145deg, #1f1f2e, #181828);
+  border-radius: 16px;
+  padding: 15px 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ranking-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 15px #c84dff50;
+}
+
+.rank-pos {
+  font-size: 1.5rem;
+  width: 60px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.rank-oro { color: #ffd700; }
+.rank-plata { color: #c0c0c0; }
+.rank-bronce { color: #cd7f32; }
+
+.rank-logo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-right: 20px;
+  object-fit: cover;
+}
+
+.rank-info {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.rank-nombre {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.rank-detalle {
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+.rank-puntos {
+  font-weight: bold;
+  color: #c84dff;
+}
+.ranking-filtros {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.filtro-input, .filtro-select {
+  background: #1f1f2e;
+  border: 2px solid #c84dff;
+  border-radius: 25px;
+  color: #fff;
+  padding: 6px 15px;
+  font-size: 0.95rem;
+  transition: 0.3s;
+}
+
+.filtro-input:focus, .filtro-select:focus {
+  outline: none;
+  box-shadow: 0 0 10px #c84dff;
+}
