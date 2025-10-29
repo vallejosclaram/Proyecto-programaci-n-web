@@ -1,15 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard Jugador</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  
-  <header class="topbar">
+<header class="topbar">
     <button class="menu-toggle" id="menuToggle">☰</button>
   </header>
 
@@ -30,14 +19,3 @@
       <a href="../auth/admin-login.html" class="nav-item logout-btn">🚪 Cerrar sesión</a>
     </div>
   </aside>
-
-  <main class="main-content" id="mainContent">
-    <h1>Denuncias</h1>
-    <div class="denuncias-container" id="denunciasContainer">
-      <!-- Aquí se agregan las denuncias dinámicamente -->
-    </div>
-  </main>
-
-  <script src="denuncias.js"></script>
-</body>
-</html>
