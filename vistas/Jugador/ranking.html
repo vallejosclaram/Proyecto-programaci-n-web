@@ -3,14 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard Jugador</title>
+  <title>Ranking de Torneos</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <header class="topbar">
-    <button class="menu-toggle" id="menuToggle">☰</button>
-  </header>
+<body class="dashboard-page">
 
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
@@ -28,10 +25,78 @@
       <a href="../auth/login.html" class="nav-item logout-btn">🚪 Cerrar sesión</a>
     </div>
   </aside>
+  <!-- overlay para cuando el sidebar está abierto (clic para cerrar) --> 
+    <div id="sidebarOverlay" class="sidebar-overlay" tabindex="-1" aria-hidden="true"></div>
+              <!-- TOPBAR --> 
+    <header class="topbar"> 
+      <!-- Izquierda --> 
+      <div class="topbar-inner"> 
+        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" title="Abrir menú">☰</button> 
+        <!-- Centro --> 
+        <div class="topbar-center"> 
+          <span class="topbar-logo">🎮 UPE-SPORT</span> 
+        </div> 
+        <!-- Derecha --> 
+        <div id="usuarioResumen" class="usuario-resumen" aria-live="polite"> 
+          <div id="usuarioNombre">Hola, Jugador</div> 
+          <small id="usuarioRol" class="text-muted"></small> 
+        </div> 
+      </div> 
+    </header> 
 
   <main class="main-content" id="mainContent">
-    <h1>Ranking</h1>
-    <p>Usá el menú para acceder a tus funcionalidades.</p>
+    <h2>🏆 Ranking de Torneos</h2>
+    <div class="filter-container">
+    <button class="filter-btn active" data-filter="all">Todos</button>
+    <button class="filter-btn" data-filter="player">Jugadores</button>
+    <button class="filter-btn" data-filter="team">Equipos</button>
+  </div>
+
+  <div class="ranking-table-container">
+    <table id="rankingTable">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Jugador / Equipo</th>
+          <th>Juego</th>
+          <th>Puntos</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="top1" data-type="player">
+          <td>🥇 1</td>
+          <td><img src="https://via.placeholder.com/32" alt="Fortnite" class="game-icon">PlayerX</td>
+          <td>Fortnite</td>
+          <td>2430</td>
+        </tr>
+        <tr class="top2" data-type="team">
+          <td>🥈 2</td>
+          <td><img src="https://via.placeholder.com/32" alt="Valorant" class="game-icon">ShadowTeam</td>
+          <td>Valorant</td>
+          <td>2300</td>
+        </tr>
+        <tr class="top3" data-type="player">
+          <td>🥉 3</td>
+          <td><img src="https://via.placeholder.com/32" alt="LoL" class="game-icon">Ghost</td>
+          <td>LoL</td>
+          <td>1980</td>
+        </tr>
+        <tr data-type="team">
+          <td>4</td>
+          <td><img src="https://via.placeholder.com/32" alt="CS:GO" class="game-icon">NightRaiders</td>
+          <td>CS:GO</td>
+          <td>1750</td>
+        </tr>
+        <tr data-type="player">
+          <td>5</td>
+          <td><img src="https://via.placeholder.com/32" alt="Minecraft" class="game-icon">BlockMaster</td>
+          <td>Minecraft</td>
+          <td>1600</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
   </main>
 
   <script src="ranking.js"></script>
