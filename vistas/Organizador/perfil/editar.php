@@ -26,6 +26,7 @@
 
       <label>Nombre</label>
       <input type="text" id="nombre" class="form-control" />
+      
 
       <label>Apellido</label>
       <input type="text" id="apellido" class="form-control" />

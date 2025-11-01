@@ -90,25 +90,3 @@ form.text-start input,
 form.text-start .form-check-label {
   text-align: left;
 }
-
-
-.perfil-foto {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #9d00ff;
-  margin: 0 auto 1rem auto;
-  display: block;
-  box-shadow: 0 0 20px rgba(157, 0, 255, 0.5);
-}
-
-.stats, .contacto {
-  margin-top: 1.5rem;
-  font-size: 1rem;
-  color: #ddd;
-}
-
-.stats p, .contacto p {
-  margin: 0.4rem 0;
-}
