@@ -5,7 +5,19 @@ body {
   color: #f0f0f0; 
   overflow-x: hidden; 
   transition: margin-left 0.3s ease; } 
-  /* ======== SIDEBAR ======== */ 
+
+  h1{
+     font-family: 'Orbitron', sans-serif; 
+  }
+
+   h2{
+     font-family: 'Orbitron', sans-serif; 
+  }
+
+   h3{
+     font-family: 'Orbitron', sans-serif; 
+  }
+ 
   .sidebar { 
     position: fixed; 
     top: 0; 
@@ -609,3 +621,15 @@ tbody tr.top3 td {
     font-family: 'Orbitron', sans-serif;
   }
 }
+
+.form-container {
+      max-width: 600px;
+      margin: 3rem auto;
+      background: #1a012f;
+      border: 2px solid #6a0dad;
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 0 30px rgba(106, 13, 173, 0.6);
+    }
+
+    

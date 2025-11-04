@@ -13,7 +13,6 @@
     sidebar.classList.remove('open');
     body.classList.remove('menu-open');
   });
-});
  
  
  document.getElementById('formSoporte').addEventListener('submit', function(e){
@@ -32,3 +31,4 @@
       this.reset();
     });
 
+}); 

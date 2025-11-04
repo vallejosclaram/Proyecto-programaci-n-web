@@ -4,25 +4,28 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Crear Equipo - UPE-SPORT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&amp;family=Roboto&amp;display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../style.css" />
-   <script src="crear-equipo.js"></script>
+    <script src="crear-equipo.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-</head>
-<body>
 
+</head>
+
+<body class="dashboard-page">
   <?php require_once __DIR__ . '/../../componentes/dashboardJugador.php'; ?>
 
   <main class="main-content" id="mainContent">
-    <h1>➕ Crear Equipo</h1>
+    <div class="form-container">
+    <h2>Crear Equipo</h2>
     <form id="crearEquipoForm" class="perfil-form">
-      <label>Nombre del equipo</label>
+      <label class="mt-3 mb-3">Nombre del equipo</label>
       <input type="text" id="nombreEquipo" class="form-control" required />
 
-      <label>Cantidad de jugadores (máximo 10)</label>
+      <label class="mt-3 mb-3">Cantidad de jugadores (máximo 10)</label>
       <input type="number" id="cantidadJugadores" class="form-control" min="1" max="10" required />
 
-      <label>Juego principal</label>
+      <label class="mt-3 mb-3">Juego principal</label>
       <select id="juegoEquipo" class="form-select" required>
         <option value="">Seleccionar juego</option>
         <option value="Valorant">Valorant</option>
@@ -32,14 +35,18 @@
         <option value="Rocket League">Rocket League</option>
       </select>
 
-      <label>Descripción (opcional)</label>
+      <label class="mt-3 mb-3">Descripción (opcional)</label>
       <textarea id="descripcionEquipo" class="form-control" rows="3"></textarea>
 
+     
       <div class="d-flex justify-content-between mt-4">
-        <a href="equipos.html" class="btn btn-secondary">Volver</a>
         <button type="submit" class="btn btn-primary">Crear equipo</button>
       </div>
+       <div class="d-flex justify-content-between mt-4">
+        <a href="equipos.html" class="btn btn-secondary">Volver</a>
+      </div>
     </form>
+    </div>
   </main>
 
  
@@ -60,7 +67,6 @@
     </div>
   </div>
 
-  <script src="crear-equipo.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

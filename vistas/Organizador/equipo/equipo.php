@@ -1,45 +1,106 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard Jugador</title>
+  <title>Equipos - UPE-SPORT</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet" />
-  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="../style.css" />
-  
-  <script src="equipo.js"></script>
   <link rel="stylesheet" href="equipo.css" />
-  <script src="visualizacion-equipos.js"></script>
+  <script src="../dashboard.js"></script>
+  <link rel="stylesheet" href="style-organizador.css" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="equipo.js"></script>
 </head>
+
 <body>
-  
-<?php require_once __DIR__ . '/../../componentes/dashboardOrganizador.php'; ?>
-  <main class="main-content" id="mainContent">
-    <h1 class="page-title">Equipos y Torneos</h1>
-    
 
-    <section class="filters">
-      <input type="text" id="searchInput" placeholder="Buscar equipo o jugador..." />
-      <select id="filterTorneo">
-        <option value="">Todos los torneos</option>
-      </select>
+  <?php require_once __DIR__ . '/../../componentes/dashboardOrganizador.php'; ?>
+
+ <main class="main-content">
+    <section class="equipo-section">
+      <div class="equipo-header">
+        <h2>Equipos</h2>
+      </div>
+
+      <div class="equipo-container">
+        <div class="equipo-card">
+          <img src="https://via.placeholder.com/100" alt="Logo Equipo" class="equipo-logo">
+          <div class="equipo-nombre">Equipo Fénix</div>
+          <div class="jugadores-info"><i class="fas fa-user"></i> 5 Jugadores</div>
+          <div class="card-actions">
+            <button class="btn-ver"><i class="fa-solid fa-eye"></i></button>
+          </div>
+        </div>
+
+        <div class="equipo-card">
+          <img src="https://via.placeholder.com/100" alt="Logo Equipo" class="equipo-logo">
+          <div class="equipo-nombre">Dark Wolves</div>
+          <div class="jugadores-info"><i class="fas fa-user"></i> 6 Jugadores</div>
+          <div class="card-actions">
+            <button class="btn-ver"><i class="fa-solid fa-eye"></i></button>
+          </div>
+        </div>
+        <div class="equipo-card">
+          <img src="https://via.placeholder.com/100" alt="Logo Equipo" class="equipo-logo">
+          <div class="equipo-nombre">Neon Titans</div>
+          <div class="jugadores-info"><i class="fas fa-user"></i> 4 Jugadores</div>
+          <div class="card-actions">
+            <button class="btn-ver"><i class="fa-solid fa-eye"></i></button>
+          </div>
+        </div>
+      </div>
+      </div>
     </section>
-
-    <section id="teamsGrid" class="equipos-container"></section>
   </main>
 
-  
-  <div class="modal" id="playersModal" aria-hidden="true">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 id="modalTitle">Jugadores</h2>
-        <button id="modalClose">✖</button>
+  <!-- Modal Crear Equipo -->
+<div class="modal fade" id="crearEquipoModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-dark text-white rounded-3 shadow-lg border-0">
+      <div class="modal-header border-0">
+        <h5 class="modal-title">Crear Equipo</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
-      <ul id="playersList" class="players-list"></ul>
+      <div class="modal-body">
+        <form id="formCrearEquipo">
+          <div class="mb-3">
+            <label class="form-label">Nombre del Equipo</label>
+            <input type="text" class="form-control bg-secondary text-white border-0 rounded-pill" placeholder="Ej: Team Phoenix" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Logo del Equipo (URL)</label>
+            <input type="url" class="form-control bg-secondary text-white border-0 rounded-pill" placeholder="https://..." required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Juego</label>
+            <select class="form-select bg-secondary text-white border-0 rounded-pill" required>
+              <option value="">Selecciona un juego</option>
+              <option value="valorant">Valorant</option>
+              <option value="fifa">FIFA</option>
+              <option value="lol">League of Legends</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-purple w-100 rounded-pill">Crear Equipo</button>
+        </form>
+      </div>
     </div>
   </div>
+</div>
+
+<!-- Toast -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+  <div id="toastEquipo" class="toast align-items-center text-white bg-purple border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">
+        Equipo creado con éxito 🎉
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
   
 </body>
 </html>

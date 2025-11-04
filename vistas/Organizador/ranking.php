@@ -10,12 +10,12 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="dashboard.js"></script>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style-organizador.css" />
   <link rel="stylesheet" href="ranking.css" />
-   <script src="ranking.js"></script>
 </head>
 <body >
   
-  <?php require_once __DIR__ . '/../componentes/dashboardJugador.php'; ?>
+  <?php require_once __DIR__ . '/../componentes/dashboardOrganizador.php'; ?>
 
 
   <main class="main-content">
@@ -46,7 +46,7 @@
 
   </main>
 
- 
+  <script src="ranking.js"></script>
 </body>
 </html>
 
