@@ -13,7 +13,7 @@
 <body>
 
  
-  <?php require_once __DIR__ . '/../../componentes/dashboardJugador.php'; ?>
+  <?php require_once __DIR__ . '/../../includes/dashboardJugador.php'; ?>
 
   <div class="torneos-wrapper">
 

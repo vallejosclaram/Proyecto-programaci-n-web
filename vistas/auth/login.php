@@ -1,3 +1,49 @@
+<?php
+require_once(__DIR__ . '/../includes/globals.php');
+
+if (isset($_SESSION['usuario'])) {
+    header('Location: ' . $dirBase . '/index.php');
+    die;
+}
+
+// CHEQUEA SI ES LA PRIMERA LLAMADO
+$loginStatus = null;
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    require_once(__DIR__ . '/../includes/classes/conexion_db.php');
+
+    $msg = '';
+    $varClass = '';
+    // php -r "echo password_hash('pass123', PASSWORD_BCRYPT).PHP_EOL;"
+    // php -r "echo password_hash('pass456', PASSWORD_BCRYPT).PHP_EOL;"
+    $queryGetUser = 'SELECT * FROM usuarios WHERE email = :email';
+    $resultadoQuery = $conn->prepare($queryGetUser);
+    $resultadoQuery->bindParam(':email', $_POST['email']);
+    $resultadoQuery->execute();
+    if ($row = $resultadoQuery->fetch(PDO::FETCH_ASSOC)) {
+        if (password_verify($_POST['password'], $row['password'])) {
+            // logueado correcto
+            $_SESSION['usuario']['id'] = $row['id'];
+            $_SESSION['usuario']['nombre'] = $row['nombre'];
+            $_SESSION['usuario']['apellido'] = $row['apellido'];
+            header('Location: ' . $dirBase . '/');
+            die;
+            // $loginStatus = true;
+            // $msg = 'Bienvenido/a: '.$row['apellido'].' '.$row['nombre'];
+            // $varClass = 'alert-success';
+        } else {
+            $loginStatus = false;
+            $msg = 'El usuario o la contraseña no son correctas!!';
+            $varClass = 'alert-danger';
+        }
+    } else {
+        $loginStatus = false;
+        $msg = 'El usuario o la contraseña no son correctas!!';
+        $varClass = 'alert-danger';
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>

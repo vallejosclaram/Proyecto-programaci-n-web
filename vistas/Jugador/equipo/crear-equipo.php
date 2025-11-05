@@ -13,7 +13,7 @@
 </head>
 
 <body class="dashboard-page">
-  <?php require_once __DIR__ . '/../../componentes/dashboardJugador.php'; ?>
+  <?php require_once __DIR__ . '/../../includes/dashboardJugador.php'; ?>
 
   <main class="main-content" id="mainContent">
     <div class="form-container">
