@@ -1,3 +1,14 @@
+<?php
+require_once(__DIR__ . '/../../connection.php');
+session_start();
+
+if (!isset($_SESSION["user"]["id"])) {
+    die("Error: no hay usuario logueado.");
+}
+
+$usuario_id = $_SESSION["user"]["id"];
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -28,15 +39,15 @@
     <div class="perfil-info">
       <div class="info-card">
         <h4>Torneos</h4>
-        <p>8</p>
+        <p></p>
       </div>
       <div class="info-card">
         <h4>Seguidores</h4>
-        <p>56</p>
+        <p></p>
       </div>
       <div class="info-card">
         <h4>Ranking General</h4>
-        <p>#12</p>
+        <p></p>
       </div>
     </div>
 

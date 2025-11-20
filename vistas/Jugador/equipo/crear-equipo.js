@@ -1,10 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
   const jugador = JSON.parse(localStorage.getItem('jugador')) || {};
-
+  let selectJuegos = document.getElementById("juegoEquipo");
   const sidebar = document.getElementById('sidebar');
   const menuToggle = document.getElementById('menuToggle');
   const closeBtn = document.getElementById('closeBtn');
   const body = document.body;
+  let btnCrear = document.getElementById("crearEquipo");
 
   menuToggle.addEventListener('click', () => {
     sidebar.classList.add('open');
@@ -15,6 +16,41 @@ document.addEventListener('DOMContentLoaded', () => {
     sidebar.classList.remove('open');
     body.classList.remove('menu-open');
   });
+
+ getJuegos();
+
+  async function getJuegos(){
+    
+
+    try {
+        const response = await fetch("get_juegos.php");
+        const juegos = await response.json();
+
+        selectJuegos.innerHTML = '<option value="">Seleccionar juego</option>';
+
+        juegos.forEach(j => {
+            const opt = document.createElement("option");
+            opt.value = j.id_juego;     
+            opt.textContent = j.nombre;  
+            selectJuegos.appendChild(opt);
+        });
+
+    } catch (error) {
+        console.error("Error cargando juegos:", error);
+        selectJuegos.innerHTML = '<option value="">Error al cargar</option>';
+    }
+
+  }
+
+  btnCrear.addEventListener('submit', crear);
+  async function crear(){
+    let nombre = document.getElementById("nombreEquipo");
+     
+        const response = await fetch("get_juegos.php");
+        const juegos = await response.json();
+
+  }
+
 
   document.getElementById('crearEquipoForm').addEventListener('submit', function (e) {
     e.preventDefault();

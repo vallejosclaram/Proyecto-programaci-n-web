@@ -1,3 +1,15 @@
+<?php
+require_once(__DIR__ . '/../../connection.php');
+session_start();
+
+if (!isset($_SESSION["user"]["id"])) {
+    die("Error: no hay usuario logueado.");
+}
+
+$usuario_id = $_SESSION["user"]["id"];
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -20,7 +32,9 @@
   <main class="main-content" id="mainContent">
     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
       <h1 class="mb-2">🛡️ Equipos</h1>
-      <a href="crear-equipo.html" class="btn btn-violeta">➕ Crear equipo</a>
+      <button>
+      <a href="crear-equipo.php" class="btn btn-violeta">➕ Crear equipo</a>
+</button>
     </div>
 
     <form id="formBuscarEquipos" class="row g-3 align-items-end mb-5">
@@ -28,17 +42,7 @@
         <label for="buscadorEquipos" class="form-label">Buscar por nombre o juego</label>
         <input type="text" id="buscadorEquipos" class="form-control" placeholder="Ej: Valorant, Titanes..." />
       </div>
-      <div class="col-md-4">
-        <label for="selectJuego" class="form-label">Filtrar por juego</label>
-        <select id="selectJuego" class="form-select">
-          <option value="">Todos los juegos</option>
-          <option value="Valorant">Valorant</option>
-          <option value="FIFA">FIFA</option>
-          <option value="League of Legends">League of Legends</option>
-          <option value="CS:GO">CS:GO</option>
-          <option value="Rocket League">Rocket League</option>
-        </select>
-      </div>
+      
       <div class="col-md-3 text-end">
         <button type="submit" class="btn btn-violeta w-100">🔎 Buscar</button>
       </div>
@@ -46,17 +50,17 @@
 
     <section class="mb-5">
       <h3>📌 Tus equipos</h3>
-      <div id="misEquipos"></div>
+      <div id="misEquipos" name="misEquipos"></div>
     </section>
 
     <section class="mb-5">
       <h3>🧩 Equipos disponibles</h3>
-      <div id="equiposDisponibles"></div>
+      <div id="equiposDisponibles" name="equiposDisponibles"></div>
     </section>
 
     <section class="mb-5" id="solicitudesSection" style="display:none;">
       <h3>📥 Solicitudes recibidas</h3>
-      <div id="listaSolicitudes"></div>
+      <div id="listaSolicitudes" name="listaSolicitudes"></div>
     </section>
   </main>
 

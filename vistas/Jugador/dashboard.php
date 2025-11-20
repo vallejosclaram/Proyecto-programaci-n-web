@@ -1,3 +1,15 @@
+<?php
+require_once(__DIR__ . '/../connection.php');
+session_start();
+
+if (!isset($_SESSION["user"]["id"])) {
+    die("Error: no hay usuario logueado.");
+}
+
+$usuario_id = $_SESSION["user"]["id"];
+?>
+
+
 <!DOCTYPE html>
 <html lang="es"> 
   <head> <meta charset="utf-8" /> 
@@ -10,22 +22,23 @@
     </script> <link rel="stylesheet" href="style.css"> 
   </head> 
   <body class="dashboard-page"> 
-    <aside class="sidebar" id="sidebar"> 
+    <?php require_once __DIR__ . '/includes/dashboardJugador.php'; ?>
+   <!-- <aside class="sidebar" id="sidebar"> 
       <div class="sidebar-header"> 
         <span class="logo">🎮 UPE-SPORT</span> 
         <button class="close-btn" id="closeBtn">✖</button> 
       </div> 
       <nav class="nav-links" role="navigation" aria-label="Menú principal"> 
-        <a href="dashboard.html" class="nav-item active">🏠 Dashboard</a> 
-        <a href="perfil/ver.html" class="nav-item">👤 Mi perfil</a> 
-        <a href="equipo/equipos.html" class="nav-item">🛡️ Equipos</a> 
-        <a href="torneo/torneo.html" class="nav-item">🏆 Torneos</a> 
-        <a href="ranking.html" class="nav-item">📊 Ranking</a>
+        <a href="dashboard.php" class="nav-item active">🏠 Dashboard</a> 
+        <a href="perfil/ver.php" class="nav-item">👤 Mi perfil</a> 
+        <a href="equipo/equipos.php" class="nav-item">🛡️ Equipos</a> 
+        <a href="torneo/torneo.php" class="nav-item">🏆 Torneos</a> 
+        <a href="ranking.php" class="nav-item">📊 Ranking</a>
       </nav> 
       <div class="logout"> 
         <a href="../auth/login.html" class="nav-item logout-btn">🚪 Cerrar sesión</a>
       </div> 
-    </aside> 
+    </aside> -->
     <!-- overlay para cuando el sidebar está abierto (clic para cerrar) --> 
     <div id="sidebarOverlay" class="sidebar-overlay" tabindex="-1" aria-hidden="true"></div>
               <!-- TOPBAR --> 
@@ -64,7 +77,7 @@
             </div> 
           </div> 
         </section> 
-        <!-- Jugadores destacados: horizontal scroll --> 
+       
         <section class="mb-4"> 
           <div class="d-flex align-items-center justify-content-between mb-2"> 
             <h2 class="section-title">Jugadores destacados</h2> 
@@ -75,7 +88,7 @@
           </div> 
           <div class="h-scroll" id="playersList" tabindex="0" aria-label="Lista de jugadores"></div> 
         </section> 
-        <!-- Juegos / partidas disponibles: horizontal scroll --> 
+       
         <section class="mb-4"> 
           <div class="d-flex align-items-center justify-content-between mb-2"> 
             <h2 class="section-title">Partidas / Juegos</h2> 
