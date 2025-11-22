@@ -1,30 +1,71 @@
 document.addEventListener("DOMContentLoaded", () => {
-    cargarEquipos();
+    //cargarEquipos();
 
+    const menuToggle = document.getElementById('menuToggle');
+    const closeBtn = document.getElementById('closeBtn');
     document.getElementById("formBuscarEquipos").addEventListener("submit", e => {
         e.preventDefault();
         cargarEquipos();
     });
 
-    document.getElementById("buscadorEquipos").addEventListener("input", cargarEquipos);
-    document.getElementById("selectJuego").addEventListener("change", cargarEquipos);
+   // document.getElementById("buscadorEquipos").addEventListener("input", cargarEquipos);
+    //document.getElementById("selectJuego").addEventListener("change", cargarEquipos);
+
+    
+ menuToggle.addEventListener('click', () => {
+    sidebar.classList.add('open');
+    body.classList.add('menu-open');
+  });
+
+  closeBtn.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    body.classList.remove('menu-open');
+  });
 });
+
 
 
 async function cargarEquipos() {
     const q = document.getElementById("buscadorEquipos").value.trim();
-    const juego = document.getElementById("selectJuego").value;
+   // const juego = document.getElementById("selectJuego")?.value; 
 
-    const url = `procesar-equipos.php?q=${encodeURIComponent(q)}&juego=${encodeURIComponent(juego)}`;
-    const response = await fetch(url);
-    const data = await response.json();
+    
+    let url = `get_equipo.php?q=${encodeURIComponent(q)}`;
+    if (juego) {
+        url += `&juego=${encodeURIComponent(juego)}`;
+    }
 
-    renderMisEquipos(data.misEquipos);
-    renderEquiposDisponibles(data.disponibles);
-    renderSolicitudes(data.solicitudes);
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        console.log('Equipos cargados:', data);
+
+        
+        renderEquiposDisponibles(data.disponibles);
+
+       
+        // renderSolicitudes(data.solicitudes);
+    } catch (error) {
+        console.error("Error al cargar los equipos:", error);
+        document.getElementById("equiposDisponibles").innerHTML = `<p class="text-danger">No se pudieron cargar los equipos.</p>`;
+    }
 }
 
 
+cargarMisEquipos();
+
+async function cargarMisEquipos() {
+    const res = await fetch("get_misequipos.php");
+
+    const data = await res.json();
+    
+    if (data.error) {
+        console.error(data.error);
+        return;
+    }
+    
+    renderMisEquipos(data.misEquipos);
+}
 
 function renderMisEquipos(equipos) {
     const c = document.getElementById("misEquipos");
@@ -57,6 +98,8 @@ function renderMisEquipos(equipos) {
 function renderEquiposDisponibles(equipos) {
     const c = document.getElementById("equiposDisponibles");
     c.innerHTML = "";
+
+    
 
     if (!equipos || equipos.length === 0) {
         c.innerHTML = `<p class="text-muted">No hay equipos disponibles.</p>`;
@@ -119,7 +162,7 @@ document.addEventListener("click", e => {
 async function verEquipo(id) {
     const response = await fetch(`get_equipo.php?id=${id}`);
     const data = await response.json();
-
+    console.log(data);
     document.getElementById("modalEquipoTitulo").textContent = data.nombre;
 
     document.getElementById("modalEquipoContenido").innerHTML = `

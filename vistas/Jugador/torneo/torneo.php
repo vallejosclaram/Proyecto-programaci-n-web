@@ -1,3 +1,34 @@
+<?php
+require_once(__DIR__ . '/../../connection.php');
+session_start();
+
+if (!isset($_SESSION["user"]["id"])) {
+    die("Error: no hay usuario logueado.");
+}
+
+$usuario_id = $_SESSION["user"]["id"];
+
+
+try {
+    $sql = "
+        SELECT t.*, j.nombre AS juego, et.descripcion AS estado_torneo, tt.descripcion AS tipo_torneo,
+               u.nombre AS organizador_nombre, u.apellido AS organizador_apellido
+        FROM torneo t
+        JOIN juego j ON j.id_juego = t.id_juego
+        JOIN estado_torneo et ON et.id_estado = t.id_estado
+        JOIN tipo_torneo tt ON tt.id_tipo = t.id_tipo
+        JOIN organizador o ON o.id_organizador = t.id_organizador
+        JOIN usuarios u ON u.id_usuario = o.id_usuario
+        WHERE t.id_estado = 1
+        ORDER BY t.fecha_inicio ASC
+    ";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $torneos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (Exception $e) {
+    $torneos = [];
+}
+?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -8,24 +39,21 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../style.css" />
   <link rel="stylesheet" href="torneo.css" />
+  <script>
+    const torneosData = <?php echo json_encode($torneos); ?>;
+  </script>
   <script src="torneo.js"></script>
 </head>
 <body>
 
- 
   <?php require_once __DIR__ . '/../../includes/dashboardJugador.php'; ?>
 
   <div class="torneos-wrapper">
-
-    
     <div class="columna-calendario">
       <h3>Próximas partidas</h3>
-      <ul id="calendarioTorneos">
-       
-      </ul>
+      <ul id="calendarioTorneos"></ul>
     </div>
 
-    
     <div class="columna-torneos">
       <div class="filtros">
         <input type="text" id="filtroJuego" placeholder="Filtrar por juego">
@@ -40,7 +68,6 @@
     </div>
   </div>
 
- 
   <div class="modal" id="modalJugadores">
     <div class="modal-content">
       <span class="close" id="closeJugadores">&times;</span>
@@ -69,7 +96,7 @@
         <option value="no responsable">No responsable</option>
         <option value="otro">Otro</option>
       </select>
-      <button id="btnConfirmar">✔</button>
+      <button id="btnConfirmar" disabled>✔</button> 
     </div>
   </div>
 

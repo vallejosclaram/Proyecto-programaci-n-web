@@ -22,8 +22,8 @@ $usuario_id = $_SESSION["user"]["id"];
     </script> <link rel="stylesheet" href="style.css"> 
   </head> 
   <body class="dashboard-page"> 
-    <?php require_once __DIR__ . '/includes/dashboardJugador.php'; ?>
-   <!-- <aside class="sidebar" id="sidebar"> 
+    
+   <aside class="sidebar" id="sidebar"> 
       <div class="sidebar-header"> 
         <span class="logo">🎮 UPE-SPORT</span> 
         <button class="close-btn" id="closeBtn">✖</button> 
@@ -38,30 +38,30 @@ $usuario_id = $_SESSION["user"]["id"];
       <div class="logout"> 
         <a href="../auth/login.html" class="nav-item logout-btn">🚪 Cerrar sesión</a>
       </div> 
-    </aside> -->
-    <!-- overlay para cuando el sidebar está abierto (clic para cerrar) --> 
+    </aside> 
+    
     <div id="sidebarOverlay" class="sidebar-overlay" tabindex="-1" aria-hidden="true"></div>
-              <!-- TOPBAR --> 
+             
     <header class="topbar"> 
-      <!-- Izquierda --> 
+      
       <div class="topbar-inner"> 
         <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" title="Abrir menú">☰</button> 
-        <!-- Centro --> 
+        
         <div class="topbar-center"> 
           <span class="topbar-logo">🎮 UPE-SPORT</span> 
         </div> 
-        <!-- Derecha --> 
+        
         <div id="usuarioResumen" class="usuario-resumen" aria-live="polite"> 
           <div id="usuarioNombre">Hola, Jugador</div> 
           <small id="usuarioRol" class="text-muted"></small> 
         </div> 
-      </div> 
+      </div>
     </header> 
     <main class="container py-4"> 
         <section class="main-content" id="mainContent" tabindex="-1"> 
           <div class="banner-container"> 
-            <img src="img/videojuegos.jpg" alt="Publicidad de torneos" class="banner-img" 
-            /> <!-- FILTRO flotante --> 
+            <img src="img/videojuegos.jpg" alt="Publicidad de torneos" class="banner-img" />
+             <!-- FILTRO--> 
             <div class="banner-filters-floating"> 
               <div class="search-box"> 
                 <span class="search-icon">🔍</span> 

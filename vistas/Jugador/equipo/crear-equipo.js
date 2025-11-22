@@ -42,22 +42,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   }
 
-  btnCrear.addEventListener('submit', crear);
-  async function crear(){
-    let nombre = document.getElementById("nombreEquipo");
-     
-        const response = await fetch("get_juegos.php");
-        const juegos = await response.json();
-
-  }
+ 
 
 
-  document.getElementById('crearEquipoForm').addEventListener('submit', function (e) {
+  document.getElementById('crearEquipoForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
     const nombre = document.getElementById('nombreEquipo').value.trim();
     const cantidad = parseInt(document.getElementById('cantidadJugadores').value);
-    const juego = document.getElementById('juegoEquipo').value.trim();
+    const juego = document.getElementById('juegoEquipo').value;
     const descripcion = document.getElementById('descripcionEquipo').value.trim();
 
     if (!nombre) {
@@ -75,22 +68,38 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const nuevoEquipo = {
-      id: Date.now().toString(),
-      nombre,
-      juego,
-      descripcion,
-      cantidad,
-      capitan: jugador.usuario,
-      miembros: [jugador.usuario],
-      solicitudes: []
+    const datos={
+      nombre: nombre,
+      cantidad: cantidad,
+      juego: juego,
+      descripcion: descripcion
     };
+    
+  
+    try{
 
-    const equipos = JSON.parse(localStorage.getItem('equipos')) || [];
-    equipos.push(nuevoEquipo);
-    localStorage.setItem('equipos', JSON.stringify(equipos));
+      const resp = await fetch('procesar-crear-equipo.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(datos)
+      });
 
-    const modal = new bootstrap.Modal(document.getElementById('modalCreado'));
-    modal.show();
+      const respuesta = await resp.json();
+      console.log(respuesta);
+      
+      if(respuesta.mensaje){
+        const modal = new bootstrap.Modal(document.getElementById('modalCreado'));
+        modal.show();
+      }
+
+    }catch(error){
+      
+        console.error(error);
+    }
+     
+     
+    
+
+    
   });
 });

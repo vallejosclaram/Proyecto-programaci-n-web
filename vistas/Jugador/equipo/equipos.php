@@ -32,9 +32,9 @@ $usuario_id = $_SESSION["user"]["id"];
   <main class="main-content" id="mainContent">
     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
       <h1 class="mb-2">🛡️ Equipos</h1>
-      <button>
+      
       <a href="crear-equipo.php" class="btn btn-violeta">➕ Crear equipo</a>
-</button>
+
     </div>
 
     <form id="formBuscarEquipos" class="row g-3 align-items-end mb-5">

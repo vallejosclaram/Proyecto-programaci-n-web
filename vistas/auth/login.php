@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $email = trim($_POST['email']);
     }
 
-   
+
     if (!isset($_POST['password']) || trim($_POST['password']) == '') {
         $errors['password'] = 'La contraseña no puede ser vacía';
     }

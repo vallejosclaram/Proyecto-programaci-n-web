@@ -45,7 +45,7 @@ if (!empty($errors)) {
 }
 
 try {
-    // Verificar si ya existe el email
+    
     $stmt = $conn->prepare("SELECT id_usuario FROM usuario WHERE email = :email");
     $stmt->execute([':email' => $email]);
     $existe = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -55,7 +55,7 @@ try {
         exit;
     }
 
-    // Crear usuario
+    
     $hash = password_hash($contrasena, PASSWORD_BCRYPT);
 
     $sqlusuario = "INSERT INTO usuario (email, contrasena, fecha_registro, id_estado)
@@ -65,7 +65,7 @@ try {
 
         $stmt_u->execute([
             ':email' => $email,
-            ':pass' => $hash,
+            ':pass' => $contrasena,
             ':estado' => 1
         ]);
 

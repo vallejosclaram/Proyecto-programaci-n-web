@@ -3,7 +3,8 @@ require_once(__DIR__ . '/../../connection.php');
 session_start();
 
 if (!isset($_SESSION["user"]["id"])) {
-    die("Error: no hay usuario logueado.");
+    echo json_encode(["error" => "No hay usuario logueado"]);
+    exit;
 }
 
 $usuario_id = $_SESSION["user"]["id"];
@@ -31,7 +32,7 @@ $usuario_id = $_SESSION["user"]["id"];
     <div class="form-container">
       <h2>Crear Equipo</h2>
 
-      <form id="crearEquipoForm" class="perfil-form" method="POST" action="procesar-crear-equipo.php">
+      <form id="crearEquipoForm" class="perfil-form" method="POST" action="">
 
         <label for="nombreEquipo" class="mt-3 mb-3">Nombre del equipo</label>
         <input type="text" name="nombreEquipo" id="nombreEquipo" class="form-control" required />

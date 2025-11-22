@@ -1,8 +1,22 @@
 
 <body>
-  <header class="topbar">
-    <button class="menu-toggle" id="menuToggle">☰</button>
-  </header>
+  <!-- overlay para cuando el sidebar está abierto (clic para cerrar) -->
+    <div id="sidebarOverlay" class="sidebar-overlay" tabindex="-1" aria-hidden="true"></div>
+             
+    <header class="topbar"> 
+      
+      <div class="topbar-inner"> 
+        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" title="Abrir menú">☰</button> 
+        
+        <div class="topbar-center"> 
+          <span class="topbar-logo">🎮 UPE-SPORT</span> 
+        </div> 
+        
+        <div id="usuarioResumen" class="usuario-resumen" aria-live="polite"> 
+          <div id="usuarioNombre">Hola, Jugador</div> 
+          <small id="usuarioRol" class="text-muted"></small> 
+        </div> 
+      </div> 
 
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
@@ -20,6 +34,8 @@
       <a href="../auth/logout.php" class="nav-item logout-btn">🚪 Cerrar sesión</a>
     </div>
   </aside>
+
+  
 
   
 </body>

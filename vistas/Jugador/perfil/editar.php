@@ -1,3 +1,16 @@
+<?php
+require_once(__DIR__ . '/../../connection.php');
+require_once(__DIR__ . "../clases/permisos.php");
+
+session_start();
+
+if (!isset($_SESSION["user"]["id"])) {
+    die("Error: no hay usuario logueado.");
+}
+
+$usuario_id = $_SESSION["user"]["id"];
+?>
+
 <!DOCTYPE html>
 <html lang="es">
   <head>
