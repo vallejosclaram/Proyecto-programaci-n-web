@@ -326,6 +326,12 @@ const Actions = (() => {
   return { init };
 })();
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> origin/ramaclara
 // ==========================
 // main.js - Inicialización al DOMContentLoaded
 // ==========================
@@ -339,4 +345,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const usernameLabel = document.getElementById('usuarioNombre');
   const session = Utils.readStore('sessionUser', null);
   if (session && usernameLabel) usernameLabel.textContent = `Hola, ${session.usuario || session.nombre || 'Jugador'}`;
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> origin/ramaclara
 });

@@ -8,54 +8,38 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../style.css" />
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="editar.js"></script>
+<script src="editar.js"></script>
 </head>
 <body>
-  <header class="topbar">
-    <button class="menu-toggle" id="menuToggle">☰</button>
-  </header>
-
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <span class="logo">🎮 UPE-SPORT</span>
-      <button class="close-btn" id="closeBtn">✖</button>
-    </div>
-    <nav class="nav-links">
-      <a href="../dashboard.html" class="nav-item">🏠 Dashboard</a>
-      <a href="ver.html" class="nav-item active">👤 Mi perfil</a>
-      <a href="../equipo/equipo.html" class="nav-item">🛡️ Equipos</a>
-      <a href="../torneo/torneo.html" class="nav-item">🏆 Torneos</a>
-      <a href="../ranking.html" class="nav-item">📊 Ranking</a>
-      <a href="../solicitudes.html" class="nav-item">📥 Solicitudes</a>
-
-    </nav>
-    <div class="logout">
-      <a href="../../auth/login.html" class="nav-item logout-btn">🚪 Cerrar sesión</a>
-    </div>
-  </aside>
+  
+  <?php require_once __DIR__ . '/../../componentes/dashboardOrganizador.php'; ?>
 
   <main class="main-content" id="mainContent">
     <h1>✏️ Editar Perfil</h1>
     <form id="editarPerfilForm" class="perfil-form">
-      <label>Usuario</label>
+      <label>Organizacion</label>
       <input type="text" id="usuario" class="form-control" required />
 
       <label>Email</label>
       <input type="email" id="email" class="form-control" required />
 
+      <h3>Datos del organizador</h3>
+
       <label>Nombre</label>
       <input type="text" id="nombre" class="form-control" />
+      
 
       <label>Apellido</label>
       <input type="text" id="apellido" class="form-control" />
 
-      <label>Descripción</label>
+      <label>Descripción de Organizacion</label>
       <textarea id="descripcion" class="form-control" rows="3"></textarea>
 
-      <div class="perfil-actions">
-        <a href="ver.html" class="btn-editar">Atras</a>
-        </div>
+      
       <button type="submit" class="btn btn-primary mt-3">Guardar cambios</button>
+      <div class="perfil-actions">
+        <a href="ver.php" class="btn-editar">Cancelar</a>
+        </div>
     </form>
   </main>
 
@@ -71,13 +55,15 @@
           Tus datos fueron guardados correctamente.
         </div>
         <div class="modal-footer border-0 justify-content-center">
-          <a href="ver.html" class="btn btn-primary">Volver al perfil</a>
+          <a href="ver.php" class="btn btn-primary">Volver al perfil</a>
         </div>
       </div>
     </div>
   </div>
 
+
   
+
   
 </body>
 </html>

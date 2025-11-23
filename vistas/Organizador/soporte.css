@@ -1,0 +1,77 @@
+.soporte-container {
+      max-width: 600px;
+      margin: 3rem auto;
+      background: #1a012f;
+      border: 2px solid #6a0dad;
+      border-radius: 1rem;
+      padding: 40px;
+      box-shadow: 0 0 30px rgba(106, 13, 173, 0.6);
+    }
+
+    .soporte-container h2 {
+      text-align: center;
+      font-family: 'Orbitron', sans-serif;
+      color: #e0c3fc;
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      margin-bottom: 0.5rem;
+      color: #fff;
+      font-weight: 500;
+    }
+
+    .form-group input, .form-group textarea {
+      padding: 0.6rem 1rem;
+      border-radius: 12px;
+      border: none;
+      background-color: #35006f;
+      color: #fff;
+      font-size: 1rem;
+      box-shadow: 0 0 10px rgba(157,0,255,0.3);
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #ccc;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 0.7rem 1.4rem;
+      border-radius: 50px;
+      border: none;
+      font-weight: bold;
+      background: linear-gradient(90deg, #6a0dad, #9d00ff);
+      color: #fff;
+      font-family: 'Roboto', sans-serif;
+      font-size: 1rem;
+      box-shadow: 0 0 12px rgba(157, 0, 255, 0.5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 1rem;
+    }
+
+    .btn-submit:hover {
+      background: #fff;
+      color: #6a0dad;
+      box-shadow: 0 0 18px rgba(255, 255, 255, 0.7);
+    }
+
+    @media(max-width: 500px){
+      .soporte-container {
+        margin: 1.5rem;
+        padding: 1.5rem;
+      }
+    }

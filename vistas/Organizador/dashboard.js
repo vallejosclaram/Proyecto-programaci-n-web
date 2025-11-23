@@ -40,4 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
     li.innerHTML = `<i class="fa-solid ${item.icon}"></i><span>${item.texto}</span>`;
     lista.appendChild(li);
   });
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> origin/ramaclara
