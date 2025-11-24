@@ -21,17 +21,19 @@ SELECT
     t.id_tipo,
     tt.descripcion AS tipo_torneo,
     j.nombre AS juego,
-    it.id_jugador AS inscripto,
-    o.id_organizador AS organizador
+    o.id_organizador AS organizador,
+    IF(it.id_jugador IS NULL, 0, 1) AS inscripto
 FROM torneo t
 INNER JOIN organizador o ON t.id_organizador = o.id_organizador
 INNER JOIN juego j ON t.id_juego = j.id_juego
 INNER JOIN tipo_torneo tt ON t.id_tipo = tt.id_tipo
 LEFT JOIN inscripcion_torneo it 
-    ON it.id_torneo = t.id_torneo 
-    WHERE it.id_jugador = :jugador_id
+    ON it.id_torneo = t.id_torneo
+    AND it.id_jugador = :jugador_id
+WHERE it.id_torneo IS NULL
 ORDER BY t.fecha_inicio ASC
 ";
+
 
 $stmt = $conn->prepare($sql);
 $stmt->bindParam(":jugador_id", $usuario_id, PDO::PARAM_INT);

@@ -29,6 +29,9 @@
       <a href="equipo/equipos.php" class="nav-item">🛡️ Equipos</a>
       <a href="torneo/torneo.php" class="nav-item">🏆 Torneos</a>
       <a href="ranking.php" class="nav-item">📊 Ranking</a>
+      <a href="partidas.php" class="nav-item">🖥️ Partidas</a>
+      <a href="soporte.php" class="nav-item">🙋‍♀️ Soporte</a>
+
     </nav>
     <div class="logout">
       <a href="../auth/logout.php" class="nav-item logout-btn">🚪 Cerrar sesión</a>

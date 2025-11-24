@@ -10,9 +10,7 @@ if (!isset($_SESSION["user"]["id"])) {
 
 $usuario_id = $_SESSION["user"]["id"];
 
-/* ===========================
-   1. EQUIPOS DONDE ES CAPITANA
-   =========================== */
+
 $sqlCapitana = "
 SELECT e.id_equipo AS id,
        e.nombre,
@@ -29,9 +27,7 @@ $stmt->execute();
 $equiposCapitana = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
-/* ===========================
-   2. EQUIPOS DONDE ES MIEMBRO
-   =========================== */
+
 $sqlMiembro = "
 SELECT e.id_equipo AS id,
        e.nombre,
@@ -49,9 +45,7 @@ $stmt->execute();
 $equiposMiembro = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
-/* ===========================
-   3. UNIFICAR SIN DUPLICADOS
-   =========================== */
+
 $misEquipos = [];
 
 foreach ($equiposCapitana as $e) {
@@ -63,9 +57,6 @@ foreach ($equiposMiembro as $e) {
 }
 
 
-/* ===========================
-   4. RESPUESTA FINAL
-   =========================== */
 echo json_encode([
     "misEquipos" => array_values($misEquipos)
 ]);
