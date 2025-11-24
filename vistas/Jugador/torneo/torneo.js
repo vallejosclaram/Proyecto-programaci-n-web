@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const filtroEquipo = document.getElementById('filtroEquipo');
   const calendarioTorneos = document.getElementById('calendarioTorneos');
 
+
   // Modales
   const modalJugadores = document.getElementById('modalJugadores');
   const closeJugadores = document.getElementById('closeJugadores');
@@ -19,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnCerrarConfirmacion = document.getElementById('btnCerrarConfirmacion');
 
   // Sidebar
+
   const sidebar = document.getElementById('sidebar');
   const menuToggle = document.getElementById('menuToggle');
   const closeBtn = document.getElementById('closeBtn');
@@ -170,6 +172,35 @@ function crearCardTorneo(t) {
 
         const data = await res.json();
 
+
+    // Botón Denunciar
+    const btnDenunciar = card.querySelector('.btn-denunciar');
+    if (t.id_organizador != '<?php echo $_SESSION["user"]["id"]; ?>') {
+      btnDenunciar.addEventListener('click', async () => {
+        const descripcion = prompt(`Escribí el motivo de la denuncia para: ${t.nombre}`);
+        if (!descripcion) return;
+
+
+        try {
+          const res = await fetch('procesar-denuncia.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              id_organizador: t.id_organizador,
+              id_reportado: t.id_torneo,
+              descripcion
+            })
+          });
+
+          const data = await res.json();
+          if (data.success) {
+            alert('Denuncia enviada correctamente.');
+          } else {
+            alert('Error: ' + data.error);
+          }
+        } catch (err) {
+          console.error(err);
+          alert('Error enviando la denuncia.');
         if (data.success) {
           btnSumarme.textContent = 'Pendiente';
           btnSumarme.disabled = true;
@@ -297,3 +328,4 @@ function crearCardTorneo(t) {
 
   cargarTorneos();
 });
+

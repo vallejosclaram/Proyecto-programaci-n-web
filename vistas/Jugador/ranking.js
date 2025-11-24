@@ -13,6 +13,30 @@ document.addEventListener('DOMContentLoaded', () => {
     sidebar.classList.remove('open');
     body.classList.remove('menu-open');
   });
+<<<<<<< HEAD
+  const filterButtons = document.querySelectorAll('.filter-btn');
+const rows = document.querySelectorAll('#rankingTable tbody tr');
+
+filterButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    // Quitar clase activa de todos
+    filterButtons.forEach(btn => btn.classList.remove('active'));
+    // Activar el botón actual
+    button.classList.add('active');
+
+    const filter = button.dataset.filter;
+
+    rows.forEach(row => {
+      if (filter === 'all') {
+        row.style.display = '';
+      } else {
+        row.style.display = row.dataset.type === filter ? '' : 'none';
+      }
+    });
+  });
+});
+
+=======
 
   // Datos ejemplo
   const equipos = [
@@ -97,4 +121,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
   busquedaInput.addEventListener('input', aplicarFiltros);
   filtroJuego.addEventListener('change', aplicarFiltros);
+>>>>>>> origin/ramaclara
 });
