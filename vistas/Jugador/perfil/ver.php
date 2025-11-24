@@ -74,7 +74,7 @@ $avatar = !empty($jugador["avatar"]) ? "../img/avatars/" . $jugador["avatar"] : 
     <div class="avatar-section">
       <div class="avatar-wrapper">
         <img src="<?php echo $avatar; ?>" alt="Avatar del jugador" class="avatar-img" />
-        <button class="btn-cambiar-avatar">Cambiar avatar</button>
+        
       </div>
 
       <h2 class="organizador-nombre">
@@ -84,7 +84,7 @@ $avatar = !empty($jugador["avatar"]) ? "../img/avatars/" . $jugador["avatar"] : 
       <p class="organizador-correo"><?php echo htmlspecialchars($jugador["email"]); ?></p>
     </div>
 
-    <
+    
     <div class="perfil-info">
       <div class="info-card">
         <h4>Torneos</h4>
@@ -105,8 +105,8 @@ $avatar = !empty($jugador["avatar"]) ? "../img/avatars/" . $jugador["avatar"] : 
 
     <!-- Botones -->
     <div class="perfil-botones">
-      <button id="editProfileBtn">Editar Perfil</button>
-      <button onclick="window.location.href='../Torneo/ver-torneos.php'">Ver Torneos</button>
+      <button id="editProfileBtn"><a href="editar.php">Editar Perfil</a></button>
+      <button><a href="/Jugador/torneo/torneo.php">Ver Torneos</a></button>
     </div>
 
     <!-- Descripción -->

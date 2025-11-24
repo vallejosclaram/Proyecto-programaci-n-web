@@ -23,15 +23,17 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+cargarEquipos();
 
 
 async function cargarEquipos() {
-    const q = document.getElementById("buscadorEquipos").value.trim();
-   
+    //const q = document.getElementById("buscadorEquipos").value.trim();
+  
     try {
         const response = await fetch("get_equipo.php");
         const data = await response.json();
         console.log('Equipos cargados:', data);
+        
 
         
         renderEquiposDisponibles(data.disponibles);
@@ -85,7 +87,7 @@ function renderMisEquipos(equipos) {
 
 
 
-async function renderEquiposDisponibles(equipos) {
+function renderEquiposDisponibles(equipos) {
     const c = document.getElementById("equiposDisponibles");
     c.innerHTML = "";
 
@@ -120,11 +122,11 @@ function renderSolicitudes(listado) {
     const c = document.getElementById("listaSolicitudes");
 
     if (!listado || listado.length === 0) {
-        section.style.display = "none";
+        console.log('No hay solicitudes');
         return;
     }
 
-    section.style.display = "block";
+
     c.innerHTML = "";
 
     listado.forEach(s => {

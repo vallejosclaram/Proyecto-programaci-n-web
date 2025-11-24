@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once('../../connection.php');
+require_once(__DIR__ . '/../../includes/clases/permisos.php'); 
 
 $input = file_get_contents("php://input");
 $data = json_decode($input, true);

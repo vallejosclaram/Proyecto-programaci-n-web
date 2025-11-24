@@ -28,11 +28,16 @@ $id_usuario = $_SESSION["user"]["id"];
 <body>
 
   <?php require_once __DIR__ . '/../../includes/dashboardJugador.php'; ?>
+          <div class="banner-container"> 
+          <img src="../img/videojuegos.jpg" alt="Publicidad de torneos" class="banner-img" />
+          </div>
+<div class="container d-flex align-items-center justify-content-center">
 
-<div class="container d-flex align-items-center justify-content-center min-vh-100">
-  <div class="hero-card">
+          
+       
+<div class="hero-card">
 
-    <div class="text-center mb-4">
+    <div class="text-center mb-2">
       <h2>Soporte Técnico</h2>
       <p class="text-muted small">Creá una consulta y nuestro equipo te responderá.</p>
     </div>
@@ -52,12 +57,10 @@ $id_usuario = $_SESSION["user"]["id"];
         <div class="invalid-feedback d-none" id="errorDescripcion">La descripción no puede estar vacía.</div>
       </div>
 
-      <button type="submit" class="btn w-100 btn-primary">Enviar consulta</button>
+      <button type="submit" class="btn w-100 btn-primary mb-4">Enviar consulta</button>
     </form>
 
-    <div class="mt-3 text-center small text-muted">
-      ¿Querés volver? <a href="../index.php">Ir al inicio</a>
-    </div>
+    
 
   </div>
 </div>
@@ -71,11 +74,9 @@ $id_usuario = $_SESSION["user"]["id"];
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
-        Tu ticket fue creado correctamente. Te notificaremos cuando sea respondido.
+        Tu ticket fue creado correctamente. Te notificaremos por email.
       </div>
-      <div class="modal-footer">
-        <a href="../index.php" class="btn btn-primary">Volver al inicio</a>
-      </div>
+      
     </div>
   </div>
 </div>

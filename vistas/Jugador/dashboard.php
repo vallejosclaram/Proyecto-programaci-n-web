@@ -22,6 +22,7 @@ $usuario_id = $_SESSION["user"]["id"];
     </script> <link rel="stylesheet" href="style.css"> 
   </head> 
   <body class="dashboard-page"> 
+   
     
    <aside class="sidebar" id="sidebar"> 
       <div class="sidebar-header"> 
@@ -34,9 +35,12 @@ $usuario_id = $_SESSION["user"]["id"];
         <a href="equipo/equipos.php" class="nav-item">🛡️ Equipos</a> 
         <a href="torneo/torneo.php" class="nav-item">🏆 Torneos</a> 
         <a href="ranking.php" class="nav-item">📊 Ranking</a>
+        <a href="partidas/partidas.php" class="nav-item">🖥️ Partidas</a>
+
+      <a href="soporte/soporte.php" class="nav-item">🙋‍♀️ Soporte</a>
       </nav> 
       <div class="logout"> 
-        <a href="../auth/login.html" class="nav-item logout-btn">🚪 Cerrar sesión</a>
+        <a href="../auth/logout.php" class="nav-item logout-btn">🚪 Cerrar sesión</a>
       </div> 
     </aside> 
     

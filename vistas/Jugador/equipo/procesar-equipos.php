@@ -2,11 +2,11 @@
 require_once(__DIR__ . '/../../connection.php');
 session_start();
 
-if (!isset($_SESSION["usuario_id"])) {
-    die(json_encode(["error" => "No logueado"]));
+if (!isset($_SESSION["user"]["id"])) {
+    die("Error: no hay usuario logueado.");
 }
 
-$id_usuario = $_SESSION["usuario_id"];
+$usuario_id = $_SESSION["user"]["id"];
 
 //búsqueda
 if (isset($_GET["q"])) {

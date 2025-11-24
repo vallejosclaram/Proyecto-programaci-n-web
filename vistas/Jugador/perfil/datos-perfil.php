@@ -13,7 +13,7 @@ $usuario_id = $_SESSION["user"]["id"];
 
 $sql = "
 SELECT 
-    u.id_usuario,
+    u.id_usuario as usuario,
     u.email,
     j.nombre,
     j.apellido,

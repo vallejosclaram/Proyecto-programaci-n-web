@@ -20,12 +20,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         const res = await fetch("datos-perfil.php");
         const data = await res.json();
 
-  if (data.error) {
+  if (!data.error) {
   document.getElementById("email").value = data.email;
   document.getElementById("nombre").value = data.nombre;
   document.getElementById("apellido").value = data.apellido;
   document.getElementById("descripcion").value = data.descripcion;
-  }
+}
 
 
 
