@@ -13,7 +13,6 @@
       <a href="../Administrador/resultados.php" class="nav-item">📤 Resultados</a>
       <a href="../Administrador/solicitudes.php" class="nav-item">📨 Solicitud de torneos</a>
       <a href="../Administrador/soporte.php" class="nav-item">💬 Soporte</a>
-      <a href="../Administrador/membresia.html.php" class="nav-item">🏅 Membresía</a>
     </nav>
     <div class="logout">
       <a href="../auth/logout.php" class="nav-item logout-btn">🚪 Cerrar sesión</a>
