@@ -3,17 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard Jugador</title>
+  <title>Soporte</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="soporte.css" />
+   <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="soporte.css"/>
+    <link rel="stylesheet" href="style-organizador.css"/>
   <script src="soporte.js"></script>
 </head>
 <body>
- 
+
 <?php require_once __DIR__ . '/../componentes/dashboardOrganizador.php'; ?>
 
- <div class="soporte-container">
+
+ <div class="soporte-container mt-3">
     <h2>Soporte</h2>
     <form id="formSoporte">
       <div class="form-group">

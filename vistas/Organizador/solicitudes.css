@@ -1,0 +1,107 @@
+body {
+  background: #141421;
+  color: #fff;
+  font-family: 'Roboto', sans-serif;
+}
+
+.solicitudes-section {
+  padding: 30px;
+  text-align: center;
+}
+
+.solicitudes-section h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.8rem;
+  color: #c84dff;
+  margin-bottom: 25px;
+  text-shadow: 0 0 8px #c84dff;
+}
+
+.solicitudes-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+.solicitud-card {
+  width: 90%;
+  max-width: 600px;
+  background: linear-gradient(145deg, #1f1f2e, #161623);
+  border: 2px solid #2b2b3d;
+  border-radius: 20px;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 0 10px #000;
+  transition: 0.3s;
+}
+
+.solicitud-card:hover {
+  border-color: #c84dff;
+  box-shadow: 0 0 15px #c84dff80;
+  transform: scale(1.02);
+}
+
+.solicitud-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  text-align: left;
+}
+
+.solicitud-info img {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  border: 2px solid #c84dff;
+}
+
+.solicitud-detalle {
+  display: flex;
+  flex-direction: column;
+}
+
+.solicitud-nombre {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #ffb84d;
+}
+
+.solicitud-tipo {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+.solicitud-acciones {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-accion {
+  padding: 8px 14px;
+  border-radius: 25px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-aceptar {
+  background: #5ce65c;
+  color: #000;
+}
+
+.btn-aceptar:hover {
+  box-shadow: 0 0 10px #5ce65c;
+}
+
+.btn-rechazar {
+  background: #ff5050;
+  color: #000;
+}
+
+.btn-rechazar:hover {
+  box-shadow: 0 0 10px #ff5050;
+}

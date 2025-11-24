@@ -1,10 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
   const jugador = JSON.parse(localStorage.getItem('jugador')) || {};
-
+  let selectJuegos = document.getElementById("juegoEquipo");
   const sidebar = document.getElementById('sidebar');
   const menuToggle = document.getElementById('menuToggle');
   const closeBtn = document.getElementById('closeBtn');
   const body = document.body;
+  let btnCrear = document.getElementById("crearEquipo");
 
   menuToggle.addEventListener('click', () => {
     sidebar.classList.add('open');
@@ -16,12 +17,40 @@ document.addEventListener('DOMContentLoaded', () => {
     body.classList.remove('menu-open');
   });
 
-  document.getElementById('crearEquipoForm').addEventListener('submit', function (e) {
+ getJuegos();
+
+  async function getJuegos(){
+    
+
+    try {
+        const response = await fetch("get_juegos.php");
+        const juegos = await response.json();
+
+        selectJuegos.innerHTML = '<option value="">Seleccionar juego</option>';
+
+        juegos.forEach(j => {
+            const opt = document.createElement("option");
+            opt.value = j.id_juego;     
+            opt.textContent = j.nombre;  
+            selectJuegos.appendChild(opt);
+        });
+
+    } catch (error) {
+        console.error("Error cargando juegos:", error);
+        selectJuegos.innerHTML = '<option value="">Error al cargar</option>';
+    }
+
+  }
+
+ 
+
+
+  document.getElementById('crearEquipoForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
     const nombre = document.getElementById('nombreEquipo').value.trim();
     const cantidad = parseInt(document.getElementById('cantidadJugadores').value);
-    const juego = document.getElementById('juegoEquipo').value.trim();
+    const juego = document.getElementById('juegoEquipo').value;
     const descripcion = document.getElementById('descripcionEquipo').value.trim();
 
     if (!nombre) {
@@ -39,22 +68,38 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const nuevoEquipo = {
-      id: Date.now().toString(),
-      nombre,
-      juego,
-      descripcion,
-      cantidad,
-      capitan: jugador.usuario,
-      miembros: [jugador.usuario],
-      solicitudes: []
+    const datos={
+      nombre: nombre,
+      cantidad: cantidad,
+      juego: juego,
+      descripcion: descripcion
     };
+    
+  
+    try{
 
-    const equipos = JSON.parse(localStorage.getItem('equipos')) || [];
-    equipos.push(nuevoEquipo);
-    localStorage.setItem('equipos', JSON.stringify(equipos));
+      const resp = await fetch('procesar-crear-equipo.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(datos)
+      });
 
-    const modal = new bootstrap.Modal(document.getElementById('modalCreado'));
-    modal.show();
+      const respuesta = await resp.json();
+      console.log(respuesta);
+      
+      if(respuesta.mensaje){
+        const modal = new bootstrap.Modal(document.getElementById('modalCreado'));
+        modal.show();
+      }
+
+    }catch(error){
+      
+        console.error(error);
+    }
+     
+     
+    
+
+    
   });
 });

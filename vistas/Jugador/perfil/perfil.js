@@ -1,4 +1,3 @@
-// perfil.js — versión que usa usuario logueado si no viene ?jugador=
 document.addEventListener('DOMContentLoaded', () => {
   // ---------- helpers ----------
   const getCurrentUser = () => {

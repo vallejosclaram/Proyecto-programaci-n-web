@@ -1,177 +1,124 @@
-.filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-  margin: 1.5rem auto;
-  padding: 0 1rem;
-}
-
-.filters input,
-.filters select {
-  padding: 0.7rem 1rem;
-  border-radius: 8px;
-  border: 1px solid #6a0dad;
-  background: rgba(255,255,255,0.1);
+body {
+  background-color: #141421;
   color: #fff;
-  font-size: 1rem;
+  font-family: 'Roboto', sans-serif;
 }
 
-.filters input::placeholder {
+.torneos-section {
+  padding: 40px;
+}
+
+.torneos-section h2 {
+  font-family: 'Orbitron', sans-serif;
+  color: #c084fc;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.equipo-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  padding: 10px;
+  scroll-snap-type: x mandatory;
+}
+
+.equipo-card {
+  flex: 0 0 280px;
+  background: #1b1b2f;
+  border-radius: 16px;
+  box-shadow: 0 0 25px rgba(180, 0, 255, 0.3);
+  text-align: center;
+  padding: 20px;
+  scroll-snap-align: center;
+  transition: 0.3s ease;
+}
+
+.equipo-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(180, 0, 255, 0.6);
+}
+
+.equipo-card img {
+  width: 100%;
+  height: 150px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.equipo-card h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18px;
+  color: #c084fc;
+}
+
+.equipo-card p {
+  font-size: 14px;
   color: #ccc;
 }
 
-.equipos-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.5rem;
-  padding: 1.5rem;
-}
-
-.team-card {
-  background: #1a012f;
-  border: 2px solid #6a0dad;
-  border-radius: 1rem;
-  padding: 1rem;
-  box-shadow: 0 0 15px rgba(106,13,173,0.5);
-  animation: fadeIn 0.8s ease-in-out;
-}
-
-.team-head {
+.card-actions {
+  margin-top: 10px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.8rem;
-}
-
-.team-avatar {
-  background: linear-gradient(135deg, #6a0dad, #9d00ff);
-  color: white;
-  width: 50px;
-  height: 50px;
-  margin: 5px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  font-weight: bold;
+  gap: 10px;
 }
 
-.team-name {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.2rem;
-  color: #e0c3fc;
-}
-
-.team-meta {
-  font-size: 0.9rem;
-  color: #aaa;
-}
-
-.tournament-badge {
-  font-size: 0.9rem;
-  color: #bdb0d9;
-  text-align: right;
-}
-
-.players-preview {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin: 0.8rem 0;
-}
-
-.player-chip {
-  background: rgba(157, 0, 255, 0.15);
-  border: 1px solid #6a0dad;
-  border-radius: 8px;
-  padding: 0.3rem 0.6rem;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  font-size: 0.85rem;
-}
-
-.btn-small {
-  background: linear-gradient(90deg, #6a0dad, #9d00ff);
+.card-actions button {
+  background: #7c3aed;
   border: none;
+  padding: 8px 12px;
   color: #fff;
   border-radius: 8px;
-  padding: 0.4rem 0.8rem;
   cursor: pointer;
+  transition: 0.3s;
 }
 
-.btn-outline {
-  background: transparent;
-  border: 1px solid #9d00ff;
+.card-actions button:hover {
+  background: #9f67ff;
+  transform: scale(1.1);
 }
 
-.team-actions {
-  display: flex;
-  gap: 0.6rem;
-  justify-content: center;
-  margin-top: 0.8rem;
+.btn-nuevo-torneo {
+  background-color: #9b5cff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-weight: bold;
+  transition: 0.3s;
 }
 
-/* Modal */
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 50;
+.btn-nuevo-torneo:hover {
+  background-color: #b780ff;
+  transform: scale(1.05);
 }
-
-.modal[aria-hidden="false"] {
-  display: flex;
-}
-
-.modal-content {
-  background: #1a012f;
-  border: 2px solid #6a0dad;
-  border-radius: 1rem;
-  padding: 1rem;
-  width: 90%;
-  max-width: 500px;
-  color: #fff;
-}
-
-.modal-header {
+.equipo-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 25px;
 }
 
-.players-list {
-  list-style: none;
-  padding: 0;
-  margin-top: 1rem;
+.btn-nuevo-equipo {
+  background-color: #9b5cff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: 0.3s;
 }
 
-.player-row {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  padding: 0.6rem 0;
-  border-bottom: 1px solid rgba(157, 0, 255, 0.2);
+.btn-nuevo-equipo:hover {
+  background-color: #b780ff;
+  transform: scale(1.05);
 }
-
-/* Responsive */
-@media (max-width: 768px) {
-  .filters {
-    flex-direction: column;
-    align-items: stretch;
+ .btn-purple {
+    background: linear-gradient(90deg, #7b2ff7, #f107a3);
+    color: white;
   }
-
-  .team-head {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
+  .toast.bg-purple {
+    background: linear-gradient(90deg, #7b2ff7, #f107a3);
   }
-
-  .team-actions {
-    flex-direction: column;
-  }
-}

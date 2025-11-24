@@ -1,0 +1,21 @@
+<header class="topbar">
+    <button class="menu-toggle" id="menuToggle">☰</button>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <span class="logo">🎮 UPE-SPORT</span>
+      <button class="close-btn" id="closeBtn">✖</button>
+    </div>
+    <nav class="nav-links">
+      <a href="dashboard.html" class="nav-item active">🏠 Dashboard</a>
+      <a href="denuncias.html" class="nav-item">⚠️ Denuncias</a>
+      <a href="resultados.html" class="nav-item">📤 Resultados</a>
+      <a href="solicitudes-torneos.html" class="nav-item">📨 Solicitud de torneos</a>
+      <a href="soporte.html" class="nav-item">💬 Soporte</a>
+      <a href="membresia.html" class="nav-item">🏅 Membresía</a>
+    </nav>
+    <div class="logout">
+      <a href="../auth/admin-login.html" class="nav-item logout-btn">🚪 Cerrar sesión</a>
+    </div>
+  </aside>
