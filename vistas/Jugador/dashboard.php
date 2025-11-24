@@ -17,46 +17,13 @@ $usuario_id = $_SESSION["user"]["id"];
     <title>Dashboard - Jugador</title> 
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"> 
-    <script src="dashboard.js" defer>
-
-    </script> <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="style.css"> 
   </head> 
   <body class="dashboard-page"> 
     
-   <aside class="sidebar" id="sidebar"> 
-      <div class="sidebar-header"> 
-        <span class="logo">🎮 UPE-SPORT</span> 
-        <button class="close-btn" id="closeBtn">✖</button> 
-      </div> 
-      <nav class="nav-links" role="navigation" aria-label="Menú principal"> 
-        <a href="dashboard.php" class="nav-item active">🏠 Dashboard</a> 
-        <a href="perfil/ver.php" class="nav-item">👤 Mi perfil</a> 
-        <a href="equipo/equipos.php" class="nav-item">🛡️ Equipos</a> 
-        <a href="torneo/torneo.php" class="nav-item">🏆 Torneos</a> 
-        <a href="ranking.php" class="nav-item">📊 Ranking</a>
-      </nav> 
-      <div class="logout"> 
-        <a href="../auth/login.html" class="nav-item logout-btn">🚪 Cerrar sesión</a>
-      </div> 
-    </aside> 
+   <?php require_once __DIR__ . '/../includes/dashboardJugador.php'; ?>
     
     <div id="sidebarOverlay" class="sidebar-overlay" tabindex="-1" aria-hidden="true"></div>
-             
-    <header class="topbar"> 
-      
-      <div class="topbar-inner"> 
-        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" title="Abrir menú">☰</button> 
-        
-        <div class="topbar-center"> 
-          <span class="topbar-logo">🎮 UPE-SPORT</span> 
-        </div> 
-        
-        <div id="usuarioResumen" class="usuario-resumen" aria-live="polite"> 
-          <div id="usuarioNombre">Hola, Jugador</div> 
-          <small id="usuarioRol" class="text-muted"></small> 
-        </div> 
-      </div>
-    </header> 
     <main class="container py-4"> 
         <section class="main-content" id="mainContent" tabindex="-1"> 
           <div class="banner-container"> 
@@ -125,6 +92,7 @@ $usuario_id = $_SESSION["user"]["id"];
           </div> 
         </div> 
       </div> 
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script> 
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="dashboard.js"></script>
   </body> 
 </html>
