@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root"; 
 $password = "";
-$db = "upesport_bd";
+$db = "bd_upesport";
 
 try {
     $conn = new PDO("mysql:host=" . $servername . ";dbname=" . $db . ";charset=utf8", $username, $password);

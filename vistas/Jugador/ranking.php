@@ -28,7 +28,7 @@
           <button class="tab-btn" id="tabJugadores">Jugadores</button>
         </div>
 
-        <!-- 🔍 Barra de búsqueda y filtro -->
+       
         <div class="ranking-filtros mt-3">
           <input type="text" id="busquedaInput" class="filtro-input" placeholder="Buscar nombre...">
           <select id="filtroJuego" class="filtro-select">
