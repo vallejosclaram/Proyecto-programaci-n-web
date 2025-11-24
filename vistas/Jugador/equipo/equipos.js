@@ -89,7 +89,7 @@ async function renderEquiposDisponibles(equipos) {
     const c = document.getElementById("equiposDisponibles");
     c.innerHTML = "";
 
-    console.log('Renderizando equipos disponibles:', equipos);
+    console.log('equipos disponibles:', equipos);
 
     if (!equipos || equipos.length === 0) {
         c.innerHTML = `<p class="text-muted">No hay equipos disponibles.</p>`;

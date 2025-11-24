@@ -7,7 +7,48 @@ if (!isset($_SESSION["user"]["id"])) {
 }
 
 $usuario_id = $_SESSION["user"]["id"];
+
+
+$sql = "
+    SELECT 
+        j.nombre,
+        j.apellido,
+        u.email,
+        j.biografia AS descripcion,
+        j.puntaje AS ranking_general,
+
+        (
+            SELECT COUNT(*) 
+            FROM equipo e
+            WHERE e.id_capitan_usuario = j.id_jugador
+        ) AS equipos_capitan,
+
+        (
+            SELECT COUNT(*) 
+            FROM miembros_equipo me
+            WHERE me.id_usuario = j.id_jugador
+        ) AS equipos_miembro
+
+    FROM usuario u
+    INNER JOIN jugador j ON j.id_usuario = u.id_usuario
+    WHERE u.id_usuario = :usuario_id
+";
+
+$stmt = $conn->prepare($sql);
+$stmt->execute([":usuario_id" => $usuario_id]);
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+if (count($result) === 0) {
+    die("Error: no se encontró el jugador asociado.");
+}
+
+$jugador = $result[0];
+
+$avatar = !empty($jugador["avatar"]) ? "../img/avatars/" . $jugador["avatar"] : "../img/avatar.jpeg";
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -22,47 +63,62 @@ $usuario_id = $_SESSION["user"]["id"];
   <link rel="stylesheet" href="perfil.css" />
   <script src="perfil.js"></script>
 </head>
-<body >
+<body>
 
-  <?php require_once __DIR__ . '/../../includes/dashboardJugador.php'; ?>
+<?php require_once __DIR__ . '/../../includes/dashboardJugador.php'; ?>
 
 <main class="main-content" id="mainContent">
   <div class="perfil-container">
+
+   
     <div class="avatar-section">
-  <div class="avatar-wrapper">
-    <img src="../img/avatar.jpeg" alt="Avatar del organizador" class="avatar-img" />
-    <button class="btn-cambiar-avatar">Cambiar avatar</button>
-  </div>
-  <h2 class="organizador-nombre">Jugador</h2>
-  <p class="organizador-correo">correo@ejemplo.com</p>
-</div>
+      <div class="avatar-wrapper">
+        <img src="<?php echo $avatar; ?>" alt="Avatar del jugador" class="avatar-img" />
+        <button class="btn-cambiar-avatar">Cambiar avatar</button>
+      </div>
+
+      <h2 class="organizador-nombre">
+        <?php echo htmlspecialchars($jugador["nombre"] . " " . $jugador["apellido"]); ?>
+      </h2>
+
+      <p class="organizador-correo"><?php echo htmlspecialchars($jugador["email"]); ?></p>
+    </div>
+
+    <
     <div class="perfil-info">
       <div class="info-card">
         <h4>Torneos</h4>
-        <p></p>
+        <p><?php echo $jugador["equipos_capitan"]; ?></p>
+        <p><?php echo $jugador["equipos_miembro"]; ?></p>
       </div>
-      <div class="info-card">
+
+    <!--  <div class="info-card">
         <h4>Seguidores</h4>
-        <p></p>
-      </div>
+        <p><?php echo $jugador["cantidad_seguidores"]; ?></p>
+      </div> -->
+
       <div class="info-card">
         <h4>Ranking General</h4>
-        <p></p>
+        <p><?php echo $jugador["ranking_general"]; ?></p>
       </div>
     </div>
 
+    <!-- Botones -->
     <div class="perfil-botones">
       <button id="editProfileBtn">Editar Perfil</button>
-      <button>Ver Torneos</button>
+      <button onclick="window.location.href='../Torneo/ver-torneos.php'">Ver Torneos</button>
     </div>
 
+    <!-- Descripción -->
     <div class="perfil-descripcion">
       <h3>Descripción</h3>
-      <p></p>
+      <p>
+        <?php echo !empty($jugador["descripcion"]) ? nl2br(htmlspecialchars($jugador["descripcion"])) : "Este jugador aún no agregó una descripción."; ?>
+      </p>
     </div>
+
   </div>
 </main>
-
 
 </body>
 </html>

@@ -1,11 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
-      const jugador = JSON.parse(localStorage.getItem('jugador')) || {};
-
-      document.getElementById('usuario').value = jugador.usuario || '';
-      document.getElementById('email').value = jugador.email || '';
-      document.getElementById('nombre').value = jugador.nombre || '';
-      document.getElementById('apellido').value = jugador.apellido || '';
-      document.getElementById('descripcion').value = jugador.descripcion || '';
+document.addEventListener('DOMContentLoaded', async () => {
 
       const sidebar = document.getElementById('sidebar');
       const menuToggle = document.getElementById('menuToggle');
@@ -22,22 +15,40 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.remove('menu-open');
       });
 
-      document.getElementById('editarPerfilForm').addEventListener('submit', function (e) {
-        e.preventDefault();
+    
 
-        const actualizado = {
-          usuario: document.getElementById('usuario').value.trim(),
-          email: document.getElementById('email').value.trim(),
-          nombre: document.getElementById('nombre').value.trim(),
-          apellido: document.getElementById('apellido').value.trim(),
-          descripcion: document.getElementById('descripcion').value.trim(),
-          password: jugador.password,
-          rol: jugador.rol
-        };
+        const res = await fetch("datos-perfil.php");
+        const data = await res.json();
 
-        localStorage.setItem('jugador', JSON.stringify(actualizado));
+  if (data.error) {
+  document.getElementById("email").value = data.email;
+  document.getElementById("nombre").value = data.nombre;
+  document.getElementById("apellido").value = data.apellido;
+  document.getElementById("descripcion").value = data.descripcion;
+  }
 
-        const modal = new bootstrap.Modal(document.getElementById('modalGuardado'));
-        modal.show();
-      });
-    });
+
+
+
+document.getElementById("editarPerfilForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const formData = new FormData(e.target);
+
+  const res = await fetch("process-editar.php", {
+    method: "POST",
+    body: formData
+  });
+
+  const data = await res.json();
+
+  if (data.ok) {
+    const modal = new bootstrap.Modal(document.getElementById("modalGuardado"));
+    modal.show();
+  } else {
+    console.log(data.error || "Error al actualizar");
+  }
+});
+
+
+ }); 
