@@ -84,7 +84,9 @@ if (!Permisos::tienePermiso('Visualizar denuncia', $id_usuario)) {
           <h5 class="modal-title" id="modalDetallesLabel">Detalles de la denuncia</h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
-        <div class="modal-body" id="modalDetallesBody"></div>
+        <div class="modal-body" id="modalDetallesBody">
+          <!-- El contenido se llena dinámicamente -->
+        </div>
         <div class="modal-footer border-0 justify-content-center">
           <button type="button" class="btn btn-danger" id="btnBloquear">Bloquear</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>

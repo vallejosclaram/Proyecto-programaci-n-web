@@ -28,6 +28,7 @@ if (!$accion) {
                    d.id_reportador, d.id_reportado, d.id_organizador,
                    r.email AS reportador,
                    rep.email AS reportado,
+                   rep.bloqueado_hasta AS bloqueado_hasta,
                    o.nombre AS organizador
             FROM denuncias d
             LEFT JOIN usuario r ON r.id_usuario = d.id_reportador

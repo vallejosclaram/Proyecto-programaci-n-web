@@ -32,7 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
             <button class="btn btn-sm btn-info btn-detalles"
                     data-tipo="usuario"
                     data-id="${d.id_reportado}"
-                    data-desc="${d.descripcion}">
+                    data-desc="${d.descripcion}"
+                    data-bloqueado-hasta="${d.bloqueado_hasta || ''}">
               Ver detalles
             </button>
           </td>
@@ -66,7 +67,35 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', () => {
           accionActual = btn.dataset.tipo === 'usuario' ? 'bloquear_usuario' : 'bloquear_torneo';
           idObjetivo = btn.dataset.id;
-          modalDetallesBody.textContent = btn.dataset.desc;
+          const bloqueadoHasta = btn.dataset.bloqueadoHasta || '';
+          
+          // Mostrar descripción
+          modalDetallesBody.innerHTML = `<p>${btn.dataset.desc}</p>`;
+          
+          // Si hay fecha de bloqueo, mostrar mensaje y ocultar botón
+          if (bloqueadoHasta && bloqueadoHasta !== 'null' && bloqueadoHasta !== '' && bloqueadoHasta !== '0000-00-00 00:00:00') {
+            try {
+              const fechaBloqueo = new Date(bloqueadoHasta);
+              if (!isNaN(fechaBloqueo.getTime())) {
+                const fechaFormateada = fechaBloqueo.toLocaleDateString('es-ES', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit'
+                });
+                modalDetallesBody.innerHTML += `<p class="text-warning mt-3"><strong>Este usuario está bloqueado hasta: ${fechaFormateada}</strong></p>`;
+                btnBloquear.style.display = 'none';
+              } else {
+                btnBloquear.style.display = 'block';
+              }
+            } catch (e) {
+              btnBloquear.style.display = 'block';
+            }
+          } else {
+            btnBloquear.style.display = 'block';
+          }
+          
           const modal = new bootstrap.Modal(document.getElementById('modalDetalles'));
           modal.show();
         });
@@ -104,6 +133,15 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (err) {
       alert('Error de conexión con el servidor');
     }
+  });
+
+  // Restablecer el botón cuando se cierra el modal
+  const modalDetalles = document.getElementById('modalDetalles');
+  modalDetalles.addEventListener('hidden.bs.modal', () => {
+    btnBloquear.style.display = 'block';
+    modalDetallesBody.innerHTML = '';
+    accionActual = null;
+    idObjetivo = null;
   });
 
   // Inicializar
