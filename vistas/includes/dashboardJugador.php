@@ -1,6 +1,5 @@
 
 <body>
-  <!-- overlay para cuando el sidebar está abierto (clic para cerrar) -->
     <div id="sidebarOverlay" class="sidebar-overlay" tabindex="-1" aria-hidden="true"></div>
              
     <header class="topbar"> 
@@ -25,10 +24,13 @@
     </div>
     <nav class="nav-links">
       <a href="dashboard.php" class="nav-item active">🏠 Dashboard</a>
-      <a href="perfil/ver.php" class="nav-item">👤 Mi perfil</a>
-      <a href="equipo/equipos.php" class="nav-item">🛡️ Equipos</a>
-      <a href="torneo/torneo.php" class="nav-item">🏆 Torneos</a>
-      <a href="ranking.php" class="nav-item">📊 Ranking</a>
+      <a href="../Jugador/perfil/ver.php" class="nav-item">👤 Mi perfil</a>
+      <a href="../Jugador/equipo/equipos.php" class="nav-item">🛡️ Equipos</a>
+      <a href="../Jugador/torneo/torneo.php" class="nav-item">🏆 Torneos</a>
+      <a href="../Jugador/ranking.php" class="nav-item">📊 Ranking</a>
+      <a href="../Jugador/partidas/partidas.php" class="nav-item">🖥️ Partidas</a>
+      <a href="../Jugador/soporte/soporte.php" class="nav-item">🙋‍♀️ Soporte</a>
+
     </nav>
     <div class="logout">
       <a href="../auth/logout.php" class="nav-item logout-btn">🚪 Cerrar sesión</a>

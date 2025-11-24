@@ -58,7 +58,7 @@ $usuario_id = $_SESSION["user"]["id"];
       <div id="equiposDisponibles" name="equiposDisponibles"></div>
     </section>
 
-    <section class="mb-5" id="solicitudesSection" style="display:none;">
+    <section class="mb-5" id="solicitudesSection">
       <h3>📥 Solicitudes recibidas</h3>
       <div id="listaSolicitudes" name="listaSolicitudes"></div>
     </section>

@@ -72,16 +72,17 @@ try {
     <div class="modal-content">
       <span class="close" id="closeJugadores">&times;</span>
       <h3>Jugadores del Torneo</h3>
+      <div class="modal-body">
       <table id="tablaJugadores">
         <thead>
           <tr>
-            <th>Nombre</th>
-            <th>Ranking</th>
-            <th>Acción</th>
+            <th>Jugadores</th>
+            <th>Equipo</th>
           </tr>
         </thead>
         <tbody></tbody>
       </table>
+    </div>
     </div>
   </div>
 
@@ -96,7 +97,7 @@ try {
         <option value="no responsable">No responsable</option>
         <option value="otro">Otro</option>
       </select>
-      <button id="btnConfirmar" disabled>✔</button> 
+      <button id="btnConfirmar" disabled>✔</button> <!-- botón en pausa -->
     </div>
   </div>
 
@@ -108,5 +109,17 @@ try {
       <button id="btnCerrarConfirmacion">Cerrar</button>
     </div>
   </div>
+
+  <div class="modal" id="modalElegirEquipo">
+  <div class="modal-content">
+    <span class="close" id="cerrarElegirEquipo">&times;</span>
+    <h3>Seleccioná tu equipo</h3>
+
+    <select id="selectEquipoJugador"></select>
+
+    <button id="btnEnviarEquipo" class="btn-primary">Confirmar</button>
+  </div>
+</div>
+
 </body>
 </html>

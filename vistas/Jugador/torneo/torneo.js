@@ -1,141 +1,177 @@
 document.addEventListener('DOMContentLoaded', () => {
-<<<<<<< HEAD
-=======
   const torneosPropios = document.getElementById('torneosPropios');
   const torneosOtros = document.getElementById('torneosOtros');
   const filtroJuego = document.getElementById('filtroJuego');
   const filtroEquipo = document.getElementById('filtroEquipo');
   const calendarioTorneos = document.getElementById('calendarioTorneos');
->>>>>>> origin/ramaclara
+
+
+  // Modales
+  const modalJugadores = document.getElementById('modalJugadores');
+  const closeJugadores = document.getElementById('closeJugadores');
+  const tablaJugadoresBody = document.getElementById('tablaJugadores').querySelector('tbody');
+
+  const modalDenuncia = document.getElementById('modalDenuncia');
+  const closeDenuncia = document.getElementById('closeDenuncia');
+  const motivoSelect = document.getElementById('motivoSelect');
+  const btnConfirmar = document.getElementById('btnConfirmar');
+  const modalConfirmacion = document.getElementById('modalConfirmacion');
+  const closeConfirmacion = document.getElementById('closeConfirmacion');
+  const btnCerrarConfirmacion = document.getElementById('btnCerrarConfirmacion');
+
+  // Sidebar
+
   const sidebar = document.getElementById('sidebar');
   const menuToggle = document.getElementById('menuToggle');
   const closeBtn = document.getElementById('closeBtn');
   const body = document.body;
 
-<<<<<<< HEAD
-  let torneos = JSON.parse(localStorage.getItem('torneos')) || [];
-  const jugador = JSON.parse(localStorage.getItem('jugador')) || { usuario: 'invitado' };
+  menuToggle.addEventListener('click', () => {
+    sidebar.classList.add('open');
+    body.classList.add('menu-open');
+  });
 
-  const formBuscar = document.getElementById('formBuscarTorneos');
-  const inputBuscar = document.getElementById('buscadorTorneos');
-  const filtroJuego = document.getElementById('filtroJuego');
-  const listaTorneos = document.getElementById('listaTorneos');
-  const misTorneos = document.getElementById('misTorneos');
-  const calendarioTorneos = document.getElementById('calendarioTorneos');
-  const modalTitulo = document.getElementById('modalTorneoTitulo');
-  const modalContenido = document.getElementById('modalTorneoContenido');
-  const seccionResultados = document.getElementById('seccionResultados');
-  const resultadoFormContainer = document.getElementById('resultadoFormContainer');
-  const seccionDenuncias = document.getElementById('seccionDenuncias');
-  const denunciaContainer = document.getElementById('denunciaContainer');
+  closeBtn.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    body.classList.remove('menu-open');
+  });
 
-  function saveTorneos() { localStorage.setItem('torneos', JSON.stringify(torneos)); }
-  function escapeHtml(text) {
-    return String(text || '').replace(/[&<>"'`=\/]/g, s => ({
-      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;',
-      "'": '&#39;', '/': '&#x2F;', '`': '&#x60;', '=': '&#x3D;'
-    })[s]);
-  }
+  // Input "otro" para denunciar
+  let inputOtro = document.createElement('input');
+  inputOtro.type = 'text';
+  inputOtro.placeholder = 'Escribí el motivo';
+  inputOtro.style.display = 'none';
+  inputOtro.style.marginTop = '10px';
+  motivoSelect.parentNode.appendChild(inputOtro);
 
-  function estaInscripto(torneo) {
-    if (!torneo) return false;
-    if (torneo.tipo === 'individual') {
-      return Array.isArray(torneo.inscriptos) && torneo.inscriptos.includes(jugador.usuario);
-    } else {
-      return Array.isArray(torneo.inscriptosEquipos) && torneo.inscriptosEquipos.some(eq => Array.isArray(eq.miembros) && eq.miembros.includes(jugador.usuario));
-    }
-  }
+  let torneosPropiosData = [];
+  let torneosOtrosData = [];
+  let torneoSeleccionado = null;
 
-  function crearCardTorneo(torneo, esPropio) {
-    const card = document.createElement('div');
-    card.className = 'card mb-3 p-3';
-    card.innerHTML = `
-      <div class="d-flex justify-content-between align-items-start">
-        <div>
-          <h5 class="mb-1">${escapeHtml(torneo.nombre)}</h5>
-          <p class="mb-1"><strong>Juego:</strong> ${escapeHtml(torneo.juego)}</p>
-          <p class="mb-1"><strong>Tipo:</strong> ${escapeHtml(torneo.tipo)}</p>
-          <p class="mb-1 text-truncate" style="max-width:520px;"><strong>Fecha:</strong> ${escapeHtml(torneo.fecha || 'Sin fecha')}</p>
-        </div>
-        <div class="text-end">
-          <button class="btn btn-sm btn-secondary mb-2" onclick="verTorneo('${torneo.id}')">Ver torneo</button>
-          ${esPropio ? `<button class="btn btn-sm btn-outline-secondary" onclick="irACalendarizar('${torneo.id}')">Calendario</button>` : ''}
-        </div>
-      </div>
-    `;
-    return card;
-  }
-
-  function mostrarListas() {
-    const texto = (inputBuscar?.value || '').toLowerCase();
-    const juego = (filtroJuego?.value || '').toLowerCase();
-=======
-
-        menuToggle.addEventListener('click', () => {
-        sidebar.classList.add('open');
-        body.classList.add('menu-open');
-      });
-
-      closeBtn.addEventListener('click', () => {
-        sidebar.classList.remove('open');
-        body.classList.remove('menu-open');
-      });
-
-
-  let torneosData = [];
-
+  // Cargar torneos
   async function cargarTorneos() {
     try {
-      const res = await fetch('process-torneo.php');
-      torneosData = await res.json();
+      const res1 = await fetch('process-torneo.php');             // torneos propios
+      torneosPropiosData = await res1.json();
+
+      const res2 = await fetch('process-torneos-otros.php');      // torneos no inscripta
+      torneosOtrosData = await res2.json();
+
       renderTorneos();
       renderCalendario();
+
     } catch (err) {
       console.error('Error cargando torneos:', err);
     }
   }
 
- function renderTorneos() {
+
+   function renderTorneos() {
   const juegoFilter = filtroJuego.value.toLowerCase();
   const equipoFilter = filtroEquipo.value.toLowerCase();
 
   torneosPropios.innerHTML = '';
   torneosOtros.innerHTML = '';
 
-  torneosData.forEach(t => {
-    if ((juegoFilter && !t.juego.toLowerCase().includes(juegoFilter)) ||
-        (equipoFilter && !t.nombre.toLowerCase().includes(equipoFilter))) return;
 
-    const card = document.createElement('div');
-    card.classList.add('torneo-card');
 
-    card.innerHTML = `
-      <h4>${t.nombre}</h4>
-      <div class="torneo-info">
-        <p>Juego: ${t.juego}</p>
-        <p>Organizador: ${t.organizador_nombre} ${t.organizador_apellido}</p>
-        <p>Tipo: ${t.tipo_torneo}</p>
-        <p>Inscripción cierra: ${t.fecha_fin}</p>
-        <p>Inicio: ${t.fecha_inicio}</p>
-      </div>
-      <div class="torneo-actions">
-        <button class="btn-ver-jugadores" data-id="${t.id_torneo}">Ver Jugadores</button>
-        <button class="btn-denunciar">Denunciar</button>
-      </div>
-    `;
+  torneosPropiosData.forEach(t => {
+    if (!pasaFiltros(t, juegoFilter, equipoFilter)) return;
 
-    // Propios y otros
-    if (t.id_organizador == '<?php echo $_SESSION["user"]["id"]; ?>') {
-      torneosPropios.appendChild(card);
-    } else {
-      torneosOtros.appendChild(card);
-    }
+    const card = crearCardTorneo(t);
+    torneosPropios.appendChild(card);
+  });
 
-    // Botón Ver Jugadores
-    const btnVer = card.querySelector('.btn-ver-jugadores');
-    btnVer.addEventListener('click', () => {
-      alert(`Ver jugadores del torneo: ${t.nombre}`);
+  
+  
+
+  torneosOtrosData.forEach(t => {
+    if (!pasaFiltros(t, juegoFilter, equipoFilter)) return;
+
+    const card = crearCardTorneo(t);
+    torneosOtros.appendChild(card);
+  });
+}
+
+function pasaFiltros(t, juegoFilter, equipoFilter) {
+  const juego = t.juego?.toLowerCase() || '';
+  const equipo = t.nombre?.toLowerCase() || '';
+
+  if (juegoFilter && !juego.includes(juegoFilter)) return false;
+  if (equipoFilter && !equipo.includes(equipoFilter)) return false;
+
+  return true;
+}
+
+function crearCardTorneo(t) {
+  const card = document.createElement('div');
+  card.classList.add('torneo-card');
+
+  card.innerHTML = `
+    <h4>${t.nombre}</h4>
+    <div class="torneo-info">
+      <p>Juego: ${t.juego}</p>
+      <p>Tipo: ${t.tipo_torneo}</p>
+      <p>Inscripción cierra: ${t.fecha_fin}</p>
+      <p>Inicio: ${t.fecha_inicio}</p>
+    </div>
+
+    <div class="torneo-actions">
+      <button class="btn-ver-jugadores">Ver Jugadores</button>
+      <button class="btn-denunciar">Denunciar</button>
+    </div>
+  `;
+
+  const accionesDiv = card.querySelector('.torneo-actions');
+
+  
+  //VER JUGADORES
+  
+  card.querySelector('.btn-ver-jugadores')
+      .addEventListener('click', () => verJugadores(t.id_torneo));
+
+ 
+  //DENUNCIAR
+ 
+  const btnDenunciar = card.querySelector('.btn-denunciar');
+  
+    btnDenunciar.addEventListener('click', () => {
+      torneoSeleccionado = t;
+      motivoSelect.value = '';
+      inputOtro.value = '';
+      inputOtro.style.display = 'none';
+      btnConfirmar.disabled = true;
+      modalDenuncia.style.display = 'block';
     });
+ 
+
+  
+  //SUMARME
+  
+  const btnSumarme = document.createElement('button');
+  btnSumarme.textContent = 'Sumarme';
+  btnSumarme.classList.add('btn-sumarse', 'btn-primary');
+
+  if (t.inscripta > 0) {
+    if (t.estado_inscripcion === 'pendiente') {
+      btnSumarme.textContent = 'Pendiente';
+    } else if(t.estado_inscripcion === 'aceptado') {
+      btnSumarme.textContent = 'Aceptado';
+    } else if (t.estado_inscripcion === 'rechazado') {
+      btnSumarme.textContent = 'Rechazado';
+    }
+    btnSumarme.disabled = true;
+  } else {
+    btnSumarme.addEventListener('click', async () => {
+      try {
+        const res = await fetch('procesar-solicitud.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id_torneo: t.id_torneo })
+        });
+
+        const data = await res.json();
+
 
     // Botón Denunciar
     const btnDenunciar = card.querySelector('.btn-denunciar');
@@ -143,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
       btnDenunciar.addEventListener('click', async () => {
         const descripcion = prompt(`Escribí el motivo de la denuncia para: ${t.nombre}`);
         if (!descripcion) return;
->>>>>>> origin/ramaclara
+
 
         try {
           const res = await fetch('procesar-denuncia.php', {
@@ -156,242 +192,6 @@ document.addEventListener('DOMContentLoaded', () => {
             })
           });
 
-<<<<<<< HEAD
-    torneos.forEach(t => {
-      const matchesText = texto === '' || (t.nombre && t.nombre.toLowerCase().includes(texto)) || (t.juego && t.juego.toLowerCase().includes(texto));
-      const matchesJuego = juego === '' || (t.juego && t.juego.toLowerCase() === juego);
-      if (!matchesText || !matchesJuego) return;
-
-      const esPropio = estaInscripto(t) || (t.organizador === jugador.usuario);
-      if (esPropio) {
-        misTorneos?.appendChild(crearCardTorneo(t, true));
-        if (calendarioTorneos) {
-          const calItem = document.createElement('div');
-          calItem.className = 'card mb-2 p-2';
-          calItem.innerHTML = `<strong>${escapeHtml(t.nombre)}</strong> — ${escapeHtml(t.fecha || 'Sin fecha')} — ${escapeHtml(t.tipo)}`;
-          calendarioTorneos.appendChild(calItem);
-        }
-      } else {
-        listaTorneos?.appendChild(crearCardTorneo(t, false));
-      }
-    });
-
-    if (listaTorneos && listaTorneos.children.length === 0) {
-      const empty = document.createElement('div');
-      empty.className = 'text-muted';
-      empty.innerText = 'No hay torneos disponibles que coincidan con la búsqueda.';
-      listaTorneos.appendChild(empty);
-    }
-    if (misTorneos && misTorneos.children.length === 0) {
-      const empty = document.createElement('div');
-      empty.className = 'text-muted';
-      empty.innerText = 'No estás inscripto en torneos que coincidan con la búsqueda.';
-      misTorneos.appendChild(empty);
-    }
-    if (calendarioTorneos && calendarioTorneos.children.length === 0) {
-      const empty = document.createElement('div');
-      empty.className = 'text-muted';
-      empty.innerText = 'No hay entradas en tu calendario para la búsqueda actual.';
-      calendarioTorneos.appendChild(empty);
-    }
-  }
-
-  window.verTorneo = function (id) {
-    const torneo = torneos.find(t => t.id === id);
-    if (!torneo) return alert('Torneo no encontrado');
-    if (!modalTitulo || !modalContenido) return;
-
-    modalTitulo.textContent = torneo.nombre;
-    const inscripto = estaInscripto(torneo);
-    const esOrganizador = torneo.organizador === jugador.usuario;
-
-    let contenido = `
-      <p><strong>Juego:</strong> ${escapeHtml(torneo.juego)}</p>
-      <p><strong>Tipo:</strong> ${escapeHtml(torneo.tipo)}</p>
-      <p><strong>Fecha:</strong> ${escapeHtml(torneo.fecha || 'Sin fecha')}</p>
-      <p><strong>Formato:</strong> ${escapeHtml(torneo.formato || 'Sin formato')}</p>
-      <p><strong>Organizador:</strong> ${escapeHtml(torneo.organizador || 'Desconocido')}</p>
-      <hr>
-    `;
-
-    if (!inscripto) {
-      if (torneo.tipo === 'individual') {
-        contenido += `<button class="btn btn-outline-success mb-2" id="btnInscribirIndividual">Inscribirme individual</button>`;
-      } else {
-        contenido += `<button class="btn btn-outline-success mb-2" id="btnInscribirEquipo">Inscribir equipo</button>`;
-      }
-    } else {
-      contenido += `<div class="mb-2"><span class="badge bg-success">Ya inscripto</span></div>`;
-      contenido += `<button class="btn btn-outline-info mb-2" id="btnCheckin">Realizar check-in</button>`;
-    }
-
-    contenido += `
-      <div class="d-grid gap-2 mt-3">
-        <button class="btn btn-outline-secondary" id="btnVerBracket">Visualizar bracket</button>
-        <button class="btn btn-outline-warning" id="btnCargarResultado">Enviar resultado de partido</button>
-        <button class="btn btn-outline-danger" id="btnDenunciar">Denunciar torneo</button>
-      </div>
-    `;
-
-    if (esOrganizador) {
-      contenido += `<hr><div><strong>Acciones de organizador</strong><div class="mt-2"><button class="btn btn-sm btn-primary" id="btnGestionarCarga">Ver sección de carga de resultados</button></div></div>`;
-    }
-
-    modalContenido.innerHTML = contenido;
-    const modal = new bootstrap.Modal(document.getElementById('modalTorneo'));
-    modal.show();
-
-    setTimeout(() => {
-      const btnInscribirIndividual = document.getElementById('btnInscribirIndividual');
-      const btnInscribirEquipo = document.getElementById('btnInscribirEquipo');
-      const btnCheckin = document.getElementById('btnCheckin');
-      const btnVerBracket = document.getElementById('btnVerBracket');
-      const btnCargarResultado = document.getElementById('btnCargarResultado');
-      const btnDenunciar = document.getElementById('btnDenunciar');
-      const btnGestionarCarga = document.getElementById('btnGestionarCarga');
-
-      if (btnInscribirIndividual) {
-        btnInscribirIndividual.addEventListener('click', () => {
-          torneo.inscriptos = torneo.inscriptos || [];
-          if (torneo.inscriptos.includes(jugador.usuario)) return alert('Ya estás inscripto');
-          torneo.inscriptos.push(jugador.usuario);
-          saveTorneos();
-          alert('Inscripción individual realizada');
-          mostrarListasSafe();
-          modal.hide();
-        });
-      }
-
-      if (btnInscribirEquipo) {
-        btnInscribirEquipo.addEventListener('click', () => {
-          const equipo = prompt('Ingresá el nombre de tu equipo para inscribirlo');
-          if (!equipo) return alert('Operación cancelada');
-          torneo.inscriptosEquipos = torneo.inscriptosEquipos || [];
-          torneo.inscriptosEquipos.push({ nombre: equipo, miembros: [jugador.usuario] });
-          saveTorneos();
-          alert('Equipo inscripto en el torneo');
-          mostrarListasSafe();
-          modal.hide();
-        });
-      }
-
-      if (btnCheckin) {
-        btnCheckin.addEventListener('click', () => {
-          torneo.checkins = torneo.checkins || [];
-          if (torneo.checkins.includes(jugador.usuario)) return alert('Ya realizaste check-in');
-          torneo.checkins.push(jugador.usuario);
-          saveTorneos();
-          alert('Check-in realizado');
-          mostrarListasSafe();
-          modal.hide();
-        });
-      }
-
-      if (btnVerBracket) {
-        btnVerBracket.addEventListener('click', () => {
-          alert('Mostrando bracket (placeholder). Implementar visualizador real si hace falta.');
-        });
-      }
-
-      if (btnCargarResultado) {
-        btnCargarResultado.addEventListener('click', () => {
-          if (seccionResultados) seccionResultados.style.display = 'block';
-          if (resultadoFormContainer) {
-            resultadoFormContainer.innerHTML = `
-              <div class="card p-3">
-                <h6>Enviar resultado para ${escapeHtml(torneo.nombre)}</h6>
-                <label class="form-label">Rival / Equipo o Jugador</label>
-                <input type="text" id="resRival" class="form-control mb-2" />
-                <label class="form-label">Tu puntaje</label>
-                <input type="number" id="resTu" class="form-control mb-2" />
-                <label class="form-label">Puntaje rival</label>
-                <input type="number" id="resRivalScore" class="form-control mb-2" />
-                <button class="btn btn-violeta mt-2" id="btnEnviarResultado">Enviar resultado</button>
-              </div>
-            `;
-            const btnEnviarResultado = document.getElementById('btnEnviarResultado');
-            btnEnviarResultado?.addEventListener('click', () => {
-              const rival = document.getElementById('resRival')?.value;
-              const tu = document.getElementById('resTu')?.value;
-              const rivalScore = document.getElementById('resRivalScore')?.value;
-              if (!rival || tu === '' || rivalScore === '') return alert('Completá todos los campos');
-              torneo.resultados = torneo.resultados || [];
-              torneo.resultados.push({ quien: jugador.usuario, rival, tu: Number(tu), rivalScore: Number(rivalScore), fecha: new Date().toISOString() });
-              saveTorneos();
-              alert('Resultado enviado (será verificado por organizador)');
-              if (resultadoFormContainer) resultadoFormContainer.innerHTML = '';
-              if (seccionResultados) seccionResultados.style.display = 'none';
-            });
-          }
-          modal.hide();
-        });
-      }
-
-      if (btnDenunciar) {
-        btnDenunciar.addEventListener('click', () => {
-          if (seccionDenuncias) seccionDenuncias.style.display = 'block';
-          if (denunciaContainer) {
-            denunciaContainer.innerHTML = `
-              <div class="card p-3">
-                <h6>Denunciar ${escapeHtml(torneo.nombre)}</h6>
-                <label class="form-label">Motivo</label>
-                <textarea id="motivoDenuncia" class="form-control mb-2"></textarea>
-                <button class="btn btn-danger" id="btnEnviarDenuncia">Enviar denuncia</button>
-              </div>
-            `;
-            document.getElementById('btnEnviarDenuncia')?.addEventListener('click', () => {
-              const motivo = document.getElementById('motivoDenuncia')?.value.trim();
-              if (!motivo) return alert('Describí el motivo');
-              torneo.denuncias = torneo.denuncias || [];
-              torneo.denuncias.push({ quien: jugador.usuario, motivo, fecha: new Date().toISOString() });
-              saveTorneos();
-              alert('Denuncia enviada al organizador/moderación');
-              if (denunciaContainer) denunciaContainer.innerHTML = '';
-              if (seccionDenuncias) seccionDenuncias.style.display = 'none';
-            });
-          }
-          modal.hide();
-        });
-      }
-
-      if (btnGestionarCarga) {
-        btnGestionarCarga.addEventListener('click', () => {
-          const listaResultados = (torneo.resultados || []).map(r => `<li>${escapeHtml(r.quien)} ${r.tu} - ${r.rivalScore} vs ${escapeHtml(r.rival)} (${new Date(r.fecha).toLocaleString()})</li>`).join('');
-          alert(`Sección de carga / resultados:\n\n${listaResultados || 'Sin resultados pendientes'}`);
-        });
-      }
-    }, 50);
-  };
-
-  window.irACalendarizar = function (id) {
-    const torneo = torneos.find(t => t.id === id);
-    if (!torneo) return alert('Torneo no encontrado');
-    alert(`Calendario para: ${torneo.nombre} — Fecha: ${torneo.fecha || 'Sin fecha'}`);
-  };
-
-  function mostrarListasSafe() {
-    try { mostrarListas(); } catch (err) { console.error(err); }
-  }
-
-  if (formBuscar) {
-    formBuscar.addEventListener('submit', e => {
-      e.preventDefault();
-      mostrarListasSafe();
-    });
-  }
-  if (inputBuscar) inputBuscar.addEventListener('input', mostrarListasSafe);
-  if (filtroJuego) filtroJuego.addEventListener('change', mostrarListasSafe);
-
-  mostrarListasSafe();
-
-  window.addEventListener('storage', e => {
-    if (e.key === 'torneos') {
-      try { torneos = JSON.parse(e.newValue || '[]'); } catch (err) { torneos = []; }
-      mostrarListasSafe();
-    }
-  });
-});
-=======
           const data = await res.json();
           if (data.success) {
             alert('Denuncia enviada correctamente.');
@@ -401,20 +201,120 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (err) {
           console.error(err);
           alert('Error enviando la denuncia.');
+        if (data.success) {
+          btnSumarme.textContent = 'Pendiente';
+          btnSumarme.disabled = true;
+          btnSumarme.classList.add('enviado');
+        } else {
+          alert('Error: ' + data.error);
         }
-      });
-    } else {
-      btnDenunciar.disabled = true; // no se puede denunciar tu propio torneo
-    }
-  });
+      } catch (err) {
+        console.error(err);
+        alert('Error enviando la solicitud.');
+      }
+    });
+  }
+
+  accionesDiv.appendChild(btnSumarme);
+
+  return card;
 }
 
 
+
+  // Ver jugadores
+  async function verJugadores(idTorneo) {
+    try {
+      const formData = new FormData();
+      formData.append('id_torneo', idTorneo);
+
+      const res = await fetch('procesar-ver-jugadores.php', {
+        method: 'POST',
+        body: formData
+      });
+
+      const jugadores = await res.json();
+      tablaJugadoresBody.innerHTML = '';
+
+      if (jugadores.error) {
+        tablaJugadoresBody.innerHTML = `<tr><td colspan="2">${jugadores.error}</td></tr>`;
+      } else if (jugadores.length === 0) {
+        tablaJugadoresBody.innerHTML = `<tr><td colspan="2">No hay jugadores inscriptos</td></tr>`;
+      } else {
+        jugadores.forEach(ju => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${ju.nombre}</td><td>${ju.equipo ?? '-'}</td>`;
+          tablaJugadoresBody.appendChild(tr);
+        });
+      }
+
+      modalJugadores.style.display = 'inherit';
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // Cerrar modales
+  closeJugadores.addEventListener('click', () => modalJugadores.style.display = 'none');
+  window.addEventListener('click', e => { if (e.target === modalJugadores) modalJugadores.style.display = 'none'; });
+
+  closeDenuncia.addEventListener('click', () => modalDenuncia.style.display = 'none');
+  closeConfirmacion.addEventListener('click', () => modalConfirmacion.style.display = 'none');
+  btnCerrarConfirmacion.addEventListener('click', () => modalConfirmacion.style.display = 'none');
+
+  // Denuncia
+  motivoSelect.addEventListener('change', () => {
+    if (motivoSelect.value === 'otro') {
+      inputOtro.style.display = 'block';
+      btnConfirmar.disabled = inputOtro.value.trim() === '';
+    } else {
+      inputOtro.style.display = 'none';
+      btnConfirmar.disabled = motivoSelect.value === '';
+    }
+  });
+
+  inputOtro.addEventListener('input', () => {
+    btnConfirmar.disabled = inputOtro.value.trim() === '';
+  });
+
+  // Enviar denuncia
+  btnConfirmar.addEventListener('click', async () => {
+    if (!torneoSeleccionado) return;
+
+    let descripcion =
+      motivoSelect.value === 'otro'
+        ? inputOtro.value.trim()
+        : motivoSelect.value;
+
+    if (!descripcion) return;
+    
+
+    try {
+      const res = await fetch('procesar-denuncia.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id_organizador: torneoSeleccionado.organizador,
+          id_reportado: torneoSeleccionado.id_torneo,
+          descripcion
+        })
+      });
+
+      const data = await res.json();
+      
+    } catch (err) {
+      
+      console.error(err);
+    }
+  });
+
+  // Calendario
   function renderCalendario() {
     calendarioTorneos.innerHTML = '';
-    const proximos = torneosData
+
+    const proximos = [...torneosPropiosData, ...torneosOtrosData]
       .filter(t => new Date(t.fecha_inicio) >= new Date())
-      .sort((a,b)=> new Date(a.fecha_inicio) - new Date(b.fecha_inicio));
+      .sort((a, b) => new Date(a.fecha_inicio) - new Date(b.fecha_inicio));
 
     proximos.forEach(t => {
       const li = document.createElement('li');
@@ -428,4 +328,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
   cargarTorneos();
 });
->>>>>>> origin/ramaclara
+

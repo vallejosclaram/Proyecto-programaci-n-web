@@ -27,16 +27,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function cargarEquipos() {
     const q = document.getElementById("buscadorEquipos").value.trim();
-   // const juego = document.getElementById("selectJuego")?.value; 
-
-    
-    let url = `get_equipo.php?q=${encodeURIComponent(q)}`;
-    if (juego) {
-        url += `&juego=${encodeURIComponent(juego)}`;
-    }
-
+   
     try {
-        const response = await fetch(url);
+        const response = await fetch("get_equipo.php");
         const data = await response.json();
         console.log('Equipos cargados:', data);
 
@@ -44,7 +37,7 @@ async function cargarEquipos() {
         renderEquiposDisponibles(data.disponibles);
 
        
-        // renderSolicitudes(data.solicitudes);
+        renderSolicitudes(data.solicitudes);
     } catch (error) {
         console.error("Error al cargar los equipos:", error);
         document.getElementById("equiposDisponibles").innerHTML = `<p class="text-danger">No se pudieron cargar los equipos.</p>`;
@@ -84,9 +77,6 @@ function renderMisEquipos(equipos) {
                     <p>${eq.descripcion}</p>
                     <p><strong>Juego:</strong> ${eq.juego}</p>
 
-                    <button class="btn btn-violeta btn-ver-equipo" data-id="${eq.id_equipo}">
-                        Ver detalles
-                    </button>
                 </div>
             </div>
         `;
@@ -95,11 +85,11 @@ function renderMisEquipos(equipos) {
 
 
 
-function renderEquiposDisponibles(equipos) {
+async function renderEquiposDisponibles(equipos) {
     const c = document.getElementById("equiposDisponibles");
     c.innerHTML = "";
 
-    
+    console.log('equipos disponibles:', equipos);
 
     if (!equipos || equipos.length === 0) {
         c.innerHTML = `<p class="text-muted">No hay equipos disponibles.</p>`;

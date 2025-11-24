@@ -140,15 +140,19 @@
 }
 
 #tablaJugadores {
-  width: 100%;
+  width: auto;
+  max-width: 100%;      
+  margin: 0 auto;
   border-collapse: collapse;
-  margin-top: 1rem;
+  
 }
 
 #tablaJugadores th, #tablaJugadores td {
   border: 1px solid #6a0dad;
   padding: 0.5rem;
   font-size: 0.9rem;
+  width: auto;
+  max-width: 100%; 
 }
 
 #tablaJugadores th {
@@ -246,9 +250,100 @@
   flex: 2 1 600px;
 }
 
-/* Responsive */
+
 @media(max-width: 900px){
   .torneos-wrapper {
     flex-direction: column;
   }
+}
+
+
+
+.btn-denunciar {
+  background-color: #ff4d4f; 
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.btn-denunciar:hover:not(:disabled) {
+  background-color: #ff7875;
+  transform: translateY(-2px);
+}
+
+.btn-denunciar:disabled {
+  background-color: #ffa39e;
+  cursor: not-allowed;
+}
+
+
+#modalDenuncia input[type="text"] {
+  width: 100%;
+  padding: 8px 12px;
+  margin-top: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#modalDenuncia input[type="text"]:focus {
+  border-color: #40a9ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+  outline: none;
+}
+
+
+#btnConfirmar {
+  background-color: #1890ff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+#btnConfirmar:disabled {
+  background-color: #91d5ff;
+  cursor: not-allowed;
+}
+
+#btnConfirmar:hover:not(:disabled) {
+  background-color: #40a9ff;
+  transform: translateY(-1px);
+}
+
+
+.btn-sumarse {
+  background-color: #1e90ff; 
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  margin-left: 5px;
+}
+
+.btn-sumarse:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.btn-sumarse:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-sumarse.enviado {
+  background-color: #28a745; 
 }

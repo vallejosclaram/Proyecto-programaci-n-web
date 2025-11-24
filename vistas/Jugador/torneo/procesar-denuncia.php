@@ -13,21 +13,18 @@ if (!isset($_SESSION["user"]["id"])) {
 $id_usuario = $_SESSION["user"]["id"];
 
 
-if (!Permisos::tienePermiso('denunciar_torneo', $id_usuario)) {
+if (!Permisos::tienePermiso('Denunciar torneo', $id_usuario)) {
     echo json_encode(['success' => false, 'error' => 'No tenés permiso para denunciar torneos']);
     exit;
 }
 
 $input = json_decode(file_get_contents('php://input'), true);
 $id_reportador = $_SESSION["user"]["id"];
-$id_organizador = $input['id_organizador'] ?? null;
-$id_reportado = $input['id_reportado'] ?? null;
-$descripcion = $input['descripcion'] ?? null;
+$id_organizador = $input['id_organizador'];
+$id_reportado = $input['id_reportado'];
+$descripcion = $input['descripcion'];
 
-if (!$id_organizador || !$id_reportado || !$descripcion) {
-    echo json_encode(['success' => false, 'error' => 'Datos incompletos']);
-    exit;
-}
+
 
 $sql = "INSERT INTO denuncias (id_reportador, id_reportado, id_organizador, descripcion, fecha_creacion)
         VALUES (:id_reportador, :id_reportado, :id_organizador, :descripcion, NOW())";
