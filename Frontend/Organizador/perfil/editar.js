@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const menuToggle = document.getElementById('menuToggle');
       const closeBtn = document.getElementById('closeBtn');
       const body = document.body;
+      
 
       menuToggle.addEventListener('click', () => {
         sidebar.classList.add('open');

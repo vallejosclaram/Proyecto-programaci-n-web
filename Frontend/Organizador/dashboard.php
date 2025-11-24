@@ -1,3 +1,7 @@
+<?php
+include '../../Backend/conexion.php';
+include '../../Backend/organizador/session_org.php';
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -19,16 +23,16 @@
     </div>
 
     <nav class="nav-links">
-      <a href="dashboard.html" class="nav-item active"><i class="fa-solid fa-house"></i> Dashboard</a>
-      <a href="perfil/ver.html" class="nav-item"><i class="fa-solid fa-user-gear" style="color:#c84dff;"></i> Mi perfil</a>
-      <a href="../Organizador/torneo/mis-torneos.html" class="nav-item"><i class="fa-solid fa-trophy" style="color:#ffb84d;"></i> Mis Torneos</a>
-      <a href="../Organizador/equipo/equipo.html" class="nav-item"><i class="fa-solid fa-people-group" style="color:#4dffb8;"></i> Equipos</a>
-      <a href="ranking.html" class="nav-item active"><i class="fa-solid fa-ranking-star" style="color:#ffb84d;"></i> Ranking</a>
-      <a href="solicitudes.html" class="nav-item"><i class="fa-solid fa-bell" style="color:#ff4d94;"></i> Solicitudes</a>
+      <a href="dashboard.php" class="nav-item active"><i class="fa-solid fa-house"></i> Dashboard</a>
+      <a href="perfil/ver.php" class="nav-item"><i class="fa-solid fa-user-gear" style="color:#c84dff;"></i> Mi perfil</a>
+      <a href="../Organizador/torneo/mis-torneos.php" class="nav-item"><i class="fa-solid fa-trophy" style="color:#ffb84d;"></i> Mis Torneos</a>
+      <a href="../Organizador/equipo/equipo.php" class="nav-item"><i class="fa-solid fa-people-group" style="color:#4dffb8;"></i> Equipos</a>
+      <a href="ranking.php" class="nav-item active"><i class="fa-solid fa-ranking-star" style="color:#ffb84d;"></i> Ranking</a>
+      <a href="solicitudes.php" class="nav-item"><i class="fa-solid fa-bell" style="color:#ff4d94;"></i> Solicitudes</a>
     </nav>
 
     <div class="logout">
-      <a href="../auth/login.html" class="nav-item logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</a>
+      <a href="../inicio.php" class="nav-item logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</a>
     </div>
   </aside>
 
@@ -36,23 +40,7 @@
   <div id="sidebarOverlay" class="sidebar-overlay"></div>
 
   <!-- ===== HEADER / TOPBAR ===== -->
-  <header class="topbar">
-    <div class="topbar-inner">
-      <!-- Botón de menú -->
-      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú"><i class="fa-solid fa-bars"></i></button>
-
-      <!-- Logo central -->
-      <div class="topbar-center">
-        <span class="topbar-logo">🎮 UPE-SPORT</span>
-      </div>
-
-      <!-- Derecha: campanita -->
-      <div id="usuarioResumen" class="usuario-resumen" aria-live="polite"> 
-          <div id="usuarioNombre">Hola, Organizador </div> 
-          <small id="usuarioRol" class="text-muted"></small> 
-        </div> 
-    </div>
-  </header>
+  <?php include './componentes/header.php'; ?>
 
   <!-- ===== MAIN CONTENT ===== -->
   <main class="main-content">
@@ -60,50 +48,50 @@
 
     <div class="row g-4">
       <div class="col-md-4">
-        <div class="card card-link" data-link="torneos-activos.html">
+        <a class="card card-link" href="torneo/mis-torneos.php">
           <i class="fa-solid fa-trophy" style="color:#ffb84d;"></i>
           <h4>Torneos Activos</h4>
           <p>3 torneos en curso</p>
-        </div>
+        </a>
       </div>
       <div class="col-md-4">
-        <div class="card card-link" data-link="equipos.html">
+        <a class="card card-link" href="equipo/equipo.php">
           <i class="fa-solid fa-users" style="color:#4dffb8;"></i>
           <h4>Equipos Registrados</h4>
           <p>12 equipos totales</p>
-        </div>
+        </a>
       </div>
       <div class="col-md-4">
-        <div class="card card-link" data-link="solicitudes.html">
+        <a class="card card-link" href="solicitudes.php">
           <i class="fa-solid fa-bell" style="color:#ff4d94;"></i>
           <h4>Solicitudes Pendientes</h4>
           <p>5 por revisar</p>
-        </div>
+        </a>
       </div>
     </div>
 
     <div class="row g-4 mt-4">
       <div class="col-md-6">
-        <div class="card card-link" data-link="estadisticas.html">
+        <a class="card card-link" href="ranking.php">
           <i class="fa-solid fa-chart-pie" style="color:#c84dff;"></i>
           <h4>Ranking</h4>
           <p>Visualiza rendimiento y participación</p>
-        </div>
+        </a>
       </div>
 
       <div class="col-md-6">
-        <div class="card card-link" data-link="crear-torneo.html">
+        <a class="card card-link" href="torneo/mis-torneos.php">
           <i class="fa-solid fa-plus-circle" style="color:#5ecbff;"></i>
           <h4>Crear Nuevo Torneo</h4>
           <p>Comienza un nuevo evento competitivo</p>
-        </div>
+        </a>
       </div>
     </div>
         <!-- ===== ACTIVIDAD RECIENTE ===== -->
     <section class="actividad-reciente mt-5">
       <h2>Actividad Reciente</h2>
       <ul id="actividadLista" class="actividad-lista">
-        <!-- Se rellena dinámicamente desde JS -->
+    
       </ul>
     </section>
   </main>

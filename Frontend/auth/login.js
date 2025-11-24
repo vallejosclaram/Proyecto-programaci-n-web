@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const validEmail = document.getElementById('validemail');
   const validPass = document.getElementById('validpass');
 
-  // proteger por si no existen en el HTML
+  
   if (showPass) {
     showPass.addEventListener('change', () => {
       if (passwordInput) passwordInput.type = showPass.checked ? 'text' : 'password';
@@ -26,68 +26,67 @@ document.addEventListener('DOMContentLoaded', () => {
     const email = (emailInput && emailInput.value || '').trim();
     const password = (passwordInput && passwordInput.value) || '';
 
-    const jugador = (() => {
-      try { return JSON.parse(localStorage.getItem('jugador')) || null; } catch(e) { return null; }
-    })();
-    const organizador = (() => {
-      try { return JSON.parse(localStorage.getItem('organizador')) || null; } catch(e) { return null; }
-    })();
+    
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('password', password);
 
-    let usuario = null;
+    fetch('../../Backend/login/login.php', {
+      method: 'POST',
+      body: formData,
+      credentials: 'include'
+    }).then(r => r.json()).then(data => {
+      if (!data || data.error || !data.success) {
+        if (emailInput) emailInput.classList.add('is-invalid');
+        if (passwordInput) passwordInput.classList.add('is-invalid');
+        if (validEmail) validEmail.classList.remove('d-none');
+        if (validPass) validPass.classList.remove('d-none');
+        return;
+      }
 
-    if (jugador && jugador.email === email && jugador.password === password) {
-      usuario = jugador;
-    } else if (organizador && organizador.email === email && organizador.password === password) {
-      usuario = organizador;
-    }
+      
+      const role = data.rol || 'usuario';
+      const sessionObj = {
+        id_usuario: data.id_usuario || null,
+        id_organizador: data.id_organizador || null,
+        rol: role,
+        nombre: data.nombre || '',
+        apellido: data.apellido || ''
+      };
+      try {
+        if (role === 'organizador') localStorage.setItem('organizador', JSON.stringify(sessionObj));
+        else localStorage.setItem('jugador', JSON.stringify(sessionObj));
+      } catch (err) { console.warn('No se pudo guardar sesión en localStorage', err); }
 
-    if (!usuario) {
+      const mensaje = document.getElementById('mensajeBienvenida');
+      if (mensaje) mensaje.textContent = `¡Hola ${sessionObj.nombre || 'Usuario'}! Has iniciado sesión como ${role}.`;
+
+      const modalEl = document.getElementById('loginExitoso');
+      if (modalEl) {
+        const modal = new bootstrap.Modal(modalEl);
+        modal.show();
+
+        const btnIr = document.getElementById('irDashboard');
+        if (btnIr) {
+          btnIr.addEventListener('click', () => {
+            if (role === 'organizador') {
+              window.location.href = '../Organizador/dashboard.php';
+            } else {
+              window.location.href = '../Jugador/dashboard.php';
+            }
+          });
+        }
+      } else {
+        if (role === 'organizador') window.location.href = '../Organizador/dashboard.php';
+        else window.location.href = '../Jugador/dashboard.php';
+      }
+    }).catch(err => {
+      console.error('Error al llamar login.php', err);
       if (emailInput) emailInput.classList.add('is-invalid');
       if (passwordInput) passwordInput.classList.add('is-invalid');
       if (validEmail) validEmail.classList.remove('d-none');
       if (validPass) validPass.classList.remove('d-none');
-      return;
-    }
-
-    // --- GUARDAR SESIÓN / usuario logueado en localStorage ---
-    // guardamos el objeto 'usuario' como la sesión actual bajo la clave 'jugador'
-    // (esto permite que perfil.js detecte quién está logueado)
-    try {
-      localStorage.setItem('jugador', JSON.stringify(usuario));
-    } catch (err) {
-      console.warn('No se pudo guardar la sesión en localStorage:', err);
-    }
-
-    const mensaje = document.getElementById('mensajeBienvenida');
-    if (mensaje) mensaje.textContent = `¡Hola ${usuario.usuario}! Has iniciado sesión como ${usuario.rol}.`;
-
-    const modalEl = document.getElementById('loginExitoso');
-    if (modalEl) {
-      const modal = new bootstrap.Modal(modalEl);
-      modal.show();
-
-      const btnIr = document.getElementById('irDashboard');
-      if (btnIr) {
-        btnIr.addEventListener('click', () => {
-          // Si querés redirigir directo al perfil del jugador en vez del dashboard, sustituí la URL
-          if (usuario.rol === 'organizador') {
-            window.location.href = '../organizador/dashboard.html';
-          } else {
-            // ejemplo: redirigir al dashboard del jugador
-            window.location.href = '../jugador/dashboard.html';
-            // Si preferís ir directamente al perfil:
-            // window.location.href = `../jugador/ver.html?jugador=${encodeURIComponent(usuario.usuario)}`;
-          }
-        });
-      }
-    } else {
-      // fallback: navegar según rol
-      if (usuario.rol === 'organizador') {
-        window.location.href = '../organizador/dashboard.html';
-      } else {
-        window.location.href = '../jugador/dashboard.html';
-      }
-    }
+    });
   });
 });
 

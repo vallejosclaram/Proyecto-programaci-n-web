@@ -66,15 +66,30 @@ const validEmail = document.getElementById('validemail');
 
     if (!valido) return;
 
-    const organizador = {
-    usuario,
-    email,
-    password,
-    rol: 'organizador'
-  };
-  localStorage.setItem('organizador', JSON.stringify(organizador));
+    // Enviar datos al backend para crear el organizador
+    const formData = new FormData();
+    formData.append('usuario', usuario);
+    formData.append('email', email);
+    formData.append('password', password);
 
-  const modal = new bootstrap.Modal(document.getElementById('registroExitoso'));
-  modal.show();
+    fetch('../../Backend/organizador/crear_organizador.php', {
+      method: 'POST',
+      body: formData,
+      credentials: 'include'
+    })
+      .then(r => r.json())
+      .then(data => {
+        if (data && data.success) {
+          // redirigir al login del frontend
+          window.location.href = '../auth/login.php?registered=1';
+        } else {
+          const message = (data && data.error) ? data.error : 'Error desconocido';
+          alert('No se pudo registrar: ' + message);
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert('Error en la petición al servidor');
+      });
   });
 });

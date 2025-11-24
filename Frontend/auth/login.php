@@ -42,13 +42,13 @@
         ¿Sos nuevo? 
       </div>
       <div class="mt-3 text-center small text-muted">
-         <a href="../jugador/crear-usuario.html">Registrate como jugador</a>
+         <a href="../jugador/crear-usuario.php">Registrate como jugador</a>
       </div>
       <div class="mt-3 text-center small text-muted">
-        <a href="../Organizador/crear-usuario.html">Registrate como organizador</a>
+        <a href="../Organizador/crear-usuario.php">Registrate como organizador</a>
       </div>
       <div class="mt-3 text-center small text-muted">
-            <a href="../inicio.html">Volver al inicio</a>
+            <a href="../inicio.php">Volver al inicio</a>
      </div>
 
      </div>

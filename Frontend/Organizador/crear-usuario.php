@@ -1,3 +1,4 @@
+<?php include '../../Backend/conexion.php'; ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -52,7 +53,7 @@
       </form>
 
       <div class="mt-3 text-center small text-muted">
-        ¿Ya tenés cuenta? <a href="../auth/login.html">Iniciá sesión</a>
+        ¿Ya tenés cuenta? <a href="../auth/login.php">Iniciá sesión</a>
       </div>
     </div>
   </div>
@@ -69,7 +70,7 @@
           Tu cuenta fue creada correctamente. Ahora podés iniciar sesión.
         </div>
         <div class="modal-footer">
-          <a href="../auth/login.html" class="btn btn-primary">Ir a login</a>
+          <a href="../auth/login.php" class="btn btn-primary">Ir a login</a>
         </div>
       </div>
     </div>
