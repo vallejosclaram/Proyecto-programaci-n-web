@@ -1,113 +1,111 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const sidebar = document.getElementById('sidebar');
-  const menuToggle = document.getElementById('menuToggle');
-  const closeBtn = document.getElementById('closeBtn');
-  const body = document.body;
+  const usuariosBody = document.getElementById('denuncias-usuarios-body');
+  const torneosBody = document.getElementById('denuncias-torneos-body');
+  const modalDetallesBody = document.getElementById('modalDetallesBody');
+  const btnBloquear = document.getElementById('btnBloquear');
 
-  menuToggle.addEventListener('click', () => {
-    sidebar.classList.add('open');
-    body.classList.add('menu-open');
-  });
+  let accionActual = null;
+  let idObjetivo = null;
 
-  closeBtn.addEventListener('click', () => {
-    sidebar.classList.remove('open');
-    body.classList.remove('menu-open');
-  });
-  
+  // Cargar denuncias desde el backend
+  async function cargarDenuncias() {
+    try {
+      const res = await fetch('denuncias-process.php');
+      const data = await res.json();
 
-  const busquedaInput = document.getElementById('busquedaGlobal');
-  const filtroSelect = document.getElementById('filtroDenuncias');
-  
-  // Datos de ejemplo (reemplazá esto con tu fetch real)
-  const denunciasUsuarios = [
-    { id: 1, nombre: 'Usuario1', denuncias: 1, descripcion: 'Insultos en chat' },
-    { id: 2, nombre: 'Usuario2', denuncias: 3, descripcion: 'Conducta antideportiva' },
-    { id: 3, nombre: 'Usuario3', denuncias: 2, descripcion: 'Abandono de partida' }
-  ];
-
-  const denunciasTorneos = [
-    { id: 1, torneo: 'Torneo Estelar', organizacion: 'Nebula Warriors', denuncias: 1, descripcion: 'Problemas de inscripción' },
-    { id: 2, torneo: 'Liga Cósmica', organizacion: 'Galaxy Team', denuncias: 4, descripcion: 'Reglas inconsistentes' }
-  ];
-
-  function renderDenuncias() {
-    const texto = busquedaInput.value.toLowerCase();
-    const filtro = filtroSelect.value;
-
-    const filtradoUsuarios = denunciasUsuarios.filter(d => {
-      const coincideTexto = d.nombre.toLowerCase().includes(texto) || d.descripcion.toLowerCase().includes(texto);
-      const coincideFiltro =
-        filtro === 'todas' ||
-        (filtro === '1' && d.denuncias === 1) ||
-        (filtro === '2' && d.denuncias === 2) ||
-        (filtro === '3+' && d.denuncias >= 3);
-      return coincideTexto && coincideFiltro;
-    });
-
-    const filtradoTorneos = denunciasTorneos.filter(d => {
-      const coincideTexto =
-        d.torneo.toLowerCase().includes(texto) ||
-        d.organizacion.toLowerCase().includes(texto) ||
-        d.descripcion.toLowerCase().includes(texto);
-      const coincideFiltro =
-        filtro === 'todas' ||
-        (filtro === '1' && d.denuncias === 1) ||
-        (filtro === '2' && d.denuncias === 2) ||
-        (filtro === '3+' && d.denuncias >= 3);
-      return coincideTexto && coincideFiltro;
-    });
-
-    renderBloque(filtradoUsuarios, 'denunciasUsuariosContainer', 'usuario');
-    renderBloque(filtradoTorneos, 'denunciasTorneosContainer', 'torneo');
-  }
-
-  function renderBloque(data, containerId, tipo) {
-    const container = document.getElementById(containerId);
-    container.innerHTML = '';
-
-    if (data.length === 0) {
-      container.innerHTML = '<p class="vacio">No hay denuncias que coincidan.</p>';
-      return;
-    }
-
-    data.forEach(item => {
-      const card = document.createElement('div');
-      card.classList.add('denuncia-card');
-
-      if (tipo === 'usuario') {
-        card.innerHTML = `
-          <h3>${item.nombre}</h3>
-          <p><strong>Denuncias:</strong> ${item.denuncias}</p>
-          <p>${item.descripcion}</p>
-        `;
-      } else {
-        card.innerHTML = `
-          <h3>${item.torneo}</h3>
-          <p><strong>Organización:</strong> ${item.organizacion}</p>
-          <p><strong>Denuncias:</strong> ${item.denuncias}</p>
-          <p>${item.descripcion}</p>
-        `;
+      if (!data.success) {
+        usuariosBody.innerHTML = `<tr><td colspan="5">${data.error}</td></tr>`;
+        torneosBody.innerHTML = `<tr><td colspan="5">${data.error}</td></tr>`;
+        return;
       }
 
-      const acciones = document.createElement('div');
-      acciones.classList.add('acciones');
-      acciones.innerHTML = `
-        <button class="bloquear">Bloquear</button>
-        <button class="desbloquear">Desbloquear</button>
-        <button class="notificar">Notificar</button>
-      `;
+      // Renderizar denuncias de usuarios
+      usuariosBody.innerHTML = '';
+      data.usuario.forEach(d => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${d.id_denuncia}</td>
+          <td>${d.reportador || '-'}</td>
+          <td>${d.reportado || '-'}</td>
+          <td>${d.fecha_creacion}</td>
+          <td>
+            <button class="btn btn-sm btn-info btn-detalles"
+                    data-tipo="usuario"
+                    data-id="${d.id_reportado}"
+                    data-desc="${d.descripcion}">
+              Ver detalles
+            </button>
+          </td>
+        `;
+        usuariosBody.appendChild(tr);
+      });
 
-      card.appendChild(acciones);
-      container.appendChild(card);
-    });
+      // Renderizar denuncias de torneos
+      torneosBody.innerHTML = '';
+      data.torneo.forEach(d => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${d.id_denuncia}</td>
+          <td>${d.reportador || '-'}</td>
+          <td>${d.organizador || '-'}</td>
+          <td>${d.fecha_creacion}</td>
+          <td>
+            <button class="btn btn-sm btn-info btn-detalles"
+                    data-tipo="torneo"
+                    data-id="${d.id_organizador}"
+                    data-desc="${d.descripcion}">
+              Ver detalles
+            </button>
+          </td>
+        `;
+        torneosBody.appendChild(tr);
+      });
+
+      // Asignar eventos a botones "Ver detalles"
+      document.querySelectorAll('.btn-detalles').forEach(btn => {
+        btn.addEventListener('click', () => {
+          accionActual = btn.dataset.tipo === 'usuario' ? 'bloquear_usuario' : 'bloquear_torneo';
+          idObjetivo = btn.dataset.id;
+          modalDetallesBody.textContent = btn.dataset.desc;
+          const modal = new bootstrap.Modal(document.getElementById('modalDetalles'));
+          modal.show();
+        });
+      });
+
+    } catch (err) {
+      usuariosBody.innerHTML = `<tr><td colspan="5">Error de conexión</td></tr>`;
+      torneosBody.innerHTML = `<tr><td colspan="5">Error de conexión</td></tr>`;
+    }
   }
 
-  // Eventos
-  busquedaInput.addEventListener('input', renderDenuncias);
-  filtroSelect.addEventListener('change', renderDenuncias);
+  // Acción de bloquear desde el modal
+  btnBloquear.addEventListener('click', async () => {
+    if (!accionActual || !idObjetivo) return;
 
-  // Render inicial
-  renderDenuncias();
-  
+    const payload = { accion: accionActual };
+    if (accionActual === 'bloquear_usuario') {
+      payload.id_reportado = idObjetivo;
+    } else {
+      payload.id_torneo = idObjetivo;
+    }
+
+    try {
+      const res = await fetch('denuncias-process.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      alert(data.message || data.error);
+
+      const modal = bootstrap.Modal.getInstance(document.getElementById('modalDetalles'));
+      modal.hide();
+      cargarDenuncias();
+    } catch (err) {
+      alert('Error de conexión con el servidor');
+    }
+  });
+
+  // Inicializar
+  cargarDenuncias();
 });
-
