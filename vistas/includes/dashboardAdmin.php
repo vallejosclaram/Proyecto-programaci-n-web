@@ -16,7 +16,7 @@
       <a href="../Administrador/membresia.html.php" class="nav-item">🏅 Membresía</a>
     </nav>
     <div class="logout">
-      <a href="../auth/admin-login.html" class="nav-item logout-btn">🚪 Cerrar sesión</a>
+      <a href="../auth/logout.php" class="nav-item logout-btn">🚪 Cerrar sesión</a>
     </div>
   </aside>
   <script src="dashboard.js"></script>

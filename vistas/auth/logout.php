@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . '/../includes/globals.php');
+
 
 // remove all session variables
 session_unset();

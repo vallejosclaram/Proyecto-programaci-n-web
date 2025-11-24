@@ -30,9 +30,34 @@ if ($rol != 1) {
   
 
   <main class="main-content" id="mainContent">
-    <h1>Bienvenido al panel del administrador</h1>
-    <p>Usá el menú para acceder a tus funcionalidades.</p>
-  </main>
+  <h1>Bienvenido al panel del administrador</h1>
+  <p class="text-light">Usá el menú o las tarjetas para acceder a tus funcionalidades.</p>
+
+  <section class="dashboard-cards">
+    
+    <div class="dashboard-card">
+      <h3>Solicitudes</h3>
+      <p>Revisá las solicitudes de creación  en torneos.</p>
+      <a href="solicitudes.php">Ir a Solicitudes</a>
+    </div>
+    <div class="dashboard-card">
+      <h3>Resultados</h3>
+      <p>Validá y actualizá los resultados de los torneos.</p>
+      <a href="resultados.php">Ir a Resultados</a>
+    </div>
+    <div class="dashboard-card">
+      <h3>Soporte</h3>
+      <p>Respondé tickets enviados por los usuarios desde el centro de soporte.</p>
+      <a href="soporte.php">Ir a Soporte</a>
+    </div>
+    <div class="dashboard-card">
+      <h3>Denuncias</h3>
+      <p>Visualiza las denuncias de usuarios y torneos.</p>
+      <a href="denuncias.php">Ir a Denuncias</a>
+    </div>
+  </section>
+</main>
+
 
   <script src="dashboard.js"></script>
 </body>
