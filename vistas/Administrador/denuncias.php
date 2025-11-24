@@ -29,9 +29,10 @@ if (!Permisos::tienePermiso('Visualizar denuncia', $id_usuario)) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Denuncias</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+
 </head>
 <body class="dashboard-page">
   <?php require_once __DIR__ . '/../includes/dashboardAdmin.php'; ?>
@@ -45,7 +46,7 @@ if (!Permisos::tienePermiso('Visualizar denuncia', $id_usuario)) {
             <tr>
               <th>ID</th>
               <th>Reportador</th>
-              <th>Reportado</th>
+              <th>Usuario Reportado</th>
               <th>Fecha</th>
               <th>Acciones</th>
             </tr>
@@ -61,7 +62,7 @@ if (!Permisos::tienePermiso('Visualizar denuncia', $id_usuario)) {
             <tr>
               <th>ID</th>
               <th>Reportador</th>
-              <th>Organizador</th>
+              <th>Torneo Reportado</th>
               <th>Fecha</th>
               <th>Acciones</th>
             </tr>
@@ -70,9 +71,7 @@ if (!Permisos::tienePermiso('Visualizar denuncia', $id_usuario)) {
         </table>
       </div>
 
-      <div class="d-flex justify-content-between mt-4">
-        <a href="dashboard.php" class="btn btn-secondary">Volver</a>
-      </div>
+      
     </div>
   </main>
 

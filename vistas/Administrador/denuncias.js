@@ -54,7 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
             <button class="btn btn-sm btn-info btn-detalles"
                     data-tipo="torneo"
                     data-id="${d.id_organizador}"
-                    data-desc="${d.descripcion}">
+                    data-desc="${d.descripcion}"
+                    data-bloqueado-hasta="${d.torneo_bloqueado_hasta || ''}">
               Ver detalles
             </button>
           </td>
@@ -68,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
           accionActual = btn.dataset.tipo === 'usuario' ? 'bloquear_usuario' : 'bloquear_torneo';
           idObjetivo = btn.dataset.id;
           const bloqueadoHasta = btn.dataset.bloqueadoHasta || '';
+          const tipoEntidad = btn.dataset.tipo === 'usuario' ? 'usuario' : 'torneo';
           
           // Mostrar descripción
           modalDetallesBody.innerHTML = `<p>${btn.dataset.desc}</p>`;
@@ -84,7 +86,8 @@ document.addEventListener('DOMContentLoaded', () => {
                   hour: '2-digit',
                   minute: '2-digit'
                 });
-                modalDetallesBody.innerHTML += `<p class="text-warning mt-3"><strong>Este usuario está bloqueado hasta: ${fechaFormateada}</strong></p>`;
+                const textoEntidad = tipoEntidad === 'usuario' ? 'Este usuario' : 'Este torneo';
+                modalDetallesBody.innerHTML += `<p class="text-warning mt-3"><strong>${textoEntidad} está bloqueado hasta: ${fechaFormateada}</strong></p>`;
                 btnBloquear.style.display = 'none';
               } else {
                 btnBloquear.style.display = 'block';

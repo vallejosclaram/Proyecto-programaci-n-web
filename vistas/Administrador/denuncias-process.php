@@ -25,24 +25,47 @@ $accion = $input['accion'] ?? null;
 if (!$accion) {
     // Listado de denuncias
     $sql = "SELECT d.id_denuncia, d.descripcion, d.fecha_creacion,
-                   d.id_reportador, d.id_reportado, d.id_organizador,
-                   r.email AS reportador,
-                   rep.email AS reportado,
-                   rep.bloqueado_hasta AS bloqueado_hasta,
-                   o.nombre AS organizador
-            FROM denuncias d
-            LEFT JOIN usuario r ON r.id_usuario = d.id_reportador
-            LEFT JOIN usuario rep ON rep.id_usuario = d.id_reportado
-            LEFT JOIN torneo o ON o.id_torneo = d.id_organizador
-            ORDER BY d.fecha_creacion DESC";
+               d.id_reportador, d.id_reportado, d.id_organizador,
+               r.email AS reportador,
+               rep.email AS reportado,
+               rep.bloqueado_hasta AS bloqueado_hasta,
+               o.nombre AS organizador,
+               o.bloqueado_hasta AS torneo_bloqueado_hasta
+        FROM denuncias d
+        LEFT JOIN usuario r ON r.id_usuario = d.id_reportador
+        LEFT JOIN usuario rep ON rep.id_usuario = d.id_reportado
+        LEFT JOIN torneo o ON o.id_torneo = d.id_organizador
+        ORDER BY d.fecha_creacion DESC";
+
 
     try {
         $stmt = $conn->query($sql);
         $denuncias = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // Separar usuarios y torneos
-        $usuario = array_filter($denuncias, fn($d) => !empty($d['id_reportado']));
-        $torneo  = array_filter($denuncias, fn($d) => !empty($d['id_organizador']));
+        $usuario = array_filter($denuncias, function($d) {
+            // Filtrar denuncias de usuarios donde bloqueado_hasta ya pasó
+            if (empty($d['id_reportado'])) return false;
+            if (!empty($d['bloqueado_hasta']) && $d['bloqueado_hasta'] !== '0000-00-00 00:00:00' && $d['bloqueado_hasta'] !== null) {
+                $fechaBloqueo = strtotime($d['bloqueado_hasta']);
+                if ($fechaBloqueo !== false && $fechaBloqueo < time()) {
+                    return false; // Ocultar si la fecha ya pasó
+                }
+            }
+            return true;
+        });
+        
+        $torneo = array_filter($denuncias, function($d) {
+            // Filtrar denuncias de torneos donde bloqueado_hasta ya pasó
+            if (empty($d['id_organizador'])) return false;
+            if (!empty($d['torneo_bloqueado_hasta']) && $d['torneo_bloqueado_hasta'] !== '0000-00-00 00:00:00' && $d['torneo_bloqueado_hasta'] !== null) {
+                $fechaBloqueo = strtotime($d['torneo_bloqueado_hasta']);
+                if ($fechaBloqueo !== false && $fechaBloqueo < time()) {
+                    return false; // Ocultar si la fecha ya pasó
+                }
+            }
+            return true;
+        });
 
         echo json_encode([
             'success' => true,
@@ -70,7 +93,7 @@ switch ($accion) {
                                 SET id_estado = 3, bloqueado_hasta = DATE_ADD(NOW(), INTERVAL 15 DAY) 
                                 WHERE id_usuario = ?");
         $stmt->execute([$id_reportado]);
-        echo json_encode(['success' => true, 'message' => 'Usuario bloqueado (estado = 3) por 15 días']);
+        echo json_encode(['success' => true, 'message' => 'Usuario bloqueado  por 15 días']);
         break;
 
     case 'bloquear_torneo':
@@ -84,10 +107,11 @@ switch ($accion) {
             exit;
         }
         $stmt = $conn->prepare("UPDATE torneo 
-                                SET id_estado = 3 
-                                WHERE id_torneo = ?");
+                        SET id_estado = 3, bloqueado_hasta = DATE_ADD(NOW(), INTERVAL 15 DAY) 
+                        WHERE id_torneo = ?");
         $stmt->execute([$id_torneo]);
-        echo json_encode(['success' => true, 'message' => 'Torneo bloqueado (estado = 3)']);
+        echo json_encode(['success' => true, 'message' => 'Torneo bloqueado por 15 días']);
+
         break;
 
     default:
