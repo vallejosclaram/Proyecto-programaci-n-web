@@ -2,106 +2,80 @@
 session_start();
 include("../conexion.php");
 
-$email = $_POST['email'] ?? '';
-$password = $_POST['password'] ?? '';
+$email = '';
+$errors = [];
+$errorCredenciales = false;
 
-if (empty($email) || empty($password)) {
-    echo json_encode(["error" => "Faltan datos"]);
-    exit;
-}
-
-// Buscar usuario base
-$query = "SELECT * FROM usuario WHERE email = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("s", $email);
-$stmt->execute();
-$result = $stmt->get_result();
-
-if ($result->num_rows == 0) {
-    echo json_encode(["error" => "Usuario no encontrado"]);
-    exit;
-}
-
-$usuario = $result->fetch_assoc();
-
-
-$stored = $usuario['contraseña'] ?? '';
-$password_ok = false;
-$migrate_plain_to_hash = false;
-if ($stored === $password) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
-    $password_ok = true;
-    $migrate_plain_to_hash = true;
-} else {
-    
-    if (function_exists('password_verify') && password_verify($password, $stored)) {
-        $password_ok = true;
+    if (!isset($_POST['email']) || trim($_POST['email']) == '') {
+        $errors['email'] = 'El email no puede ser vacío';
+    } elseif (!preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $_POST['email'])) {
+        $errors['email'] = 'El email no tiene formato válido';
+    } else {
+        $email = trim($_POST['email']);
     }
-}
-if (!$password_ok) {
-    echo json_encode(["error" => "Contraseña incorrecta"]);
-    exit;
-}
 
 
-if ($migrate_plain_to_hash) {
-    if (function_exists('password_hash')) {
-        $newHash = password_hash($password, PASSWORD_BCRYPT);
-        if ($newHash !== false) {
-            $uupd = $conn->prepare('UPDATE usuario SET contraseña = ? WHERE id_usuario = ? LIMIT 1');
-            if ($uupd) {
-                $uupd->bind_param('si', $newHash, $usuario['id_usuario']);
-                $uupd->execute();
+    if (!isset($_POST['password']) || trim($_POST['password']) == '') {
+        $errors['password'] = 'La contraseña no puede ser vacía';
+    }
+
+    
+    if (empty($errors)) {
+        $pass = $_POST['password'];
+
+      
+       $query = '
+            SELECT u.*, ur.id_rol
+            FROM usuario u
+            LEFT JOIN usuario_rol ur ON ur.id_usuario = u.id_usuario
+            WHERE u.email = :email
+        ';
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+
+        if ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            
+            if ($result['contrasena'] === $pass) {
+              $_SESSION['user'] = [
+                    'id' => $result['id_usuario'],
+                    'email' => $result['email'],
+                    'fecha_registro' => $result['fecha_registro'],
+                    'id_estado' => $result['id_estado'],
+                    'rol' => $result['id_rol']   
+                ];
+                switch ($result['id_rol']) {
+
+                    case 1: 
+                        header('Location: ../Administrador/dashboard.php');
+                        break;
+
+                    case 2: 
+                        header('Location: ../Jugador/dashboard.php');
+                        
+                        break;
+
+                    case 3: 
+                        header('Location: ../Organizador/dashboard.php');
+                        break;
+
+                    default:
+                       
+                        header('Location: ../error/rol-no-asignado.php');
+                        break;
+                }
+
+                exit;
+            } else {
+                $errorCredenciales = true;
             }
+        } else {
+            $errorCredenciales = true;
         }
     }
 }
-
-// Buscar el rol del usuario
-$queryRol = "SELECT r.nombre_rol 
-             FROM usuario_rol ur 
-             JOIN rol r ON ur.id_rol = r.id_rol 
-             WHERE ur.id_usuario = ?";
-$stmtRol = $conn->prepare($queryRol);
-$stmtRol->bind_param("i", $usuario['id_usuario']);
-$stmtRol->execute();
-$resRol = $stmtRol->get_result();
-$rol = $resRol->fetch_assoc()['nombre_rol'] ?? '';
-
-$_SESSION['id_usuario'] = $usuario['id_usuario'];
-$_SESSION['rol'] = $rol;
-
-// Si es organizador, buscar su nombre
-if ($rol === 'organizador') {
-    $qOrg = "SELECT nombre, apellido FROM organizador WHERE id_usuario = ?";
-    $stmtOrg = $conn->prepare($qOrg);
-    $stmtOrg->bind_param("i", $usuario['id_usuario']);
-    $stmtOrg->execute();
-    $resOrg = $stmtOrg->get_result();
-    $org = $resOrg->fetch_assoc();
-    $_SESSION['nombre'] = $org['nombre'];
-    $_SESSION['apellido'] = $org['apellido'];
-}
-// Intentar también obtener id_organizador si existe
-$id_organizador = null;
-if ($rol === 'organizador') {
-    $qIdOrg = "SELECT id_organizador FROM organizador WHERE id_usuario = ? LIMIT 1";
-    $stmtIdOrg = $conn->prepare($qIdOrg);
-    $stmtIdOrg->bind_param("i", $usuario['id_usuario']);
-    $stmtIdOrg->execute();
-    $resIdOrg = $stmtIdOrg->get_result();
-    if ($resIdOrg && $resIdOrg->num_rows > 0) {
-        $id_organizador = $resIdOrg->fetch_assoc()['id_organizador'];
-        $_SESSION['id_organizador'] = $id_organizador;
-    }
-}
-
-echo json_encode([
-    "success" => true,
-    "rol" => $rol,
-    "id_usuario" => $usuario['id_usuario'],
-    "id_organizador" => $id_organizador,
-    "nombre" => $_SESSION['nombre'] ?? '',
-    "apellido" => $_SESSION['apellido'] ?? ''
-]);
 ?>
+
+

@@ -18,7 +18,7 @@
         <h2>Iniciar Sesión</h2>
       </div>
 
-      <form id="loginForm" class="text-start" novalidate>
+      <form id="loginForm" action="../../Backend/login/login.php" method="POST" class="text-start" novalidate>
         <div class="mb-3">
           <label for="email" class="form-label">Correo electrónico</label>
           <input type="email" class="form-control" id="email" placeholder="ejemplo@correo.com" required>
@@ -42,7 +42,7 @@
         ¿Sos nuevo? 
       </div>
       <div class="mt-3 text-center small text-muted">
-         <a href="../jugador/crear-usuario.php">Registrate como jugador</a>
+         <a href="../Jugador/crear-usuario.php">Registrate como jugador</a>
       </div>
       <div class="mt-3 text-center small text-muted">
         <a href="../Organizador/crear-usuario.php">Registrate como organizador</a>

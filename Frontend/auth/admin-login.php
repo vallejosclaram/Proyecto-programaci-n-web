@@ -38,7 +38,7 @@
       </form>
 
       <div class="mt-3 text-center small text-muted">
-        <a href="../inicio.html">Volver al inicio</a>
+        <a href="../inicio.php">Volver al inicio</a>
       </div>
     </div>
   </div>
