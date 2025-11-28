@@ -1,18 +1,21 @@
 body {
-  background-color: #141421;
+  background-color: #141421  !important;
   color: #fff;
   font-family: 'Roboto', sans-serif;
 }
 
-.torneos-section {
-  padding: 40px;
-}
+
 
 .torneos-section h2 {
   font-family: 'Orbitron', sans-serif;
   color: #c084fc;
   margin-bottom: 25px;
   text-align: center;
+}
+
+.torneos-section {
+  width: 100%;
+  display: block !important;
 }
 
 .torneos-container {
@@ -22,21 +25,24 @@ body {
   padding: 10px;
   scroll-snap-type: x mandatory;
 }
+.torneos-grid {
+      display: grid !important;
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 20px !important;
+    }
 
 .torneo-card {
-  flex: 0 0 280px;
-  background: #1b1b2f;
-  border-radius: 16px;
-  box-shadow: 0 0 25px rgba(180, 0, 255, 0.3);
-  text-align: center;
+  background: #1e1e2f;
+  border-radius: 15px;
   padding: 20px;
-  scroll-snap-align: center;
-  transition: 0.3s ease;
+  text-align: left;
+  box-shadow: 0 0 10px rgba(155, 94, 255, 0.3);
+  transition: transform 0.3s ease;
 }
 
 .torneo-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 30px rgba(180, 0, 255, 0.6);
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px rgba(155, 94, 255, 0.6);
 }
 
 .torneo-card img {
@@ -48,22 +54,30 @@ body {
 }
 
 .torneo-card h3 {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 18px;
-  color: #c084fc;
+  color: #fff;
+  font-size: 1.3rem;
+  margin-bottom: 10px;
 }
 
 .torneo-card p {
-  font-size: 14px;
   color: #ccc;
+  margin: 5px 0;
 }
 
 .card-actions {
-  margin-top: 10px;
   display: flex;
-  justify-content: center;
-  gap: 10px;
+  justify-content: space-between;
+  margin-top: 15px;
 }
+
+.card-actions button {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
 
 .card-actions button {
   background: #7c3aed;

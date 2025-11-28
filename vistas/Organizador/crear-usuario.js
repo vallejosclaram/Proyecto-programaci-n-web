@@ -100,9 +100,9 @@ document.addEventListener('DOMContentLoaded', () => {
       modal.show();
 
       // Redirigir automáticamente al dashboard del organizador después de 2 segundos
-      setTimeout(() => {
-        window.location.href = '../Organizador/dashboard.php';
-      }, 2000);
+      /*setTimeout(() => {
+        window.location.href = '../auth/login.php';
+      }, 2000);*/
 
     } catch (err) {
       console.error('Error en la petición:', err);

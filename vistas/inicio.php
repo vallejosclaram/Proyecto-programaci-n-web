@@ -22,18 +22,18 @@
 
       <div class="row g-3 mt-3">
         <div class="col-12 col-md-4 d-grid">
-          <a href="jugador/crear-usuario.html" class="btn btn-lg">Jugador</a>
+          <a href="jugador/crear-usuario.php" class="btn btn-lg">Jugador</a>
         </div>
         <div class="col-12 col-md-4 d-grid">
-          <a href="organizador/crear-usuario.html" class="btn btn-lg">Organizador</a>
+          <a href="organizador/crear-usuario.php" class="btn btn-lg">Organizador</a>
         </div>
         <div class="col-12 col-md-4 d-grid">
-          <a href="auth/admin-login.html" class="btn btn-lg">Administrador</a>
+          <a href="auth/admin-login.php" class="btn btn-lg">Administrador</a>
         </div>
       </div>
 
       <div class="mt-4 text-muted small">
-        ¿Ya tenés cuenta? <a href="auth/login.html">Iniciá sesión</a>
+        ¿Ya tenés cuenta? <a href="auth/login.php">Iniciá sesión</a>
       </div>
     </div>
   </div>

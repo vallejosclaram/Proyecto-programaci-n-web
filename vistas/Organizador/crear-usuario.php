@@ -12,6 +12,7 @@ include '../connection.php';
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto&display=swap" rel="stylesheet" />
 </head>
 <body>
+  
   <div class="container d-flex align-items-center justify-content-center min-vh-100">
     <div class="hero-card">
       <div class="text-center mb-4">
