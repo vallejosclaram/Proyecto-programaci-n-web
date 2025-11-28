@@ -122,3 +122,111 @@ body {
   .toast.bg-purple {
     background: linear-gradient(90deg, #7b2ff7, #f107a3);
   }
+/* MODAL */
+.custom-modal {
+  background: #1a012f;
+  border: 2px solid #6a0dad;
+  border-radius: 1rem;
+  box-shadow: 0 0 30px rgba(106, 13, 173, 0.6);
+  color: #fff;
+}
+
+.custom-modal .modal-header {
+  background: linear-gradient(90deg, #7b2ff7, #f107a3);
+  color: #fff;
+  border-bottom: none;
+}
+
+.custom-modal .modal-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.2rem;
+}
+
+.custom-modal .btn-close {
+  filter: invert(1);
+}
+
+/* FORMULARIO */
+.modal-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.form-container {
+  width: 100%;
+  max-width: 500px;
+  background: #1a012f;
+  padding: 2rem;
+}
+
+.form-container h2 {
+  text-align: center;
+  font-family: 'Orbitron', sans-serif;
+  color: #e0c3fc;
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #e0c3fc;
+  font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group select {
+  padding: 0.7rem 1rem;
+  border-radius: 12px;
+  border: none;
+  font-size: 1rem;
+  background-color: #2a0055;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(157, 0, 255, 0.3);
+  transition: box-shadow 0.3s ease;
+}
+
+.form-group input::placeholder {
+  color: #ccc;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
+}
+
+/* BOTÓN */
+.btn-gradient {
+  background: linear-gradient(90deg, #ff00cc, #3333ff, #00ffff);
+  background-size: 200% 200%;
+  animation: gradientMove 4s ease infinite;
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 0.8rem 1.6rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+  transition: transform 0.3s ease;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.btn-gradient:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}

@@ -10,8 +10,6 @@
   <script src="crear-torneo.js"></script>
 </head>
 <body>
- 
-<?php require_once __DIR__ . '/../../componentes/dashboardOrganizador.php'; ?>
 
 <div class="form-container">
     <h2>Crear Nuevo Torneo</h2>

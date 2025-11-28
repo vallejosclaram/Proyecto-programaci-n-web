@@ -1,28 +1,54 @@
+<?php
+include '../../../Backend/conexion.php';
+include '../../../Backend/organizador/session_org.php';
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Equipos - UPE-SPORT</title>
+  <title>Mis Equipos - UPE-SPORT</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="../style.css" />
   <link rel="stylesheet" href="equipo.css" />
-  <script src="../dashboard.js"></script>
-  <link rel="stylesheet" href="style-organizador.css" />
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="equipo.js"></script>
 </head>
-
 <body>
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <span class="logo">🎮 UPE-SPORT</span>
+      <button class="close-btn" id="closeBtn"><i class="fa-solid fa-xmark"></i></button>
+    </div>
 
-  <?php require_once __DIR__ . '/../../componentes/dashboardOrganizador.php'; ?>
+    <nav class="nav-links">
+      <a href="../dashboard.php" class="nav-item"><i class="fa-solid fa-house"></i> Dashboard</a>
+      <a href="../perfil/ver.php" class="nav-item"><i class="fa-solid fa-user" style="color:#c84dff;"></i> Mi perfil</a>
+      <a href="../torneo/mis-torneos.php" class="nav-item active"><i class="fa-solid fa-trophy" style="color:#ffb84d;"></i> Mis Torneos</a>
+      <a href="equipo.php" class="nav-item"><i class="fa-solid fa-people-group" style="color:#4dffb8;"></i> Equipos</a>
+      <a href="../ranking.php" class="nav-item active"><i class="fa-solid fa-ranking-star" style="color:#ffb84d;"></i> Ranking</a>
+      <a href="../solicitudes.php" class="nav-item"><i class="fa-solid fa-bell" style="color:#ff4d94;"></i> Solicitudes</a>
+    </nav>
 
- <main class="main-content">
+    <div class="logout">
+      <a href="../../inicio.php" class="nav-item logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</a>
+    </div>
+  </aside>
+
+  <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+  <!-- ===== HEADER ===== -->
+  <?php include '../componentes/header.php'; ?>
+
+  <!-- ===== CONTENIDO PRINCIPAL ===== -->
+  <main class="main-content">
     <section class="equipo-section">
       <div class="equipo-header">
-        <h2>Equipos</h2>
+        <h2>Mis Equipos</h2>
+        <button button id="nuevoEquipoBtn" class="btn-nuevo-torneo" data-bs-toggle="modal" data-bs-target="#crearEquipoModal">
+          <i class="fa-solid fa-plus"></i> Crear Equipo
+        </button>
       </div>
 
       <div class="equipo-container">
@@ -32,6 +58,8 @@
           <div class="jugadores-info"><i class="fas fa-user"></i> 5 Jugadores</div>
           <div class="card-actions">
             <button class="btn-ver"><i class="fa-solid fa-eye"></i></button>
+            <button class="btn-editar"><i class="fa-solid fa-pen"></i></button>
+            <button class="btn-eliminar"><i class="fa-solid fa-trash"></i></button>
           </div>
         </div>
 
@@ -41,6 +69,8 @@
           <div class="jugadores-info"><i class="fas fa-user"></i> 6 Jugadores</div>
           <div class="card-actions">
             <button class="btn-ver"><i class="fa-solid fa-eye"></i></button>
+            <button class="btn-editar"><i class="fa-solid fa-pen"></i></button>
+            <button class="btn-eliminar"><i class="fa-solid fa-trash"></i></button>
           </div>
         </div>
         <div class="equipo-card">
@@ -49,6 +79,8 @@
           <div class="jugadores-info"><i class="fas fa-user"></i> 4 Jugadores</div>
           <div class="card-actions">
             <button class="btn-ver"><i class="fa-solid fa-eye"></i></button>
+            <button class="btn-editar"><i class="fa-solid fa-pen"></i></button>
+            <button class="btn-eliminar"><i class="fa-solid fa-trash"></i></button>
           </div>
         </div>
       </div>
@@ -101,6 +133,8 @@
     </div>
   </div>
 </div>
-  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="equipo.js"></script>
 </body>
 </html>
+

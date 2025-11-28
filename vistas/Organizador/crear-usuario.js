@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+
   const form = document.getElementById('formCrearJugador');
   const showPass = document.getElementById('showPass');
   const passwordInput = document.getElementById('password');
@@ -7,74 +8,108 @@ document.addEventListener('DOMContentLoaded', () => {
   const validFecha = document.getElementById('validfecha');
   const validPass = document.getElementById('validpass');
   const emailInput = document.getElementById('email');
-const validEmail = document.getElementById('validemail');
+  const validEmail = document.getElementById('validemail');
 
-  
-  showPass.addEventListener('change', () => {
-    passwordInput.type = showPass.checked ? 'text' : 'password';
-    confirmInput.type = showPass.checked ? 'text' : 'password';
-  });
+  if (showPass) {
+    showPass.addEventListener('change', () => {
+      const type = showPass.checked ? 'text' : 'password';
+      passwordInput.type = type;
+      confirmInput.type = type;
+    });
+  }
 
-  form.addEventListener('submit', function (e) {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    
-    [fechaInput, passwordInput, confirmInput].forEach(input => {
-      input.classList.remove('is-invalid');
-    });
+    // Limpiar errores previos
+    [fechaInput, passwordInput, confirmInput, emailInput].forEach(input =>
+      input.classList.remove('is-invalid')
+    );
     validFecha.classList.add('d-none');
     validPass.classList.add('d-none');
+    validEmail.classList.add('d-none');
 
+    const nombre = document.getElementById('nombre').value.trim();
+    const apellido = document.getElementById('apellido').value.trim();
     const usuario = document.getElementById('usuario').value.trim();
-    const email = document.getElementById('email').value.trim();
+    const email = emailInput.value.trim();
     const fechaNacimiento = fechaInput.value;
     const password = passwordInput.value;
     const confirmPassword = confirmInput.value;
 
     let valido = true;
 
-    
+    // Validar edad mínima 13 años
     const hoy = new Date();
     const nacimiento = new Date(fechaNacimiento);
-    const edad = hoy.getFullYear() - nacimiento.getFullYear();
     const cumple = new Date(nacimiento.setFullYear(nacimiento.getFullYear() + 13));
-    const esMayor = hoy >= cumple;
-
-    if (!esMayor) {
+    if (hoy < cumple) {
       fechaInput.classList.add('is-invalid');
       validFecha.classList.remove('d-none');
       valido = false;
     }
 
+    // Validar contraseñas iguales
     if (password !== confirmPassword) {
       confirmInput.classList.add('is-invalid');
       validPass.classList.remove('d-none');
       valido = false;
     }
-    if (!emailInput.checkValidity()) {
-        emailInput.classList.add('is-invalid');
-        validEmail.classList.remove('d-none');
-        } else {
-        emailInput.classList.remove('is-invalid');
-        validEmail.classList.add('d-none');
-        }
 
-    if (!usuario || !email || !fechaNacimiento || !password || !confirmPassword) {
+    // Validar email
+    if (!emailInput.checkValidity()) {
+      emailInput.classList.add('is-invalid');
+      validEmail.classList.remove('d-none');
+      valido = false;
+    }
+
+    // Validar campos vacíos
+    if (!usuario || !nombre || !apellido || !email || !fechaNacimiento || !password || !confirmPassword) {
       form.classList.add('was-validated');
       valido = false;
     }
 
     if (!valido) return;
 
-    const organizador = {
-    usuario,
-    email,
-    password,
-    rol: 'organizador'
-  };
-  localStorage.setItem('organizador', JSON.stringify(organizador));
+    // Preparar FormData
+    const formData = new FormData();
+    formData.append('nombre', nombre);
+    formData.append('apellido', apellido);
+    formData.append('usuario', usuario);
+    formData.append('email', email);
+    formData.append('password', password);
+    formData.append('fechaNacimiento', fechaNacimiento);
 
-  const modal = new bootstrap.Modal(document.getElementById('registroExitoso'));
-  modal.show();
+    try {
+      const res = await fetch("http://localhost/Proyecto-programaci-n-web/vistas/crear-organizador.php", {
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
+      });
+
+      const data = await res.json();
+      console.log('Registro response:', data);
+
+      if (!data.success) {
+        alert(data.error || 'No se pudo registrar el organizador');
+        return;
+      }
+
+      // Mostrar modal de éxito
+      const modal = new bootstrap.Modal(document.getElementById('registroExitoso'));
+      modal.show();
+
+      // Redirigir automáticamente al dashboard del organizador después de 2 segundos
+      setTimeout(() => {
+        window.location.href = '../Organizador/dashboard.php';
+      }, 2000);
+
+    } catch (err) {
+      console.error('Error en la petición:', err);
+      alert('Error en la conexión con el servidor');
+    }
+
   });
+
 });
+

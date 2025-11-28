@@ -1,3 +1,6 @@
+<?php
+include '../connection.php';
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -11,13 +14,35 @@
   <script src="dashboard.js"></script>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="solicitudes.css" />
-  <link rel="stylesheet" href="style-organizador.css" />
-  <script src="solicitudes.js"></script>
 </head>
 <body >
- 
-<?php require_once __DIR__ . '/../componentes/dashboardOrganizador.php'; ?>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <span class="logo">🎮 UPE-SPORT</span>
+      <button class="close-btn" id="closeBtn"><i class="fa-solid fa-xmark"></i></button>
+    </div>
 
+    <nav class="nav-links">
+      <a href="dashboard.php" class="nav-item active"><i class="fa-solid fa-house"></i> Dashboard</a>
+      <a href="../Organizador/perfil/ver.php" class="nav-item"><i class="fa-solid fa-user-gear" style="color:#c84dff;"></i> Mi perfil</a>
+      <a href="../Organizador/torneo/mis-torneos.php" class="nav-item"><i class="fa-solid fa-trophy" style="color:#ffb84d;"></i> Mis Torneos</a>
+      <a href="../Organizador/equipo/equipo.php" class="nav-item"><i class="fa-solid fa-people-group" style="color:#4dffb8;"></i> Equipos</a>
+      <a href="ranking.php" class="nav-item active"><i class="fa-solid fa-ranking-star" style="color:#ffb84d;"></i> Ranking</a>
+      <a href="solicitudes.php" class="nav-item"><i class="fa-solid fa-bell" style="color:#ff4d94;"></i> Solicitudes</a>
+    </nav>
+
+    <div class="logout">
+      <a href="../inicio.php" class="nav-item logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</a>
+    </div>
+  </aside>
+
+  <!-- Overlay -->
+  <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+  <!-- ===== HEADER ===== -->
+  <?php include './componentes/header.php'; ?>
+
+  <!-- ===== CONTENIDO ===== -->
   <main class="main-content">
     <section class="solicitudes-section">
       <h2>📩 Solicitudes pendientes</h2>
@@ -26,6 +51,6 @@
   </main>
 
 
-  
+  <script src="solicitudes.js"></script>
 </body>
 </html>
