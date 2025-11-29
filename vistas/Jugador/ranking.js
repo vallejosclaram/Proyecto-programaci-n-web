@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeBtn = document.getElementById('closeBtn');
   const body = document.body;
 
-  // Menú lateral
   menuToggle.addEventListener('click', () => {
     sidebar.classList.add('open');
     body.classList.add('menu-open');
@@ -18,13 +17,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const equipos = [
     { nombre: "Equipo Fénix", juego: "Valorant", puntos: 150, logo: "https://via.placeholder.com/60" },
     { nombre: "Dark Wolves", juego: "League of Legends", puntos: 120, logo: "https://via.placeholder.com/60" },
-    { nombre: "Neon Titans", juego: "FIFA", puntos: 100, logo: "https://via.placeholder.com/60" },
   ];
 
   const jugadores = [
     { nombre: "AxelPro", juego: "Valorant", puntos: 300, logo: "https://via.placeholder.com/60" },
     { nombre: "DaraJ", juego: "League of Legends", puntos: 250, logo: "https://via.placeholder.com/60" },
-    { nombre: "MauroKiller", juego: "FIFA", puntos: 200, logo: "https://via.placeholder.com/60" },
+    
   ];
 
   const contEquipos = document.getElementById('contenedorEquipos');
@@ -56,11 +54,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Mostrar por defecto
+  // Mostrar 
   renderRanking(equipos, contEquipos);
   renderRanking(jugadores, contJugadores);
 
-  // Tabs
+  
   const tabEquipos = document.getElementById('tabEquipos');
   const tabJugadores = document.getElementById('tabJugadores');
 
@@ -78,12 +76,12 @@ document.addEventListener('DOMContentLoaded', () => {
     contEquipos.classList.add('d-none');
   });
 
-  // 🔍 Filtrado dinámico
+  
   function aplicarFiltros() {
     const texto = busquedaInput.value.toLowerCase();
     const juego = filtroJuego.value;
 
-    // Detectar pestaña activa
+    
     const activoEsJugadores = tabJugadores.classList.contains('active');
     const data = activoEsJugadores ? jugadores : equipos;
     const contenedor = activoEsJugadores ? contJugadores : contEquipos;

@@ -1,12 +1,13 @@
 <?php
 require_once(__DIR__ . '/../connection.php');
+
 session_start();
-if (!isset($_SESSION["admin"]["id"])) {
+if (!isset($_SESSION['admin']['id'])) {
     die("Error: no hay usuario administrador logueado.");
 }
 
-$usuario_id = $_SESSION["admin"]["id"];
-$rol = $_SESSION["admin"]["rol"] ?? null;
+$usuario_id = $_SESSION['admin']['id'];
+$rol = $_SESSION['admin']["rol"] ?? null;
 
 if ($rol != 1) {
     die("Acceso restringido: no sos administrador.");

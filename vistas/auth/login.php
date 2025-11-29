@@ -50,9 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ];
                 switch ($result['id_rol']) {
 
-                    case 1: 
-                        header('Location: ../Administrador/dashboard.html');
-                        break;
 
                     case 2: 
                         header('Location: ../Jugador/dashboard.php');

@@ -9,13 +9,13 @@ $data = json_decode($input, true);
 $usuario_id = $_SESSION["user"]["id"];
 $id_torneo = $data['id_torneo'] ?? null;
 
-if (!Permisos::tienePermiso("solicitud_torneo", $usuario_id)) {
+if (!Permisos::tienePermiso("solicitar_torneo", $usuario_id)) {
     echo json_encode(["error" => "No tenés permiso para unirte a un torneo"]);
     exit;
 }
 
 if (!$id_torneo) {
-    echo json_encode(['success'=>false,'error'=>'Falta id_torneo']);
+    echo json_encode(['error'=>'Falta id_torneo']);
     exit;
 }
 
@@ -38,7 +38,7 @@ if ($torneo['id_tipo'] == 2) {
     $equipo = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$equipo) {
-        echo json_encode(['success'=>false,'error'=>'No pertenecés a ningún equipo']);
+        echo json_encode(['error'=>'No pertenecés a ningún equipo']);
         exit;
     }
     $id_equipo = $equipo['id_equipo'];

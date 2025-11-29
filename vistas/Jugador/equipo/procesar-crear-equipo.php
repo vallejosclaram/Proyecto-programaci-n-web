@@ -73,8 +73,8 @@ try {
     $nuevo_equipo_id = $conn->lastInsertId();
 
     
-    $sql = "INSERT INTO miembros_equipo (id_equipo, id_usuario, rol_en_equipo, fecha_union)
-            VALUES (:e, :u, 'capitana', NOW())";
+    $sql = "INSERT INTO miembros_equipo (id_equipo, id_usuario, fecha_union)
+            VALUES (:e, :u, NOW())";
     $stmt = $conn->prepare($sql);
     $stmt->execute([
         ":e" => $nuevo_equipo_id,
@@ -95,6 +95,6 @@ try {
 
 } catch (Exception $e) {
     // $e->getMessage()
-    echo json_encode(["error" => "Error al crear el equipo"]);
+    echo json_encode(["error" => $e->getMessage()]);
 }
 ?>

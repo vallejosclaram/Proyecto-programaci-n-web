@@ -29,8 +29,9 @@ INNER JOIN juego j ON t.id_juego = j.id_juego
 INNER JOIN tipo_torneo tt ON t.id_tipo = tt.id_tipo
 LEFT JOIN inscripcion_torneo it 
     ON it.id_torneo = t.id_torneo 
-    WHERE it.id_jugador = :jugador_id
-ORDER BY t.fecha_inicio ASC
+    AND it.id_jugador = :jugador_id
+ORDER BY t.fecha_inicio ASC;
+
 ";
 
 $stmt = $conn->prepare($sql);

@@ -1,5 +1,6 @@
 <?php
 require_once(__DIR__ . '/../../connection.php');
+
 session_start();
 
 if (!isset($_SESSION["user"]["id"])) {
@@ -65,7 +66,7 @@ $usuario_id = $_SESSION["user"]["id"];
   </main>
 
   
-  <div class="modal fade" id="modalEquipo" tabindex="-1" aria-hidden="true">
+  <div class="modal" id="modalEquipo" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content bg-dark text-white">
         <div class="modal-header border-0">
@@ -76,6 +77,49 @@ $usuario_id = $_SESSION["user"]["id"];
       </div>
     </div>
   </div>
+
+  <!-- Editar Equipo -->
+<div class="modal" id="modalEditarEquipo" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-dark text-white">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Editar equipo</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <form id="formEditarEquipo">
+          
+          <input type="hidden" id="edit-id">
+
+          <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input type="text" id="edit-nombre" class="form-control">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Descripción</label>
+            <textarea id="edit-descripcion" class="form-control"></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Juego</label>
+            <input type="text" id="edit-juego" class="form-control" disabled>
+          </div>
+
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-primary" id="btnGuardarCambios">Guardar cambios</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 
   
 </body>

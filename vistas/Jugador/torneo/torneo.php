@@ -39,9 +39,7 @@ try {
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../style.css" />
   <link rel="stylesheet" href="torneo.css" />
-  <script>
-    const torneosData = <?php echo json_encode($torneos); ?>;
-  </script>
+  
   <script src="torneo.js"></script>
 </head>
 <body>
@@ -57,7 +55,7 @@ try {
     <div class="columna-torneos">
       <div class="filtros">
         <input type="text" id="filtroJuego" placeholder="Filtrar por juego">
-        <input type="text" id="filtroEquipo" placeholder="Filtrar por equipo">
+        <input type="text" id="filtroEquipo" placeholder="Filtrar por tipo">
       </div>
 
       <h3>Mis Torneos</h3>
@@ -97,7 +95,7 @@ try {
         <option value="no responsable">No responsable</option>
         <option value="otro">Otro</option>
       </select>
-      <button id="btnConfirmar" disabled>✔</button> <!-- botón en pausa -->
+      <button id="btnConfirmar" >✔</button>
     </div>
   </div>
 

@@ -1,15 +1,14 @@
 <?php
-// Detecta dinámicamente la ruta base hasta la carpeta `/vistas`
-// Ej: /TP-LB-2025/Proyecto-programaci-n-web/vistas
+
 $script = $_SERVER['SCRIPT_NAME'] ?? '/';
 $pos = strpos($script, '/vistas');
 if ($pos !== false) {
   $BASE = substr($script, 0, $pos + strlen('/vistas'));
 } else {
-  // Fallback si no se detecta '/vistas' (ajustá según tu servidor)
+  
   $BASE = '/TP-LB-2025/Proyecto-programaci-n-web/vistas';
 }
-// Asegura que no termine con slash duplicado
+
 $BASE = rtrim($BASE, "/");
 ?>
 
@@ -52,6 +51,8 @@ $BASE = rtrim($BASE, "/");
       <a href="<?php echo $BASE; ?>/Jugador/partidas/partidas.php" class="nav-item">🖥️ Partidas</a>
 
       <a href="<?php echo $BASE; ?>/Jugador/soporte/soporte.php" class="nav-item">🙋‍♀️ Soporte</a>
+
+      <a href="<?php echo $BASE; ?>/Jugador/puntaje/carga-puntaje.php" class="nav-item">🎯 Puntaje</a>
 
 
     </nav>

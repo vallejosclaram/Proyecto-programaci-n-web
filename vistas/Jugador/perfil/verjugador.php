@@ -99,36 +99,12 @@ $avatar = !empty($jugador["avatar"]) ? "../img/avatars/" . $jugador["avatar"] : 
 
       <div class="info-card">
         <h4>Ranking General</h4>
-        <div class="info-card">
-    <h4>Cuenta de Juego</h4>
-
-    <?php if ($cuentaJuego): ?>
-        <p><strong>Juego: </strong><?php echo $cuentaTipo; ?></p>
-        <p><strong>Nickname: </strong><?php echo $cuentaJuego["nickname"]; ?></p>
-
-        <?php if ($cuentaTipo === "Valorant"): ?>
-            <p><strong>Rango:</strong> <?php echo $cuentaJuego["rank"]; ?></p>
-            <p><strong>MMR:</strong> <?php echo $cuentaJuego["mmr"]; ?></p>
-
-        <?php elseif ($cuentaTipo === "Counter Strike"): ?>
-            <p><strong>Premier Rating:</strong> <?php echo $cuentaJuego["premier_rating"]; ?></p>
-            <p><strong>Rol:</strong> <?php echo $cuentaJuego["stats"]["role"]; ?></p>
-        <?php endif; ?>
-
-        <img src="<?php echo $cuentaJuego["avatar_url"] ?? $cuentaJuego["avatar"]; ?>" 
-             alt="Avatar juego" class="img-fluid mt-2 rounded" 
-             style="max-width: 120px;">
-    <?php else: ?>
-        <p>No se encontró una cuenta vinculada ):</p>
-    <?php endif; ?>
-</div>
-
+        <p><?php echo $jugador["ranking_general"]; ?></p>
       </div>
     </div>
 
     <!-- Botones -->
     <div class="perfil-botones">
-      <button id="editProfileBtn"><a href="editar.php">Editar Perfil</a></button>
       <button><a href="<?php echo $BASE; ?>/Jugador/torneo/torneo.php">Ver Torneos</a></button>
     </div>
 

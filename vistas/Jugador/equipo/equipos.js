@@ -74,15 +74,45 @@ function renderMisEquipos(equipos) {
     equipos.forEach(eq => {
         c.innerHTML += `
             <div class="card mb-3 bg-dark text-white border-secondary">
-                <div class="card-body">
-                    <h5>${eq.nombre}</h5>
-                    <p>${eq.descripcion}</p>
-                    <p><strong>Juego:</strong> ${eq.juego}</p>
+            <div class="card-body">
+                <h5>${eq.nombre}</h5>
+                <p>${eq.descripcion}</p>
+                <p><strong>Juego:</strong> ${eq.juego}</p>
 
-                </div>
+                <button class="btn btn-primary btn-editar-equipo" 
+                    data-id="${eq.id}">
+                    Editar equipo
+                </button>
+
             </div>
-        `;
+        </div>
+    `;
+        
     });
+}
+
+
+
+document.addEventListener("click", e => {
+    const btn = e.target.closest(".btn-editar-equipo");
+    if (!btn) return;
+
+    const id = btn.dataset.id;
+    window.location.href = `editar.php?id=${id}`;
+});
+
+
+async function editarEquipo(id){
+
+    const response = await fetch("process-editar-equipo.php?id=" + id);
+            const data = await response.json();
+
+            document.getElementById("edit-id").value = data.id;
+            document.getElementById("edit-nombre").value = data.nombre;
+            document.getElementById("edit-descripcion").value = data.descripcion;
+            document.getElementById("edit-juego").value = data.juego;
+
+            modalEditar.show();
 }
 
 
@@ -106,7 +136,7 @@ function renderEquiposDisponibles(equipos) {
                     <p>${eq.descripcion}</p>
                     <p><strong>Juego:</strong> ${eq.juego}</p>
 
-                    <button class="btn btn-success btn-ver-equipo" data-id="${eq.id_equipo}">
+                    <button class="btn btn-success btn-ver-equipo" data-id="${eq.id}">
                         Ver detalles
                     </button>
                 </div>
@@ -152,7 +182,7 @@ document.addEventListener("click", e => {
 
 
 async function verEquipo(id) {
-    const response = await fetch(`get_equipo.php?id=${id}`);
+    const response = await fetch("get_equipo.php");
     const data = await response.json();
     console.log(data);
     document.getElementById("modalEquipoTitulo").textContent = data.nombre;

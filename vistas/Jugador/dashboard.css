@@ -1,0 +1,35 @@
+.h-scroll {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    scroll-behavior: smooth;
+}
+
+.h-scroll::-webkit-scrollbar {
+    height: 6px;
+}
+
+.h-scroll::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 4px;
+}
+
+.search-results-box {
+    position: absolute;
+    top: 60px;
+    background: #1c1c1c;
+    width: 300px;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 0 0 8px 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 20;
+}
+
+.search-results-box .result-item {
+    padding: 6px;
+    border-bottom: 1px solid #333;
+    cursor: pointer;
+}

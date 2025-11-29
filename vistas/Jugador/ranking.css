@@ -1,4 +1,4 @@
-/* ===== CONTENEDOR ===== */
+
 .estadisticas-section {
   padding: 40px;
   text-align: center;
@@ -17,7 +17,7 @@
   margin-bottom: 15px;
 }
 
-/* ===== TABS ===== */
+
 .ranking-tabs {
   display: flex;
   gap: 10px;
@@ -40,7 +40,7 @@
   box-shadow: 0 0 10px #c84dff;
 }
 
-/* ===== RANKING ===== */
+
 .ranking-container {
   display: flex;
   flex-direction: column;

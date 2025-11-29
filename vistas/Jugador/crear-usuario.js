@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const emailInput = document.getElementById('email');
   const validEmail = document.getElementById('validemail');
 
-  // Mostrar / ocultar contraseña
+  
   showPass.addEventListener('change', () => {
    	passwordInput.type = showPass.checked ? 'text' : 'password';
    	confirmInput.type = showPass.checked ? 'text' : 'password';
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    // Reset de clases
+    
     [fechaInput, passwordInput, confirmInput, emailInput].forEach(input => {
       input.classList.remove('is-invalid');
     });

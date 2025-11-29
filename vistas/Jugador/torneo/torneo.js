@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     body.classList.remove('menu-open');
   });
 
-  // Input "otro" para denunciar
+  // Input para denunciar
   let inputOtro = document.createElement('input');
   inputOtro.type = 'text';
   inputOtro.placeholder = 'Escribí el motivo';
@@ -46,13 +46,13 @@ document.addEventListener('DOMContentLoaded', () => {
   let torneosOtrosData = [];
   let torneoSeleccionado = null;
 
-  // Cargar torneos
+  // Carga torneos
   async function cargarTorneos() {
     try {
       const res1 = await fetch('process-torneo.php');             // torneos propios
       torneosPropiosData = await res1.json();
 
-      const res2 = await fetch('process-torneos-otros.php');      // torneos no inscripta
+      const res2 = await fetch('process-torneos-otros.php');      // torneos no inscripto
       torneosOtrosData = await res2.json();
 
       renderTorneos();
@@ -115,7 +115,7 @@ function crearCardTorneo(t) {
     </div>
 
     <div class="torneo-actions">
-      <button class="btn-ver-jugadores">Ver Jugadores</button>
+      <button class="btn-ver-jugadores" disabled>Ver Jugadores</button>
       <button class="btn-denunciar">Denunciar</button>
     </div>
   `;
@@ -162,6 +162,7 @@ function crearCardTorneo(t) {
   } else {
     btnSumarme.addEventListener('click', async () => {
       try {
+        console.log("aca");
         const res = await fetch('procesar-solicitud.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -169,7 +170,7 @@ function crearCardTorneo(t) {
         });
 
         const data = await res.json();
-
+        
         if (data.success) {
           btnSumarme.textContent = 'Pendiente';
           btnSumarme.disabled = true;
@@ -227,7 +228,7 @@ function crearCardTorneo(t) {
   closeJugadores.addEventListener('click', () => modalJugadores.style.display = 'none');
   window.addEventListener('click', e => { if (e.target === modalJugadores) modalJugadores.style.display = 'none'; });
 
-  closeDenuncia.addEventListener('click', () => modalDenuncia.style.display = 'none');
+  closeDenuncia.addEventListener('click', () => modalDenuncia.style.display = 'block');
   closeConfirmacion.addEventListener('click', () => modalConfirmacion.style.display = 'none');
   btnCerrarConfirmacion.addEventListener('click', () => modalConfirmacion.style.display = 'none');
 
@@ -270,6 +271,8 @@ function crearCardTorneo(t) {
       });
 
       const data = await res.json();
+      modalDenuncia.style.display = 'none';
+    modalConfirmacion.style.display = 'block';
       
     } catch (err) {
       

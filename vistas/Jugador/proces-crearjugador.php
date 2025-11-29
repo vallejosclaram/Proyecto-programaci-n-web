@@ -79,7 +79,7 @@ try {
         ':usuario' => $id_usuario
     ]);
 
-    // Asignar rol
+    // asignar rol
     $sql_rol = "INSERT INTO usuario_rol (id_usuario, id_rol)
                 VALUES (:usuario, :rol)";
     $stmt_r = $conn->prepare($sql_rol);
