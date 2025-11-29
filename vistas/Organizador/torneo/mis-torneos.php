@@ -265,6 +265,69 @@ function imagenJuego($juego) {
       </div>
     </div>
   </div>
+  <!-- MODAL EDITAR TORNEO -->
+  <div class="modal fade" id="editarTorneoModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog ">
+      <div class="modal-content custom-modal">
+
+        <div class="modal-header border-0">
+          <h5 class="modal-title">✏️ Editar Torneo</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+
+          <form id="formEditarTorneo">
+
+            <input type="hidden" id="editarIdTorneo">
+
+            <div class="form-group">
+              <label>Nombre del Torneo</label>
+              <input type="text" id="editarNombre" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+              <label>Juego</label>
+              <select id="editarJuego" class="form-select">
+                <option value="Valorant">Valorant</option>
+                <option value="Counter Strike">Counter Strike</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Tipo</label>
+              <select id="editarTipo" class="form-select">
+                <option value="Individual">Individual</option>
+                <option value="Equipo">Equipo</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Inicio</label>
+              <input type="date" id="editarInicio" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label>Fin</label>
+              <input type="date" id="editarFin" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label>Estado</label>
+              <select id="editarEstado" class="form-select">
+                <option value="1">Activo</option>
+                <option value="2">Cerrado</option>
+              </select>
+            </div>
+
+            <button class="btn btn-primary w-100 mt-3">Guardar cambios</button>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
 
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

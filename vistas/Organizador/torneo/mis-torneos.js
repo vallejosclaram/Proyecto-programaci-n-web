@@ -217,6 +217,66 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.show();
     }
 });
+document.addEventListener("click", async (e) => {
+
+  if (e.target.closest(".btn-editar")) {
+
+    const card = e.target.closest(".torneo-card");
+    const id = card.getAttribute("data-id");
+
+    // Traer datos desde el backend
+    const fd = new FormData();
+    fd.append("id_torneo", id);
+
+    const r = await fetch("http://localhost/Proyecto-programaci-n-web/vistas/obtener-torneo.php", {
+      method: "POST",
+      body: fd
+    });
+
+    const json = await r.json();
+    const t = json.data;
+
+    // Cargar campos
+    document.getElementById("editarIdTorneo").value = id;
+    document.getElementById("editarNombre").value = t.nombre_torneo;
+    document.getElementById("editarJuego").value = t.juego;
+    document.getElementById("editarTipo").value = t.tipo;
+    document.getElementById("editarInicio").value = t.fecha_inicio;
+    document.getElementById("editarFin").value = t.fecha_fin;
+
+    let estadoValue = 1;
+    if (t.estado === "Cerrado") estadoValue = 2;
+    if (t.estado === "Bloqueado") estadoValue = 3;
+
+    document.getElementById("editarEstado").value = estadoValue;
+
+    new bootstrap.Modal("#editarTorneoModal").show();
+  }
+});
+document.getElementById("formEditarTorneo").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const fd = new FormData();
+  fd.append("id", document.getElementById("editarIdTorneo").value);
+  fd.append("nombre", document.getElementById("editarNombre").value);
+  fd.append("juego", document.getElementById("editarJuego").value);
+  fd.append("tipo", document.getElementById("editarTipo").value);
+  fd.append("inicio", document.getElementById("editarInicio").value);
+  fd.append("fin", document.getElementById("editarFin").value);
+  fd.append("estado", document.getElementById("editarEstado").value);
+
+  const res = await fetch("http://localhost/Proyecto-programaci-n-web/vistas/editar-torneo.php", {
+    method: "POST",
+    body: fd
+  });
+
+  const json = await res.json();
+
+  if (json.status === "ok") {
+    location.reload(); // ❗ O puedo actualizar la card sin refrescar si querés
+  }
+});
+
 
 
 });

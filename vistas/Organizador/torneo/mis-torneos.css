@@ -160,14 +160,6 @@ body {
   filter: invert(1);
 }
 
-/* FORMULARIO */
-.modal-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem;
-}
-
 .form-container {
   width: 100%;
   max-width: 500px;
@@ -271,7 +263,7 @@ body {
 
 .gamer-title-box h2 {
     font-family: 'Orbitron', sans-serif;
-    font-size: 48px;
+    font-size: 36px;
     color: #c084fc;
     margin-bottom: 25px;
     text-align: center;
@@ -280,7 +272,7 @@ body {
 /* Caja datos del torneo */
 .gamer-info-box {
     padding: 20px;
-    font-size: 28px;
+    font-size: 24px;
     margin-top: 10px;
     border-radius: 10px;
     color: white;
@@ -288,14 +280,7 @@ body {
     flex-direction: column;
     gap: 10px;
 }
-.modal-body{
-    font-size: 22px;
-    flex-direction: column;
-    align-items: stretch;
-    background-color: #1e1e2f;
-    align-items: center;
 
-}
 
 .gamer-info-box p {
     margin: 0;
