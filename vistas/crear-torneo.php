@@ -77,10 +77,12 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($query);
 
 if ($stmt->execute([$id_organizador, $id_juego, $nombre, $descripcion, $fecha_inicio, $fecha_fin, $id_estado, $id_tipo])) {
-    $last_id = $conn->lastInsertId();
+    
+    $nuevoID = $conn->lastInsertId(); 
+
     echo json_encode([
         "status" => "ok",
-        "id_torneo" => $last_id, 
+        "id_torneo" => $nuevoID, 
         "nombre" => $nombre,
         "juego" => $juego,
         "fecha_inicio" => $fecha_inicio,

@@ -144,6 +144,12 @@ body {
   box-shadow: 0 0 30px rgba(106, 13, 173, 0.6);
   color: #fff;
 }
+.modal-body {
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
 
 .custom-modal .modal-header {
   background: linear-gradient(90deg, #7b2ff7, #f107a3);

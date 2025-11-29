@@ -276,6 +276,43 @@ document.getElementById("formEditarTorneo").addEventListener("submit", async (e)
     location.reload(); // ❗ O puedo actualizar la card sin refrescar si querés
   }
 });
+document.addEventListener("click", async (e) => {
+
+    const btn = e.target.closest(".btn-eliminar");
+    if (!btn) return;
+
+    const card = btn.closest(".torneo-card");
+    const id = card.getAttribute("data-id");
+    console.log("ID: ", id);
+
+    if (!id) {
+        console.error("❌ No existe data-id en la card");
+        return;
+    }
+
+    if (!confirm("⚠️ ¿Seguro que quieres eliminar este torneo?")) {
+        return;
+    }
+
+    const fd = new FormData();
+    fd.append("id_torneo", id);
+
+    const res = await fetch("http://localhost/Proyecto-programaci-n-web/vistas/eliminar-torneo.php", {
+        method: "POST",
+        body: fd
+    });
+
+    const json = await res.json();
+
+    if (json.status === "ok") {
+        card.remove();
+        console.log("✔ Torneo eliminado");
+    } else {
+        alert("❌ Error al eliminar el torneo.");
+        console.error(json.msg);
+    }
+});
+
 
 
 

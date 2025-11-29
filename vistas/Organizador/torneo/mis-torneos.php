@@ -200,7 +200,6 @@ function imagenJuego($juego) {
             <select class="form-select" name="estado" id="estado" required>
               <option value="1">Activo</option>
               <option value="2">Cerrado</option>
-              <option value="3">Bloqueado</option>
             </select>
           </div>
 
