@@ -238,6 +238,88 @@ body {
   transform: scale(1.05);
   box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
 }
+.gamer-modal {
+    background: #1a012f;
+    border: 2px solid #6a0dad;
+    border-radius: 1rem;
+    box-shadow: 0 0 30px rgba(106, 13, 173, 0.6);
+    color: #fff;
+}
+/* Contenedor del banner */
+.gamer-banner {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 12px 12px 0 0;
+}
+
+/* Imagen sin recortar */
+.gamer-banner-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* No recorta la imagen */
+}
+
+/* Nombre del torneo debajo de la imagen */
+.gamer-title-box {
+    background-color: #1e1e2f;
+    text-align: center;
+    padding: 20px 10px 10px;
+}
+
+.gamer-title-box h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 48px;
+    color: #c084fc;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+/* Caja datos del torneo */
+.gamer-info-box {
+    padding: 20px;
+    font-size: 28px;
+    margin-top: 10px;
+    border-radius: 10px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.modal-body{
+    font-size: 22px;
+    flex-direction: column;
+    align-items: stretch;
+    background-color: #1e1e2f;
+    align-items: center;
+
+}
+
+.gamer-info-box p {
+    margin: 0;
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Estado */
+#estadoBadge {
+    margin: 10px 0;
+}
+
+/* Jugadores */
+.gamer-jugadores-box {
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+
+
+
 
 @keyframes gradientMove {
   0% { background-position: 0% 50%; }

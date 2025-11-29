@@ -4,7 +4,6 @@ header("Content-Type: application/json; charset=UTF-8");
 include 'connection.php';
 session_start();
 
-// Validar sesión real
 if (!isset($_SESSION['id_usuario'])) {
     echo json_encode(["status" => "error", "msg" => "No has iniciado sesión"]);
     exit;
@@ -12,7 +11,7 @@ if (!isset($_SESSION['id_usuario'])) {
 
 $id_usuario = $_SESSION['id_usuario'];
 
-// Obtener id_organizador real
+// Obtener id_organizador
 $stmtOrg = $conn->prepare("SELECT id_organizador FROM organizador WHERE id_usuario = ?");
 $stmtOrg->execute([$id_usuario]);
 $org = $stmtOrg->fetch(PDO::FETCH_ASSOC);
@@ -24,7 +23,7 @@ if (!$org) {
 
 $id_organizador = $org['id_organizador'];
 
-// Recibir datos
+// Datos recibidos
 $nombre        = $_POST['nombre'] ?? '';
 $juego         = $_POST['juego'] ?? '';
 $tipo          = $_POST['tipo'] ?? '';
@@ -32,13 +31,13 @@ $fecha_inicio  = $_POST['fechaInscripcion'] ?? '';
 $fecha_fin     = $_POST['fechaInscripcionFin'] ?? '';
 $estado        = $_POST['estado'] ?? '';
 
-// Validación
-if (!$nombre || !$juego || !$tipo || !$fecha_inicio || !$fecha_fin) {
+// Validación básica
+if (!$nombre || !$juego || !$tipo || !$fecha_inicio || !$fecha_fin || !$estado) {
     echo json_encode(["status" => "error", "msg" => "Faltan datos"]);
     exit;
 }
 
-// Convertir juego a id_juego
+// ID del juego
 $stmtJuego = $conn->prepare("SELECT id_juego FROM juego WHERE nombre = ?");
 $stmtJuego->execute([$juego]);
 $g = $stmtJuego->fetch(PDO::FETCH_ASSOC);
@@ -50,16 +49,27 @@ if (!$g) {
 
 $id_juego = $g['id_juego'];
 
-// Convertir tipo a id_tipo
-$id_tipo = ($tipo == "individual") ? 1 : 2;
+// Tipo: 1=Individual, 2=Equipo
+$id_tipo = ($tipo === "individual") ? 1 : 2;
 
-// Convertir estado a id_estado
-$id_estado = ($estado == "abierto") ? 1 : 2;
+// Estado: llega directamente como ID (1,2,3)
+$id_estado = intval($estado);
 
-// Descripción por defecto
+if (!in_array($id_estado, [1,2,3])) {
+    echo json_encode(["status" => "error", "msg" => "Estado inválido"]);
+    exit;
+}
+
+// Estado para la card JS
+$estadoTexto = match ($id_estado) {
+    1 => "Activo",
+    2 => "Cerrado",
+    3 => "Bloqueado",
+    default => "Desconocido"
+};
+
 $descripcion = "Torneo creado por el organizador";
 
-// Insertar torneo
 $query = "INSERT INTO torneo
 (id_organizador, id_juego, nombre, descripcion, fecha_inicio, fecha_fin, id_estado, id_tipo)
 VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -67,17 +77,18 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($query);
 
 if ($stmt->execute([$id_organizador, $id_juego, $nombre, $descripcion, $fecha_inicio, $fecha_fin, $id_estado, $id_tipo])) {
-
-    // RESPUESTA JSON CORRECTA PARA TU JS
+    $last_id = $conn->lastInsertId();
     echo json_encode([
         "status" => "ok",
+        "id_torneo" => $last_id, 
         "nombre" => $nombre,
         "juego" => $juego,
         "fecha_inicio" => $fecha_inicio,
         "fecha_fin" => $fecha_fin,
-        "estado" => ($estado == "abierto") ? "Abierto" : "Cerrado",
+        "estado" => $estadoTexto,
         "tipo" => ($tipo == "individual") ? "Individual" : "Equipo"
     ]);
+
 } else {
     echo json_encode(["status" => "error", "msg" => "Error al insertar"]);
 }

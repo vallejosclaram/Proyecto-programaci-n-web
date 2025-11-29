@@ -32,7 +32,7 @@ $stmt = $conn->prepare("
     tt.descripcion AS tipo
   FROM torneo t
   JOIN juego j ON t.id_juego = j.id_juego
-  JOIN estado e ON t.id_estado = e.id_estado
+  JOIN estado_torneo e ON t.id_estado = e.id_estado
   JOIN tipo_torneo tt ON t.id_tipo = tt.id_tipo
   WHERE t.id_organizador = ?
 ");
@@ -79,7 +79,7 @@ function imagenJuego($juego) {
     </div>
 
     <nav class="nav-links">
-      <a href="dashboard.php" class="nav-item active"><i class="fa-solid fa-house"></i> Dashboard</a>
+      <a href="../dashboard.php" class="nav-item active"><i class="fa-solid fa-house"></i> Dashboard</a>
       <a href="../perfil/ver.php" class="nav-item"><i class="fa-solid fa-user-gear" style="color:#c84dff;"></i> Mi perfil</a>
       <a href="../Organizador/torneo/mis-torneos.php" class="nav-item"><i class="fa-solid fa-trophy" style="color:#ffb84d;"></i> Mis Torneos</a>
       <a href="../Organizador/equipo/equipo.php" class="nav-item"><i class="fa-solid fa-people-group" style="color:#4dffb8;"></i> Equipos</a>
@@ -112,7 +112,7 @@ function imagenJuego($juego) {
       <div class="torneos-grid">
 
         <?php foreach ($result as $row): ?>
-          <div class="torneo-card">
+          <div class="torneo-card" data-id="<?= $row['id_torneo'] ?>">
 
             <!-- Imagen dinámica -->
             <img src="<?= imagenJuego($row['juego']) ?>" alt="<?= htmlspecialchars($row['juego']) ?>">
@@ -198,8 +198,9 @@ function imagenJuego($juego) {
           <div class="form-group">
             <label class="form-label">Estado</label>
             <select class="form-select" name="estado" id="estado" required>
-              <option value="abierto">Abierto</option>
-              <option value="cerrado">Cerrado</option>
+              <option value="1">Activo</option>
+              <option value="2">Cerrado</option>
+              <option value="3">Bloqueado</option>
             </select>
           </div>
 
@@ -220,6 +221,51 @@ function imagenJuego($juego) {
       </div>
     </div>
   </div>
+  <!-- MODAL GAMER PRO -->
+    <div class="modal fade" id="verTorneoModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content gamer-modal">
+
+        <!-- IMAGEN -->
+        <div class="gamer-banner">
+          <img id="verImagenJuego" class="gamer-banner-img" src="" alt="">
+        </div>
+
+        <!-- Cerrar -->
+        <button class="btn-close position-absolute end-0 m-3" data-bs-dismiss="modal"></button>
+
+        <!-- TÍTULO -->
+        <div class="gamer-title-box">
+          <h2 id="verNombre"></h2>
+        </div>
+
+        <div class="modal-body">
+
+          <!-- ORGANIZADOR -->
+          <p >
+            👤 Organizador: <strong id="verOrganizador"></strong>
+          </p>
+
+          <!-- ESTADO -->
+          <div id="estadoBadge"></div>
+
+          <!-- INFO DEL TORNEO (COLUMNA) -->
+          <div class="gamer-info-box">
+            <p>🎮 <strong>Juego:</strong> <span id="verJuego"></span></p>
+            <p>⏳ <strong>Inicio:</strong> <span id="verInicio"></span></p>
+            <p>🏁 <strong>Fin:</strong> <span id="verFin"></span></p>
+            <p><i class="fa-solid fa-users-rays" style="color:#ffb84d;"></i><strong>Tipo:</strong> <span id="verTipo"></span></p>
+          </div>
+
+          <!-- JUGADORES -->
+          <div id="bloqueJugadores" class="gamer-jugadores-box"></div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="mis-torneos.js"></script>

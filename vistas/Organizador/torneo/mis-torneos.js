@@ -60,7 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Construir card
       const nuevaCard = `
-        <div class="torneo-card">
+
+        <div class="torneo-card" data-id="${data.id_torneo}">
 
           <img src="${imagenRuta}" alt="${data.juego}">
 
@@ -100,5 +101,122 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error("Error:", err);
     });
   });
+  document.addEventListener('click', async function(e) {
+    if (e.target.closest('.btn-ver')) {
+
+        const card = e.target.closest('.torneo-card');
+        const idTorneo = card.getAttribute('data-id');
+        // 💥 TOMO LA MISMA IMAGEN DE LA CARD (YA RESUELTA EN PHP)
+        const imgCard = card.querySelector("img").getAttribute("src");
+
+        // Asignarla al modal
+        document.getElementById("verImagenJuego").src = imgCard;
+
+        const formData = new FormData();
+        formData.append("id_torneo", idTorneo);
+
+        const res = await fetch("http://localhost/Proyecto-programaci-n-web/vistas/obtener-torneo.php" ,{
+            method: "POST",
+            body: formData
+        });
+
+        const json = await res.json();
+
+        if (json.status !== "ok") {
+            console.error(json.msg);
+            return;
+        }
+
+        const t = json.data;
+
+        // ORGANIZADOR
+        document.getElementById("verOrganizador").textContent = t.organizador;
+
+        // ESTADO (bolita verde o roja)
+        const estado = t.estado.trim().toLowerCase();
+        let badgeHTML = "";
+
+        if (estado === "activo") {
+            badgeHTML = `
+                <span class="badge-estado" 
+                      style="background:#38ff73; color:#000; box-shadow:0 0 12px #38ff73;">
+                    🟢 Activo
+                </span>
+            `;
+        } 
+        else if (estado === "cerrado") {
+            badgeHTML = `
+                <span class="badge-estado" 
+                      style="background:#ff4d4d; color:#000; box-shadow:0 0 12px #ff4d4d;">
+                    🔴 Cerrado
+                </span>
+            `;
+        }
+        else if (estado === "bloqueado") {
+            badgeHTML = `
+                <span class="badge-estado" 
+                      style="background:#ffcc00; color:#000; box-shadow:0 0 12px #ffcc00;">
+                    🔒 Bloqueado
+                </span>
+            `;
+        }
+
+        document.getElementById("estadoBadge").innerHTML = badgeHTML;
+
+        // Info básica
+        document.getElementById("verNombre").textContent = t.nombre_torneo;
+        document.getElementById("verJuego").textContent = t.juego;
+        document.getElementById("verTipo").textContent = t.tipo;
+
+        document.getElementById("verInicio").textContent = 
+            t.fecha_inicio.split("-").reverse().join("/");
+        document.getElementById("verFin").textContent = 
+            t.fecha_fin.split("-").reverse().join("/");
+
+        // ===============================
+      // JUGADORES / EQUIPOS DEL TORNEO
+      // ===============================
+      const detalle = json.detalle;
+      const bloque = document.getElementById("bloqueJugadores");
+
+      if (t.tipo === "Individual") {
+
+          bloque.innerHTML = `
+              <h4>🧍 Jugadores Inscritos</h4>
+              <ul>
+                  ${detalle.length > 0 
+                      ? detalle.map(j => `<li>${j}</li>`).join("")
+                      : "<li>No hay jugadores registrados.</li>"}
+              </ul>
+          `;
+
+      } else {
+
+          let html = `<h4>👥 Equipos Registrados</h4>`;
+
+          detalle.forEach(eq => {
+
+              html += `
+                  <div class="equipo-box">
+                      <h5>🏆 ${eq.equipo}</h5>
+                      <ul>
+                          ${
+                              eq.jugadores.length > 0
+                              ? eq.jugadores.map(j => `<li>${j.nombre} (${j.email})</li>`).join("")
+                              : "<li>Sin jugadores.</li>"
+                          }
+                      </ul>
+                  </div>
+              `;
+          });
+
+          bloque.innerHTML = html;
+      }
+
+        const modal = new bootstrap.Modal(document.getElementById('verTorneoModal'));
+        modal.show();
+    }
+});
+
 
 });
