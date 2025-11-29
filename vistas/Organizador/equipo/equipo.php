@@ -1,6 +1,5 @@
 <?php
-include '../../../Backend/conexion.php';
-include '../../../Backend/organizador/session_org.php';
+include '../../connection.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">

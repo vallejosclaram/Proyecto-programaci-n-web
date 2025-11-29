@@ -1,5 +1,23 @@
 <?php
 include '../../connection.php';
+session_start();
+
+$id_usuario = $_SESSION['id_usuario'] ?? null;
+if (!$id_usuario) {
+  header('Location: ../../auth/login.php');
+  exit;
+}
+
+// Obtener organizador
+$stmtOrg = $conn->prepare('SELECT * FROM organizador WHERE id_usuario = ? LIMIT 1');
+$stmtOrg->execute([$id_usuario]);
+$organizador = $stmtOrg->fetch(PDO::FETCH_ASSOC);
+
+// Obtener email
+$stmtUser = $conn->prepare('SELECT email FROM usuario WHERE id_usuario = ? LIMIT 1');
+$stmtUser->execute([$id_usuario]);
+$userRow = $stmtUser->fetch(PDO::FETCH_ASSOC);
+$organizador['email'] = $userRow['email'] ?? null;
 
 ?>
 <!DOCTYPE html>
@@ -42,20 +60,34 @@ include '../../connection.php';
 
   <main class="main-content" id="mainContent">
     <h1>✏️ Editar Perfil</h1>
+
+    <?php if (isset($_GET['error'])): ?>
+      <div class="alert alert-danger">
+        <?php
+          $err = $_GET['error'];
+          if ($err === 'datos') echo 'Por favor completa los campos requeridos.';
+          elseif ($err === 'email') echo 'El email no tiene un formato válido.';
+          elseif ($err === 'exists') echo 'El email ya está en uso por otro usuario.';
+          elseif ($err === 'exception') echo 'Ocurrió un error en el servidor. Intenta nuevamente.';
+          else echo 'Error desconocido.';
+        ?>
+      </div>
+    <?php endif; ?>
+
     <form action="../../../Backend/organizador/actualizar_perfil.php" method="POST" enctype="multipart/form-data">
 
       <label>Nombre</label>
-      <input type="text" name="nombre" class="form-control" value="<?php echo htmlspecialchars($organizador['nombre']); ?>" />
+      <input type="text" name="nombre" class="form-control" value="<?php echo htmlspecialchars($organizador['nombre'] ?? ''); ?>" />
 
       <label>Apellido</label>
-      <input type="text" name="apellido" class="form-control" value="<?php echo htmlspecialchars($organizador['apellido']); ?>"/>
+      <input type="text" name="apellido" class="form-control" value="<?php echo htmlspecialchars($organizador['apellido'] ?? ''); ?>"/>
 
 
       <label>Email</label>
-      <input  class="form-control" value="<?php echo htmlspecialchars($organizador['email']); ?>" required/>
+      <input name="email" class="form-control" value="<?php echo htmlspecialchars($organizador['email'] ?? ''); ?>" required/>
 
       <label>Descripción</label>
-      <textarea name="descripcion" class="form-control" rows="3"><?php echo htmlspecialchars($organizador['descripcion']); ?></textarea>
+      <textarea name="descripcion" class="form-control" rows="3"><?php echo htmlspecialchars($organizador['descripcion'] ?? ''); ?></textarea>
 
       <div class="perfil-actions mt-3">
         <a href="ver.php" class="btn btn-secondary">⬅️ Atrás</a>
