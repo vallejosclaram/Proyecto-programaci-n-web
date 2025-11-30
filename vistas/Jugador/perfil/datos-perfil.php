@@ -17,9 +17,11 @@ SELECT
     u.email,
     j.nombre,
     j.apellido,
-    j.biografia as descripcion
+    j.biografia as descripcion,
+    c.comentario AS comentario
 FROM usuario u
 INNER JOIN jugador j ON j.id_usuario = u.id_usuario
+LEFT JOIN comentario c ON c.id_objetivo = u.id_usuario
 WHERE u.id_usuario = :id
 ";
 

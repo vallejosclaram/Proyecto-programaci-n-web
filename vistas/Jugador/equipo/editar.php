@@ -9,6 +9,7 @@ if (!isset($_SESSION["user"]["id"])) {
 }
 
 $usuario_id = $_SESSION["user"]["id"];
+exit;
 
 // Validar ID recibido
 if (!isset($_GET["id"])) {

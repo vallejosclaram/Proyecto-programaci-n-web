@@ -83,11 +83,11 @@ function showSearchResults(results) {
 function cargarJugadoresDestacados() {
     fetch("destacado.php")
         .then(res => res.json())
-        .then(data => renderPlayers(data))
+        .then(data => renderJugadores(data))
         .catch(console.error);
 }
 
-function renderPlayers(players) {
+function renderJugadores(players) {
     const cont = document.getElementById("playersList");
     cont.innerHTML = "";
 

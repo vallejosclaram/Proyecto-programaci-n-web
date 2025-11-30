@@ -60,10 +60,10 @@ $id_usuario = $_SESSION["user"]["id"];
       <button type="submit" class="btn w-100 btn-primary mb-4">Enviar consulta</button>
     </form>
 
-    
-
   </div>
+  
 </div>
+<div id="misTickets" class="mt-5 h-scroll"></div>
 
 <!-- Modal de éxito -->
 <div class="modal fade" id="ticketExitoso" tabindex="-1" aria-labelledby="ticketExitosoLabel" aria-hidden="true">

@@ -59,10 +59,10 @@ try {
       </div>
 
       <h3>Mis Torneos</h3>
-      <div class="torneos-grid" id="torneosPropios"></div>
+      <div class="torneos-grid h-scroll" id="torneosPropios"></div>
 
       <h3>Otros Torneos</h3>
-      <div class="torneos-grid" id="torneosOtros"></div>
+      <div class="torneos-grid h-scroll" id="torneosOtros"></div>
     </div>
   </div>
 

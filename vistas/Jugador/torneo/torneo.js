@@ -51,10 +51,10 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const res1 = await fetch('process-torneo.php');             // torneos propios
       torneosPropiosData = await res1.json();
-
+      console.log(torneosPropiosData);
       const res2 = await fetch('process-torneos-otros.php');      // torneos no inscripto
       torneosOtrosData = await res2.json();
-
+      console.log(torneosOtrosData);
       renderTorneos();
       renderCalendario();
 
@@ -109,6 +109,7 @@ function crearCardTorneo(t) {
     <h4>${t.nombre}</h4>
     <div class="torneo-info">
       <p>Juego: ${t.juego}</p>
+      <p>Organizador: ${t.organizador_nombre} ${t.organizador_apellido}</p>
       <p>Tipo: ${t.tipo_torneo}</p>
       <p>Inscripción cierra: ${t.fecha_fin}</p>
       <p>Inicio: ${t.fecha_inicio}</p>
@@ -228,7 +229,9 @@ function crearCardTorneo(t) {
   closeJugadores.addEventListener('click', () => modalJugadores.style.display = 'none');
   window.addEventListener('click', e => { if (e.target === modalJugadores) modalJugadores.style.display = 'none'; });
 
-  closeDenuncia.addEventListener('click', () => modalDenuncia.style.display = 'block');
+ closeDenuncia.addEventListener('click', () => {
+  modalDenuncia.style.display = 'none';
+});
   closeConfirmacion.addEventListener('click', () => modalConfirmacion.style.display = 'none');
   btnCerrarConfirmacion.addEventListener('click', () => modalConfirmacion.style.display = 'none');
 
@@ -284,15 +287,15 @@ function crearCardTorneo(t) {
   function renderCalendario() {
     calendarioTorneos.innerHTML = '';
 
-    const proximos = [...torneosPropiosData, ...torneosOtrosData]
-      .filter(t => new Date(t.fecha_inicio) >= new Date())
-      .sort((a, b) => new Date(a.fecha_inicio) - new Date(b.fecha_inicio));
+  const proximosPropios = torneosPropiosData
+    .filter(t => new Date(t.fecha_inicio) >= new Date()) // solo futuros
+    .sort((a, b) => new Date(a.fecha_inicio) - new Date(b.fecha_inicio)); // ordenar por fecha
 
-    proximos.forEach(t => {
-      const li = document.createElement('li');
-      li.textContent = `${t.nombre} - Inicio: ${t.fecha_inicio}`;
-      calendarioTorneos.appendChild(li);
-    });
+  proximosPropios.forEach(t => {
+    const li = document.createElement('li');
+    li.textContent = `${t.nombre} - Inicio: ${t.fecha_inicio}`;
+    calendarioTorneos.appendChild(li);
+  });
   }
 
   filtroJuego.addEventListener('input', renderTorneos);

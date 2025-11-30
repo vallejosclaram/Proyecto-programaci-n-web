@@ -5,15 +5,21 @@ header('Content-Type: application/json; charset=utf-8');
 $data = json_decode(file_get_contents('php://input'), true);
 $errors = [];
 
-$usuario = trim($data['usuario']);
-$email = trim($data['email']);
-$contrasena = trim($data['contrasena']);
-$fechaNacimiento = trim($data['fechaNacimiento']);
+$nombre = $data['nombre'];
+$apellido = $data['apellido'];
+$pais = $data['pais'];
+$email = $data['email'];
+$contrasena = $data['contrasena'];
+$fechaNacimiento = $data['fechaNacimiento'];
 $id_rol = intval($data['id_rol']); 
 
 //validaciones
-if ($usuario === '') {
-    $errors['usuario'] = 'El usuario no puede estar vacío';
+if ($nombre === '') {
+    $errors['nombre'] = 'El nombre no puede estar vacío';
+}
+
+if ($apellido === '') {
+    $errors['apellido'] = 'El apellido no puede estar vacío';
 }
 
 if ($email === '') {
@@ -72,11 +78,17 @@ try {
     $id_usuario = $conn->lastInsertId();
 
     // Crear jugador
-    $sqljugador = "INSERT INTO jugador (id_usuario)
-                    VALUES (:usuario)";
+    $sqljugador = "INSERT INTO jugador 
+(id_usuario, nombre, apellido, pais, fecha_nacimiento)
+VALUES (:usuario, :nombre, :apellido, :pais, :fecha_nacimiento, :id_rol)";
     $stmt_j = $conn->prepare($sqljugador);
     $stmt_j->execute([
-        ':usuario' => $id_usuario
+        ':usuario' => $id_usuario,
+        ':nombre' => $nombre,
+        ':apellido' => $apellido,
+        ':pais' => $pais,
+        ':fecha_nacimiento' => $fechaNacimiento,
+        ':id_rol' => $id_rol
     ]);
 
     // asignar rol

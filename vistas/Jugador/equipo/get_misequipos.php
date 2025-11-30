@@ -11,7 +11,7 @@ if (!isset($_SESSION["user"]["id"])) {
 $usuario_id = $_SESSION["user"]["id"];
 
 
-$sqlCapitana = "
+$sqlCapitan = "
 SELECT e.id_equipo AS id,
        e.nombre,
        e.descripcion,
@@ -20,10 +20,10 @@ FROM equipo e
 JOIN juego j ON j.id_juego = e.id_juego
 WHERE e.id_capitan_usuario = :uid
 ";
-$stmt = $conn->prepare($sqlCapitana);
+$stmt = $conn->prepare($sqlCapitan);
 $stmt->bindValue(":uid", $usuario_id, PDO::PARAM_INT);
 $stmt->execute();
-$equiposCapitana = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$equiposCapitan = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 
@@ -57,4 +57,3 @@ foreach ($equiposMiembro as $e) {
 echo json_encode([
     "misEquipos" => array_values($misEquipos)
 ]);
-

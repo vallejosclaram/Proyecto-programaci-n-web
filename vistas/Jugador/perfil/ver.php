@@ -11,27 +11,31 @@ $usuario_id = $_SESSION["user"]["id"];
 
 $sql = "
     SELECT 
-        j.nombre,
-        j.apellido,
-        u.email,
-        j.biografia AS descripcion,
-        j.puntaje AS ranking_general,
+    j.nombre,
+    j.apellido,
+    u.email,
+    j.biografia AS descripcion,
+    j.puntaje AS ranking_general,
+    j.id_cuentajuego,
+    c.comentario AS comentario,
 
-        (
-            SELECT COUNT(*) 
-            FROM equipo e
-            WHERE e.id_capitan_usuario = j.id_jugador
-        ) AS equipos_capitan,
+    (
+        SELECT COUNT(*) 
+        FROM equipo e
+        WHERE e.id_capitan_usuario = j.id_jugador
+    ) AS equipos_capitan,
 
-        (
-            SELECT COUNT(*) 
-            FROM miembros_equipo me
-            WHERE me.id_usuario = j.id_jugador
-        ) AS equipos_miembro
+    (
+        SELECT COUNT(*) 
+        FROM miembros_equipo me
+        WHERE me.id_usuario = j.id_jugador
+    ) AS equipos_miembro
 
-    FROM usuario u
-    INNER JOIN jugador j ON j.id_usuario = u.id_usuario
-    WHERE u.id_usuario = :usuario_id
+FROM usuario u
+INNER JOIN jugador j ON j.id_usuario = u.id_usuario
+LEFT JOIN comentario c ON c.id_objetivo = u.id_usuario
+WHERE u.id_usuario = :usuario_id;
+
 ";
 
 $stmt = $conn->prepare($sql);
@@ -87,9 +91,9 @@ $avatar = !empty($jugador["avatar"]) ? "../img/avatars/" . $jugador["avatar"] : 
     
     <div class="perfil-info">
       <div class="info-card">
-        <h4>Torneos</h4>
-        <p><?php echo $jugador["equipos_capitan"]; ?></p>
-        <p><?php echo $jugador["equipos_miembro"]; ?></p>
+        <h4>Equipos</h4>
+        <p>Capitan:<?php echo $jugador["equipos_capitan"]; ?></p>
+        <p>Miembro:<?php echo $jugador["equipos_miembro"]; ?></p>
       </div>
 
     <!--  <div class="info-card">
@@ -98,30 +102,20 @@ $avatar = !empty($jugador["avatar"]) ? "../img/avatars/" . $jugador["avatar"] : 
       </div> -->
 
       <div class="info-card">
-        <h4>Ranking General</h4>
-        <div class="info-card">
+        <h4>Puntaje</h4>
+        <?php echo $jugador["ranking_general"]; ?>
+      </div>
+
+      <div class="info-card">
     <h4>Cuenta de Juego</h4>
 
-    <?php if ($cuentaJuego): ?>
-        <p><strong>Juego: </strong><?php echo $cuentaTipo; ?></p>
-        <p><strong>Nickname: </strong><?php echo $cuentaJuego["nickname"]; ?></p>
-
-        <?php if ($cuentaTipo === "Valorant"): ?>
-            <p><strong>Rango:</strong> <?php echo $cuentaJuego["rank"]; ?></p>
-            <p><strong>MMR:</strong> <?php echo $cuentaJuego["mmr"]; ?></p>
-
-        <?php elseif ($cuentaTipo === "Counter Strike"): ?>
-            <p><strong>Premier Rating:</strong> <?php echo $cuentaJuego["premier_rating"]; ?></p>
-            <p><strong>Rol:</strong> <?php echo $cuentaJuego["stats"]["role"]; ?></p>
-        <?php endif; ?>
-
-        <img src="<?php echo $cuentaJuego["avatar_url"] ?? $cuentaJuego["avatar"]; ?>" 
-             alt="Avatar juego" class="img-fluid mt-2 rounded" 
-             style="max-width: 120px;">
-    <?php else: ?>
-        <p>No se encontró una cuenta vinculada ):</p>
-    <?php endif; ?>
-</div>
+    <?php if ($jugador["id_cuentajuego"]){ 
+      ?>
+      <p><?php echo $jugador["id_cuentajuego"]; ?></p>
+      <?php
+         }else{ ?>
+        <p>No se encontró una cuenta vinculada </p> <?php }
+        ?>
 
       </div>
     </div>
@@ -129,7 +123,7 @@ $avatar = !empty($jugador["avatar"]) ? "../img/avatars/" . $jugador["avatar"] : 
     <!-- Botones -->
     <div class="perfil-botones">
       <button id="editProfileBtn"><a href="editar.php">Editar Perfil</a></button>
-      <button><a href="<?php echo $BASE; ?>/Jugador/torneo/torneo.php">Ver Torneos</a></button>
+      <button><a href="<?php echo $BASE; ?>/Jugador/perfil/mistorneos.php">Ver Torneos</a></button>
     </div>
 
     <!-- Descripción -->
@@ -139,6 +133,13 @@ $avatar = !empty($jugador["avatar"]) ? "../img/avatars/" . $jugador["avatar"] : 
         <?php echo !empty($jugador["descripcion"]) ? nl2br(htmlspecialchars($jugador["descripcion"])) : "Este jugador aún no agregó una descripción."; ?>
       </p>
     </div>
+
+    
+
+  <div class="perfil-descripcion">
+  <h3>Comentarios</h3>
+    <p id="comentarios" name="comentarios"></p>
+</div>
 
   </div>
 </main>

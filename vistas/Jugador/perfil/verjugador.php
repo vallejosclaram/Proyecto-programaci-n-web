@@ -2,11 +2,14 @@
 require_once(__DIR__ . '/../../connection.php');
 session_start();
 
-if (!isset($_SESSION["user"]["id"])) {
-    die("Error: no hay usuario logueado.");
+
+
+if (!isset($_GET["id"])) {
+    echo json_encode(["error" => "Falta el ID del jugador"]);
+    exit;
 }
 
-$usuario_id = $_SESSION["user"]["id"];
+$jugador_id = intval($_GET["id"]);
 
 
 $sql = "
@@ -16,6 +19,7 @@ $sql = "
         u.email,
         j.biografia AS descripcion,
         j.puntaje AS ranking_general,
+        j.id_cuentajuego,
 
         (
             SELECT COUNT(*) 
@@ -31,11 +35,11 @@ $sql = "
 
     FROM usuario u
     INNER JOIN jugador j ON j.id_usuario = u.id_usuario
-    WHERE u.id_usuario = :usuario_id
+    WHERE j.id_jugador = :id
 ";
 
 $stmt = $conn->prepare($sql);
-$stmt->execute([":usuario_id" => $usuario_id]);
+$stmt->execute([":id" => $jugador_id]);
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
@@ -61,7 +65,7 @@ $avatar = !empty($jugador["avatar"]) ? "../img/avatars/" . $jugador["avatar"] : 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="../style.css"/>
   <link rel="stylesheet" href="perfil.css" />
-  <script src="perfil.js"></script>
+  <script src="perfil.js" defer></script>
 </head>
 <body>
 
@@ -88,20 +92,33 @@ $avatar = !empty($jugador["avatar"]) ? "../img/avatars/" . $jugador["avatar"] : 
     <div class="perfil-info">
       <div class="info-card">
         <h4>Torneos</h4>
-        <p><?php echo $jugador["equipos_capitan"]; ?></p>
-        <p><?php echo $jugador["equipos_miembro"]; ?></p>
+        <p>Capitan:<?php echo $jugador["equipos_capitan"]; ?></p>
+        <p>Miembro<?php echo $jugador["equipos_miembro"]; ?></p>
       </div>
 
-    <!--  <div class="info-card">
-        <h4>Seguidores</h4>
-        <p><?php echo $jugador["cantidad_seguidores"]; ?></p>
-      </div> -->
+  
 
       <div class="info-card">
-        <h4>Ranking General</h4>
+        <h4>Puntaje</h4>
         <p><?php echo $jugador["ranking_general"]; ?></p>
       </div>
-    </div>
+
+      <div class="info-card">
+    <h4>Cuenta de Juego</h4>
+
+    <?php if ($jugador["id_cuentajuego"]){ 
+      ?>
+      <p><?php echo $jugador["id_cuentajuego"]; ?></p>
+      <?php
+         }else{ ?>
+        <p>No se encontró una cuenta vinculada </p> <?php }
+        ?>
+
+      </div>
+   
+         </div>
+      
+      
 
     <!-- Botones -->
     <div class="perfil-botones">
@@ -116,8 +133,28 @@ $avatar = !empty($jugador["avatar"]) ? "../img/avatars/" . $jugador["avatar"] : 
       </p>
     </div>
 
+    <!--comentario-->
+     <div class="perfil-descripcion">
+          <p>Dejar comentario</p>
+          <textarea id="dejarcomentario" name="dejarcomentario" rows="4" cols="50" placeholder="Escribe tu comentario aquí..."></textarea>
+          <br>
+          <button id="enviarComentario">Enviar Comentario</button>
+      </div>
+
+  <div class="perfil-descripcion">
+  <h3>Comentarios</h3>
+    <p id="comentarios" name="comentarios"></p>
+      
   </div>
 </main>
+
+<div id="modalExito" class="modal-exito">
+  <div class="modal-exito-contenido">
+    <p>Comentario enviado con éxito (: </p>
+    <button id="cerrarModalExito">Cerrar</button>
+  </div>
+</div>
+
 
 </body>
 </html>
