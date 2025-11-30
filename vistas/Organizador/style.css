@@ -368,14 +368,6 @@ h1 {
 }
 
 
-.topbar-inner {
-  display: flex; 
-  align-items: center; 
-  justify-content: space-between; 
-  position: relative;
-  width: 100%;
-  max-width: 1400px;
-}
 
 .menu-toggle {
   left: 10px;
@@ -554,14 +546,19 @@ h1 {
   box-shadow: 0 0 10px rgba(150, 0, 255, 0.3);
 }
 
+/* Contenedor interior del topbar, centrado y con ancho máximo */
 .topbar-inner {
-  width: 100%;
-  max-width: 1200px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   position: relative;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 12px;
 }
+
+
 
 .menu-toggle {
   background: none;
@@ -590,6 +587,34 @@ h1 {
   color: #bb86fc;
   text-shadow: 0 0 10px rgba(187,134,252,0.5);
 }
+
+/* Notificaciones (campana) */
+.notificaciones { position: relative; display: inline-block; vertical-align: middle; }
+.btn-noti { background: none; border: none; color: inherit; cursor: pointer; font-size: 1.1rem; }
+.noti-count { display: none; background: #ff4d4d; color: #fff; border-radius: 12px; padding: 2px 6px; font-size: 12px; position: relative; left: 6px; top: -8px; }
+.noti-dropdown { display: none; position: absolute; right: 0; top: 36px; background: #1e1e2f; border: 1px solid #3f3f5e; width: 320px; max-height: 360px; overflow: auto; box-shadow: 0 6px 18px rgba(0,0,0,0.4); z-index: 9999; color: #f0f0f0; }
+.noti-header { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.03); font-weight: 700; color: #c77dff; }
+.noti-list { padding: 8px; }
+.noti-empty { padding: 12px; color: #aaa; display: none; }
+
+/* estilos para items dentro del dropdown */
+.noti-list .btn { margin-left: 6px; }
+
+/* Usuario en header */
+.usuario-resumen { display:flex; align-items:center; gap:12px; }
+.usuario-resumen .usuario-text { display:flex; flex-direction:column; align-items:center; text-align:center; }
+
+#usuarioGreeting { font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight:600; color: #f0f0f0; line-height:1.1; }
+.usuario-resumen #usuarioRol { font-family: 'Orbitron', sans-serif; font-size:13px; color:#cfc9ff; margin-top:4px; }
+
+/* Mejora visual de la campana */
+.btn-noti { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.04); padding: 6px; border-radius:8px; display:inline-flex; align-items:center; justify-content:center; color:#fff; width:40px; height:40px; }
+.notificaciones { position: relative; display:inline-flex; align-items:center; justify-content:center; margin-right:6px; }
+.noti-count { position:absolute; right:-6px; top:-6px; display:none; background:#ff4d4d; color:#fff; border-radius:12px; padding:2px 6px; font-size:12px; }
+.noti-dropdown { left: 0; top: 48px; }
+
+
+
 
 /* ======== ACTIVIDAD RECIENTE ======== */
 .actividad-reciente {

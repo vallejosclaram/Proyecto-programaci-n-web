@@ -60,7 +60,7 @@ $jugadores_inscritos = $jugRow['inscritos'] ?? 0;
       <a href="../dashboard.php" class="nav-item active"><i class="fa-solid fa-house"></i> Dashboard</a>
       <a href="ver.php" class="nav-item"><i class="fa-solid fa-user-gear" style="color:#c84dff;"></i> Mi perfil</a>
       <a href="../torneo/mis-torneos.php" class="nav-item"><i class="fa-solid fa-trophy" style="color:#ffb84d;"></i> Mis Torneos</a>
-      <a href="../../equipo/equipo.php" class="nav-item"><i class="fa-solid fa-people-group" style="color:#4dffb8;"></i> Equipos</a>
+      <a href="../equipo/equipo.php" class="nav-item"><i class="fa-solid fa-people-group" style="color:#4dffb8;"></i> Equipos</a>
       <a href="../ranking.php" class="nav-item active"><i class="fa-solid fa-ranking-star" style="color:#ffb84d;"></i> Ranking</a>
       <a href="../solicitudes.php" class="nav-item"><i class="fa-solid fa-bell" style="color:#ff4d94;"></i> Solicitudes</a>
     </nav>
@@ -84,7 +84,6 @@ $jugadores_inscritos = $jugRow['inscritos'] ?? 0;
     <div class="avatar-section">
   <div class="avatar-wrapper">
     <img src="../img/avatar.jpeg" alt="Avatar del organizador" class="avatar-img" />
-    <button class="btn-cambiar-avatar">Cambiar avatar</button>
   </div>
   <h2 class="organizador-nombre">
     <?= htmlspecialchars($organizador['nombre'] . ' ' . $organizador['apellido']) ?>
@@ -110,7 +109,7 @@ $jugadores_inscritos = $jugRow['inscritos'] ?? 0;
         
         <button id="editProfileBtn" onclick="window.location.href='editar.php'">Editar Perfil</button>
         <button onclick="window.location.href='../torneo/mis-torneos.php'">Ver Torneos</button>
-        <button onclick="window.location.href='../configuracion.php'">Configuración</button>
+        <button onclick="window.location.href='configuracion.php'">Configuración</button>
       
     </div>
 

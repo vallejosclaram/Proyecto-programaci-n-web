@@ -1,0 +1,158 @@
+/* ===== CONFIG WRAPPER ===== */
+.config-wrapper {
+  max-width: 600px;
+  margin: 10px auto 20px auto;
+  padding: 30px;
+}
+
+/* ===== CARD GENERAL ===== */
+.config-card {
+  background: #2c2c3e;
+  padding: 25px 30px;
+  border-radius: 15px;
+  margin-bottom: 30px;
+  box-shadow: 0 0 15px rgba(155, 94, 255, 0.25);
+  border-left: 4px solid #c77dff;
+}
+
+.config-card h3 {
+  font-family: 'Orbitron', sans-serif;
+  margin-bottom: 20px;
+  color: #d8b4ff;
+  font-size: 1.3rem;
+}
+
+/* versión roja para "Eliminar cuenta" */
+.config-card.danger {
+  border-left: 4px solid #ff4d6d;
+  box-shadow: 0 0 15px rgba(255, 77, 109, 0.25);
+}
+
+.config-card .danger-text {
+  color: #ffb3c6;
+  margin-bottom: 15px;
+}
+
+/* ===== INPUT + LABEL ===== */
+.form-group {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #c77dff;
+  margin-bottom: 6px;
+}
+
+.form-group input {
+  background: #1a1a2e;
+  border: 1px solid #3f3f5e;
+  padding: 10px 14px;
+  font-size: 1rem;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.form-group input:focus {
+  border-color: #c77dff;
+  box-shadow: 0 0 8px rgba(199,125,255,0.5);
+  outline: none;
+}
+
+/* ===== BUTTONS ===== */
+.full {
+  width: 100%;
+  margin-top: 12px;
+}
+
+/* boton violeta ya existente (.btn-brand) */
+/* boton rojo ya existente (.btn-danger-brand) */
+
+/* ===== ALERTA ===== */
+.inline-alert {
+  padding: 10px 14px;
+  border-radius: 8px;
+  display: none;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+}
+
+.inline-alert.success {
+  background: linear-gradient(90deg, #e6ffe9, #b0f2c2);
+  color: #073b14;
+}
+
+.inline-alert.error {
+  background: linear-gradient(90deg, #ffe6e6, #ffc2c2);
+  color: #4d0b0b;
+}
+/* ===== BOTÓN ATRÁS GAMER ===== */
+.back-btn-wrapper {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  background: linear-gradient(135deg, #6a0dad, #c77dff);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1rem;
+  box-shadow: 0 0 12px rgba(199, 125, 255, 0.4);
+  transition: 0.2s ease-in-out;
+}
+
+.back-btn i {
+  font-size: 1rem;
+}
+
+/* Hover */
+.back-btn:hover {
+  background: linear-gradient(135deg, #8b00ff, #e2b4ff);
+  box-shadow: 0 0 18px rgba(199, 125, 255, 0.7);
+  transform: translateY(-2px);
+}
+
+/* Activo (click) */
+.back-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 0 8px rgba(199, 125, 255, 0.3);
+}
+.btn-return-box {
+    padding: 20px;
+  margin-bottom: 10px;
+  margin-top: 40px;
+}
+
+.btn-return {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #2d2d44;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 500;
+  border: 1px solid #6a0dad;
+  box-shadow: 0 0 8px rgba(106, 13, 173, 0.4);
+  transition: 0.2s ease-in-out;
+}
+
+.btn-return:hover {
+  background: #3b3b55;
+  box-shadow: 0 0 12px rgba(199, 125, 255, 0.8);
+  transform: translateX(-3px);
+}
+
+.btn-return i {
+  font-size: 16px;
+}
