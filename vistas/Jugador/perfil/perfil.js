@@ -1,88 +1,102 @@
 document.addEventListener('DOMContentLoaded', () => {
- 
+
   const sidebar = document.getElementById('sidebar');
   const menuToggle = document.getElementById('menuToggle');
   const closeBtn = document.getElementById('closeBtn');
   const body = document.body;
-  if (menuToggle) menuToggle.addEventListener('click', () => 
-    { sidebar?.classList.add('open'); 
-      body.classList.add('menu-open'); });
-  if (closeBtn) closeBtn.addEventListener('click', () => 
-    { sidebar?.classList.remove('open'); 
-      body.classList.remove('menu-open'); });
 
+  if (menuToggle) {
+    menuToggle.addEventListener('click', () => {
+      sidebar?.classList.add('open');
+      body.classList.add('menu-open');
+    });
+  }
 
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      sidebar?.classList.remove('open');
+      body.classList.remove('menu-open');
+    });
+  }
 
-    const btn = document.getElementById("enviarComentario");
-    const comentarioInput = document.getElementById("dejarcomentario");
+  
+  // ---------------------------
 
+  const btn = document.getElementById("enviarComentario");
+  const comentarioInput = document.getElementById("dejarcomentario");
+
+  if (btn && comentarioInput) {
     btn.addEventListener("click", async (e) => {
       e.preventDefault();
 
-        const comentario = comentarioInput.value.trim();
-        const id_objetivo = new URLSearchParams(window.location.search).get("id");
+      const comentario = comentarioInput.value.trim();
+      const id_objetivo = new URLSearchParams(window.location.search).get("id");
 
-        if (!comentario) {
-            comentarioInput.innerHTML = "El comentario no puede estar vacío.";
-            return;
+      if (!comentario) {
+        comentarioInput.innerHTML = "El comentario no puede estar vacío.";
+        return;
+      }
+
+      const data = {
+        comentario: comentario,
+        id_objetivo: id_objetivo
+      };
+
+      try {
+        const resp = await fetch("guardarcomentario.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        const result = await resp.json();
+
+        if (result.ok) {
+          comentarioInput.value = "";
+          mostrarModalExito();
+          cargarComentario();
+        } else {
+          alert("Error: " + result.error);
         }
 
-        const data = {
-            comentario: comentario,
-            id_objetivo: id_objetivo
-        };
-
-        try {
-            const resp = await fetch("guardarcomentario.php", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data)
-            });
-
-            const result = await resp.json();
-
-            if (result.ok) {
-                comentarioInput.value = "";
-                mostrarModalExito();
-                cargarComentario();
-            } else {
-                alert("Error: " + result.error);
-            }
-
-        } catch (err) {
-            console.error("Error enviando comentario:", err);
-        }
+      } catch (err) {
+        console.error("Error enviando comentario:", err);
+      }
 
     });
 
-    
-
     async function cargarComentario() {
-      const comentario= document.getElementById("comentarios");
+      const comentario = document.getElementById("comentarios");
+      if (!comentario) return;
+
       const res = await fetch("datos-perfil.php");
       const data = await res.json();
-      console.log(data.comentario);
-      if (!data.comentario){
+
+      if (!data.comentario) {
         comentario.innerHTML = "<p>No hay comentarios disponibles</p>";
-      }else{
+      } else {
         comentario.innerHTML = `<p>${data.comentario}</p>`;
-
       }
+    }
 
-    } cargarComentario();
+    cargarComentario();
+  }
 
-const modalExito = document.getElementById('modalExito');
-const cerrarModalExito = document.getElementById('cerrarModalExito');
+  // ---------------------------
+  //  MODAL DE ÉXITO
+  // ---------------------------
 
-if (cerrarModalExito) {
-  cerrarModalExito.addEventListener("click", () => {
-    modalExito.style.display = "none";
-  });
-}
+  const modalExito = document.getElementById('modalExito');
+  const cerrarModalExito = document.getElementById('cerrarModalExito');
 
-function mostrarModalExito() {
-  modalExito.style.display = "flex";
-}
-  
-}); 
+  if (cerrarModalExito && modalExito) {
+    cerrarModalExito.addEventListener("click", () => {
+      modalExito.style.display = "none";
+    });
+  }
 
+  function mostrarModalExito() {
+    if (modalExito) modalExito.style.display = "flex";
+  }
+
+});

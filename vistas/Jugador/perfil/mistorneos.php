@@ -51,7 +51,7 @@ try {
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../style.css" />
   <link rel="stylesheet" href="../torneo/torneo.css" />
-  <script src="../torneo/torneo.js"></script>
+  <script src="mistorneos.js"></script>
 </head>
 <body>
 
@@ -86,6 +86,24 @@ try {
     </div>
   </div>
 </div>
+
+ <div class="modal" id="modalJugadores">
+    <div class="modal-content">
+      <span class="close" id="closeJugadores">&times;</span>
+      <h3>Jugadores del Torneo</h3>
+      <div class="modal-body">
+      <table id="tablaJugadores">
+        <thead>
+          <tr>
+            <th>Jugadores</th>
+            <th>Equipo</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    </div>
+  </div>
 
 </body>
 </html>

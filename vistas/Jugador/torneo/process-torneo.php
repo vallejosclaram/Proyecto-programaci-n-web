@@ -9,7 +9,10 @@ if (!isset($_SESSION["user"]["id"])) {
     exit;
 }
 
-$usuario_id = $_SESSION["user"]["id"];
+//$usuario_id = $_SESSION["user"]["id"];
+$logueado_id = $_SESSION["user"]["id"];
+
+$jugador_id = isset($_GET['id']) ? (int)$_GET['id'] : $logueado_id;
 
 $sql = "
 SELECT 

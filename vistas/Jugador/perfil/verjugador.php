@@ -2,19 +2,17 @@
 require_once(__DIR__ . '/../../connection.php');
 session_start();
 
-
-
 if (!isset($_GET["id"])) {
-    echo json_encode(["error" => "Falta el ID del jugador"]);
+    echo json_encode(["error" => "Falta el ID del usuario"]);
     exit;
 }
 
-$jugador_id = intval($_GET["id"]);
-
+$id_usuario = intval($_GET["id"]);
 
 $sql = "
     SELECT 
         j.nombre,
+        u.id_usuario,
         j.apellido,
         u.email,
         j.biografia AS descripcion,
@@ -24,24 +22,23 @@ $sql = "
         (
             SELECT COUNT(*) 
             FROM equipo e
-            WHERE e.id_capitan_usuario = j.id_jugador
+            WHERE e.id_capitan_usuario = j.id_usuario
         ) AS equipos_capitan,
 
         (
             SELECT COUNT(*) 
             FROM miembros_equipo me
-            WHERE me.id_usuario = j.id_jugador
+            WHERE me.id_usuario = j.id_usuario
         ) AS equipos_miembro
 
     FROM usuario u
     INNER JOIN jugador j ON j.id_usuario = u.id_usuario
-    WHERE j.id_jugador = :id
+    WHERE j.id_usuario = :id
 ";
 
 $stmt = $conn->prepare($sql);
-$stmt->execute([":id" => $jugador_id]);
+$stmt->execute([":id" => $id_usuario]);
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 
 if (count($result) === 0) {
     die("Error: no se encontró el jugador asociado.");
@@ -50,7 +47,6 @@ if (count($result) === 0) {
 $jugador = $result[0];
 
 $avatar = !empty($jugador["avatar"]) ? "../img/avatars/" . $jugador["avatar"] : "../img/avatar.jpeg";
-
 ?>
 
 
@@ -92,8 +88,8 @@ $avatar = !empty($jugador["avatar"]) ? "../img/avatars/" . $jugador["avatar"] : 
     <div class="perfil-info">
       <div class="info-card">
         <h4>Torneos</h4>
-        <p>Capitan:<?php echo $jugador["equipos_capitan"]; ?></p>
-        <p>Miembro<?php echo $jugador["equipos_miembro"]; ?></p>
+        <p>Capitan: <?php echo $jugador["equipos_capitan"]; ?></p>
+        <p>Miembro: <?php echo $jugador["equipos_miembro"]; ?></p>
       </div>
 
   
@@ -122,7 +118,10 @@ $avatar = !empty($jugador["avatar"]) ? "../img/avatars/" . $jugador["avatar"] : 
 
     <!-- Botones -->
     <div class="perfil-botones">
-      <button><a href="<?php echo $BASE; ?>/Jugador/torneo/torneo.php">Ver Torneos</a></button>
+      <button><a href="mistorneos.php?id=<?php echo $jugador["id_usuario"]; ?>" 
+        >
+        Ver torneos
+      </a></button>
     </div>
 
     <!-- Descripción -->

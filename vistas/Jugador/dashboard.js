@@ -97,7 +97,7 @@ function renderJugadores(players) {
             <h5>${p.nombre} ${p.apellido}</h5>
             <p class="small">🌎 ${p.pais}</p>
             <p class="small">🔥 Puntaje: <strong>${p.puntaje}</strong></p>
-            <button class="btn btn-sm btn-primary mt-auto" onclick="openPlayer(${p.id_jugador})">Ver perfil</button>
+            <button class="btn btn-sm btn-primary mt-auto" onclick="openPlayer(${p.usuario_id})">Ver perfil</button>
         `;
         cont.appendChild(card);
     });

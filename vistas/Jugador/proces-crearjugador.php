@@ -78,27 +78,28 @@ try {
     $id_usuario = $conn->lastInsertId();
 
     // Crear jugador
-    $sqljugador = "INSERT INTO jugador 
+   $sqljugador = "INSERT INTO jugador 
 (id_usuario, nombre, apellido, pais, fecha_nacimiento)
-VALUES (:usuario, :nombre, :apellido, :pais, :fecha_nacimiento, :id_rol)";
+VALUES (:usuario, :nombre, :apellido, :pais, :fecha_nacimiento)";
+
     $stmt_j = $conn->prepare($sqljugador);
     $stmt_j->execute([
-        ':usuario' => $id_usuario,
-        ':nombre' => $nombre,
-        ':apellido' => $apellido,
-        ':pais' => $pais,
-        ':fecha_nacimiento' => $fechaNacimiento,
-        ':id_rol' => $id_rol
-    ]);
+    ':usuario' => $id_usuario,
+    ':nombre' => $nombre,
+    ':apellido' => $apellido,
+    ':pais' => $pais,
+    ':fecha_nacimiento' => $fechaNacimiento
+]);
+
 
     // asignar rol
-    $sql_rol = "INSERT INTO usuario_rol (id_usuario, id_rol)
-                VALUES (:usuario, :rol)";
-    $stmt_r = $conn->prepare($sql_rol);
-    $stmt_r->execute([
-        ':usuario' => $id_usuario,
-        ':rol' => $id_rol
-    ]);
+   $sql_rol = "INSERT INTO usuario_rol (id_usuario, id_rol)
+            VALUES (:usuario, :rol)";
+$stmt_r = $conn->prepare($sql_rol);
+$stmt_r->execute([
+    ':usuario' => $id_usuario,
+    ':rol' => $id_rol
+]);
 
     echo json_encode(['mensaje' => 'Jugador creado correctamente']);
 
