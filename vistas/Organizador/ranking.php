@@ -1,5 +1,15 @@
 <?php
 include '../connection.php';
+
+// Cargar juegos desde la BD para el select de filtro
+$games = [];
+try {
+  $gs = $conn->prepare("SELECT id_juego, nombre FROM juego ORDER BY nombre");
+  $gs->execute();
+  $games = $gs->fetchAll(PDO::FETCH_ASSOC);
+} catch (Exception $e) {
+  $games = [];
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -26,7 +36,6 @@ include '../connection.php';
       <a href="dashboard.php" class="nav-item active"><i class="fa-solid fa-house"></i> Dashboard</a>
       <a href="perfil/ver.php" class="nav-item"><i class="fa-solid fa-user-gear" style="color:#c84dff;"></i> Mi perfil</a>
       <a href="../Organizador/torneo/mis-torneos.php" class="nav-item"><i class="fa-solid fa-trophy" style="color:#ffb84d;"></i> Mis Torneos</a>
-      <a href="equipos.php" class="nav-item"><i class="fa-solid fa-people-group" style="color:#4dffb8;"></i> Equipos</a>
       <a href="ranking.php" class="nav-item active"><i class="fa-solid fa-ranking-star" style="color:#ffb84d;"></i> Ranking</a>
       <a href="solicitudes.php" class="nav-item"><i class="fa-solid fa-bell" style="color:#ff4d94;"></i> Solicitudes</a>
     </nav>
@@ -58,9 +67,9 @@ include '../connection.php';
           <input type="text" id="busquedaInput" class="filtro-input" placeholder="Buscar nombre...">
           <select id="filtroJuego" class="filtro-select">
             <option value="">Todos los juegos</option>
-            <option value="Valorant">Valorant</option>
-            <option value="League of Legends">League of Legends</option>
-            <option value="FIFA">FIFA</option>
+            <?php foreach ($games as $g): ?>
+              <option value="<?= htmlspecialchars($g['nombre']) ?>"><?= htmlspecialchars($g['nombre']) ?></option>
+            <?php endforeach; ?>
           </select>
         </div>
       </div>

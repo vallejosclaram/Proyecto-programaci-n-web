@@ -1345,3 +1345,10 @@ ALTER TABLE `usuario_rol`
   ADD CONSTRAINT `fk_usuario_rol_rol` FOREIGN KEY (`id_rol`) REFERENCES `rol` (`id_rol`) ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_usuario_rol_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
+
+--
+-- Evita duplicado en el torneo (para que no se inscriba dos veces el mismo jugador o equipo)
+--
+
+ALTER TABLE torneo_jugador
+ADD UNIQUE (id_torneo, id_jugador);
