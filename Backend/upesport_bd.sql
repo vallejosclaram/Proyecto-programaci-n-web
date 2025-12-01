@@ -56,7 +56,7 @@ CREATE TABLE `denuncias` (
 -- Volcado de datos para la tabla `denuncias`
 --
 
-INSERT INTO `denuncias` (`id_denuncia`, `id_reportador`, `id_organizador`, `descripcion`, `fecha_creacion`, `id_torneo`) VALUES
+INSERT INTO `denuncias` (`id_denuncia`, `id_reportador`, `id_reportado`, `descripcion`, `fecha_creacion`, `id_torneo`) VALUES
 (1, 4, 1, 'blsbls', '2025-11-22 14:14:35', 0),
 (2, 4, 1, 'comentarios', '2025-11-22 14:19:34', 0),
 (3, 4, 2, 'bullying', '2025-11-22 14:20:00', 0),
@@ -250,11 +250,11 @@ CREATE TABLE `jugador` (
 INSERT INTO `jugador` (`id_jugador`, `id_usuario`, `nombre`, `apellido`, `pais`, `fecha_nacimiento`, `biografia`, `puntaje`, `id_rol`, `id_cuentajuego`, `id_membresia`) VALUES
 (1, 4, '', '', NULL, NULL, NULL, 0, NULL, NULL, 0),
 (2, 5, '', '', NULL, NULL, NULL, 0, NULL, NULL, 0),
-(3, 0, 'Ana', 'Gutiérrez', 'Argentina', '2000-05-10', 'Amante del FPS competitivo.', 1200, 2, 'AnaG#445', 0),
-(4, 8, 'Nicole', '', 'Argentina', '1998-08-15', '', 1450, 2, 'LMarte#887', 0),
-(5, 9, 'María', 'Lopez', 'Chile', '1999-01-22', 'Experta en shooters tácticos.', 980, 2, 'MLopez#233', 0),
-(6, 11, 'Leo', 'Suarez', 'Uruguay', '1997-12-02', 'Capitán de equipo competitivo.', 1500, 2, 'LeoS#991', 0),
-(7, 12, 'nina', NULL, NULL, NULL, NULL, 0, NULL, NULL, 0);
+(3, 8, 'Nicole', '', 'Argentina', '1998-08-15', '', 1450, 2, 'LMarte#887', 0),
+(4, 9, 'María', 'Lopez', 'Chile', '1999-01-22', 'Experta en shooters tácticos.', 980, 2, 'MLopez#233', 0),
+(5, 11, 'Leo', 'Suarez', 'Uruguay', '1997-12-02', 'Capitán de equipo competitivo.', 1500, 2, 'LeoS#991', 0),
+(6, 12, 'nina', NULL, NULL, NULL, NULL, 0, NULL, NULL, 0),
+(7, 13, 'Ana', 'Gutiérrez', 'Argentina', '2000-05-10', 'Amante del FPS competitivo.', 1200, 2, 'AnaG#445', 0);
 
 -- --------------------------------------------------------
 

@@ -1,5 +1,5 @@
 <?php
-include __DIR__ . '/../../connection.php';
+__DIR__ . '/../../connection.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -54,7 +54,11 @@ if (isset($_SESSION['id_usuario'])) {
           
 
           <div class="usuario-text" style="display:flex; flex-direction:column;">
-            <div id="usuarioGreeting">Hola, <?= htmlspecialchars($usuarioNombre) ?></div>
+            <a href="../Organizador/perfil/ver.php" 
+              id="usuarioGreeting"
+              style="text-decoration:none; color:inherit; cursor:pointer;">
+              Hola, <?= htmlspecialchars($usuarioNombre) ?>
+            </a>
             <div id="usuarioRol"><?= htmlspecialchars($usuarioRol) ?></div>
           </div>
 

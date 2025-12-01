@@ -20,30 +20,32 @@ document.addEventListener('DOMContentLoaded', () => {
   const filtroJuego = document.getElementById('filtroJuego');
 
   function renderRanking(lista, contenedor) {
-    contenedor.innerHTML = "";
-    lista.forEach((item, i) => {
-      const pos = i + 1;
-      let clasePos = "";
-      if (pos === 1) clasePos = "rank-oro";
-      else if (pos === 2) clasePos = "rank-plata";
-      else if (pos === 3) clasePos = "rank-bronce";
+  contenedor.innerHTML = "";
+  lista.forEach((item, i) => {
+    const pos = i + 1;
+    let clasePos = pos === 1 ? "rank-oro" :
+                   pos === 2 ? "rank-plata" :
+                   pos === 3 ? "rank-bronce" : "";
 
-      const card = document.createElement('div');
-      card.className = 'ranking-card';
-      const logo = item.imagen || item.logo || 'https://via.placeholder.com/60';
-      const puntos = item.puntos || item.puntaje || item.puntos === 0 ? (item.puntos || item.puntaje) : '';
-      card.innerHTML = `
-        <div class="rank-pos ${clasePos}">#${pos}</div>
-        <img src="${logo}" class="rank-logo" alt="${item.nombre}">
-        <div class="rank-info">
-          <div class="rank-nombre">${item.nombre}</div>
-          <div class="rank-detalle"><i class="fa-solid fa-gamepad"></i> ${item.juego || ''}</div>
-        </div>
-        <div class="rank-puntos">${puntos} pts</div>
-      `;
-      contenedor.appendChild(card);
-    });
-  }
+    const logo = item.imagen ?? item.logo ?? 'https://via.placeholder.com/60';
+    const puntos = item.puntaje ?? item.puntos ?? 0;
+    const juego = item.juego ?? "Sin juego";
+
+    const card = document.createElement('div');
+    card.className = 'ranking-card';
+
+    card.innerHTML = `
+      <div class="rank-pos ${clasePos}">#${pos}</div>
+      <img src="${logo}" class="rank-logo" alt="${item.nombre}">
+      <div class="rank-info">
+        <div class="rank-nombre">${item.nombre}</div>
+        <div class="rank-detalle"><i class="fa-solid fa-gamepad"></i> ${juego}</div>
+      </div>
+      <div class="rank-puntos">${puntos} pts</div>
+    `;
+    contenedor.appendChild(card);
+  });
+}
 
   // Función para pedir datos al backend
   function fetchList(tipo) {

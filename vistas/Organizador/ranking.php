@@ -1,5 +1,6 @@
 <?php
-include '../connection.php';
+include __DIR__ . '/../connection.php';
+
 
 // Cargar juegos desde la BD para el select de filtro
 $games = [];
@@ -24,6 +25,13 @@ try {
   <script src="ranking.js"></script>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="ranking.css" />
+  <style>
+    .rank-logo {
+      margin-left: 20px;
+      font-size: 1rem;
+    }
+
+  </style>
 </head>
 <body >
   <aside class="sidebar" id="sidebar">
