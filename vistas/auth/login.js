@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (rol === 'organizador') {
         window.location.href = '../Organizador/dashboard.php';
       } else {
-        window.location.href = '../jugador/dashboard.php';
+        window.location.href = '../Jugador/dashboard.php';
       }
 
     } catch (err) {

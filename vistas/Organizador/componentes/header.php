@@ -54,7 +54,7 @@ if (isset($_SESSION['id_usuario'])) {
           
 
           <div class="usuario-text" style="display:flex; flex-direction:column;">
-            <a href="../Organizador/perfil/ver.php" 
+            <a href="http://localhost/Proyecto-programaci-n-web/vistas/Organizador/perfil/ver.php" 
               id="usuarioGreeting"
               style="text-decoration:none; color:inherit; cursor:pointer;">
               Hola, <?= htmlspecialchars($usuarioNombre) ?>
