@@ -1,0 +1,14 @@
+POST:
+Array
+(
+    [id_torneo] => 7
+)
+
+REQUEST:
+Array
+(
+    [id_torneo] => 7
+)
+
+INPUT RAW:
+

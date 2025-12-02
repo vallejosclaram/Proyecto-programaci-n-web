@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const formData = new FormData(form);
 
-    fetch("http://localhost/Proyecto-programaci-n-web/vistas/crear-torneo.php", {
+    fetch("http://localhost/Proyecto-programaci-n-web/Backend/organizador/crear-torneo.php", {
       method: 'POST',
       body: formData
     })
@@ -276,44 +276,75 @@ document.getElementById("formEditarTorneo").addEventListener("submit", async (e)
     location.reload(); // ❗ O puedo actualizar la card sin refrescar si querés
   }
 });
-document.addEventListener("click", async (e) => {
+console.log("JS cargado correctamente");
 
-    const btn = e.target.closest(".btn-eliminar");
-    if (!btn) return;
+    // =============================
+    //   ELIMINAR TORNEO
+    // =============================
 
-    const card = btn.closest(".torneo-card");
-    const id = card.getAttribute("data-id");
-    console.log("ID: ", id);
+    let torneoAEliminar = null;
 
-    if (!id) {
-        console.error("❌ No existe data-id en la card");
-        return;
-    }
+    // Cuando se hace clic en un botón de eliminar
+    document.addEventListener("click", (e) => {
 
-    if (!confirm("⚠️ ¿Seguro que quieres eliminar este torneo?")) {
-        return;
-    }
+        // Clic en botón eliminar
+        if (e.target.closest(".btn-eliminar")) {
 
-    const fd = new FormData();
-    fd.append("id_torneo", id);
+            console.log("CLICK EN BOTÓN ELIMINAR");
 
-    const res = await fetch("http://localhost/Proyecto-programaci-n-web/vistas/eliminar-torneo.php", {
-        method: "POST",
-        body: fd
+            const card = e.target.closest(".torneo-card");
+            torneoAEliminar = card;
+
+            const nombre = card.querySelector("h3").textContent;
+
+            document.getElementById("deleteText").innerHTML =
+                `¿Seguro que deseas eliminar <b>${nombre}</b>?`;
+
+            const modal = new bootstrap.Modal(document.getElementById("deleteModal"));
+            modal.show();
+        }
     });
 
-    const json = await res.json();
+    // Confirmar eliminación
+    document.getElementById("btnConfirmDelete").addEventListener("click", async () => {
 
-    if (json.status === "ok") {
-        card.remove();
-        console.log("✔ Torneo eliminado");
-    } else {
-        alert("❌ Error al eliminar el torneo.");
-        console.error(json.msg);
-    }
-});
+        console.log("CLICK EN BOTÓN confirmar");
 
+        if (!torneoAEliminar) return;
 
+        const id = torneoAEliminar.getAttribute("data-id");
 
+        const formData = new FormData();
+        formData.append("id_torneo", id);
+
+        try {
+            const res = await fetch(
+                "http://localhost/Proyecto-programaci-n-web/Backend/organizador/eliminar-torneo.php",
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
+
+            const json = await res.json();
+            console.log("RESPUESTA DEL SERVIDOR:", json);
+
+            if (json.status === "ok") {
+                torneoAEliminar.remove();
+                torneoAEliminar = null;
+
+                bootstrap.Modal.getInstance(
+                    document.getElementById("deleteModal")
+                ).hide();
+
+            } else {
+                alert("Error eliminando torneo. Mira la consola para más detalles.");
+            }
+
+        } catch (error) {
+            console.error("ERROR FATAL:", error);
+            alert("No se pudo conectar al servidor.");
+        }
+    });
 
 });

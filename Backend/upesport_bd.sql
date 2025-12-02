@@ -188,7 +188,7 @@ CREATE TABLE `estado_torneo` (
 INSERT INTO `estado_torneo` (`id_estado`, `descripcion`) VALUES
 (1, 'Activo'),
 (2, 'Cerrado'),
-(3, 'bloqueado');
+(3, 'Pendiente');
 
 -- --------------------------------------------------------
 

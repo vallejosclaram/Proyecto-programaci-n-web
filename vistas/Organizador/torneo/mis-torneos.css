@@ -148,7 +148,6 @@ body {
   font-size: 18px;
   display: flex;
   flex-direction: column;
-  gap: 30px;
 }
 
 .custom-modal .modal-header {

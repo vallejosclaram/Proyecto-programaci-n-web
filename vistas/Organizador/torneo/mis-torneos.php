@@ -194,14 +194,6 @@ function imagenJuego($juego) {
             <input type="date" id="fechaInscripcionFin" name="fechaInscripcionFin" required>
           </div>
 
-          <div class="form-group">
-            <label class="form-label">Estado</label>
-            <select class="form-select" name="estado" id="estado" required>
-              <option value="1">Activo</option>
-              <option value="2">Cerrado</option>
-            </select>
-          </div>
-
           <button type="submit" class="btn-submit btn-gradient">🎯 Crear Torneo</button>
         </form>
       </div>
@@ -326,6 +318,31 @@ function imagenJuego($juego) {
       </div>
     </div>
   </div>
+  <!-- MODAL ELIMINAR TORNEO -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="background:#1c1c2b; border:2px solid #ff4d6d; border-radius:15px; color:white;">
+
+        <div class="modal-header" style="border-bottom:1px solid #ff4d6d;">
+          <h5 class="modal-title">⚠️ Eliminar Torneo</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <p id="deleteText">¿Seguro que deseas eliminar este torneo?</p>
+          <p class="text-danger"><b>Esta acción es permanente.</b></p>
+        </div>
+
+        <div class="modal-footer" style="border-top:1px solid #ff4d6d;">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+
+          <button id="btnConfirmDelete" class="btn btn-danger">Eliminar</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
 
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

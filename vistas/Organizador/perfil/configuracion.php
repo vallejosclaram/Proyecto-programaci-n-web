@@ -107,29 +107,29 @@ $organizador['email'] = $userRow['email'] ?? null;
     </div>
     <!-- ===== MODAL ELIMINAR CUENTA ===== -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="background:#1c1c2b; border:2px solid #ff4d6d; border-radius:15px; color:white;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background:#1c1c2b; border:2px solid #ff4d6d; border-radius:15px; color:white;">
 
-        <div class="modal-header" style="border-bottom:1px solid #ff4d6d;">
-            <h5 class="modal-title">⚠️ Eliminar cuenta</h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <div class="modal-header" style="border-bottom:1px solid #ff4d6d;">
+                    <h5 class="modal-title">⚠️ Eliminar cuenta</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body" style="font-size:1rem;">
+                    <p>¿Estás seguro de que deseas eliminar tu cuenta?</p>
+                    <p class="text-danger"><b>Esta acción es permanente y no podrás recuperarla.</b></p>
+                </div>
+
+                <div class="modal-footer" style="border-top:1px solid #ff4d6d;">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+
+                    <form action="../../../Backend/organizador/delete_account.php" method="POST">
+                        <button class="btn btn-danger">Eliminar definitivamente</button>
+                    </form>
+                </div>
+
+            </div>
         </div>
-
-        <div class="modal-body" style="font-size:1rem;">
-            <p>¿Estás seguro de que deseas eliminar tu cuenta?</p>
-            <p class="text-danger"><b>Esta acción es permanente y no podrás recuperarla.</b></p>
-        </div>
-
-        <div class="modal-footer" style="border-top:1px solid #ff4d6d;">
-            <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-
-            <form action="../../../Backend/organizador/delete_account.php" method="POST">
-                <button class="btn btn-danger">Eliminar definitivamente</button>
-            </form>
-        </div>
-
-        </div>
-    </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/Proyecto-programaci-n-web/vistas/Organizador/perfil/configuracion.js"></script>
