@@ -53,37 +53,48 @@ document.getElementById("editarPerfilForm").addEventListener("submit", async (e)
 const input = document.getElementById("nicknameInput");
 const msg = document.getElementById("vincularMsg");
 
+
 btn.addEventListener("click", async (e) => {
     e.preventDefault();
 
     const nickname = input.value.trim();
 
     if (nickname.length < 3) {
-        mostrarMsg("Nickname inválido");
+        console.log("Nickname inválido");
         return;
     }
 
-    // Buscar en Valorant
-    const vRes = await fetch("http://localhost:4000/usuarios?nickname=" + nickname);
-    const vData = await vRes.json();
+    const vRes = await fetch("../../../API/valorant/db-valorant.json");
+    const vJSON = await vRes.json();
 
-    // Buscar en CS2
-    const csRes = await fetch("http://localhost:4001/jugadores?nickname=" + nickname);
-    const csData = await csRes.json();
+    // Buscar por nickname 
+    const vData = vJSON.usuarios.filter(u => 
+        u.nickname.toLowerCase() === nickname.toLowerCase()
+    );
 
+  
+    const csRes = await fetch("../../../API/Counter-strike/db-cs.json");
+    const csJSON = await csRes.json();
+
+   
+    const csData = csJSON.jugadores.filter(j => 
+        j.nickname.toLowerCase() === nickname.toLowerCase()
+    );
+
+   
     let cuentaID = null;
 
     if (vData.length > 0) {
-        cuentaID = vData[0].puuid;       // Valorant
+        cuentaID = vData[0].puuid;  
     } else if (csData.length > 0) {
-        cuentaID = csData[0].steamId64;  // Counter Strike
+        cuentaID = csData[0].steamId64; 
     } else {
-        mostrarMsg("❌ Cuenta no encontrada");
+        console.log("Cuenta no encontrada");
         return;
     }
 
-    // Enviar a tu PHP
-    const guardar = await fetch("guardarCuentaJuego.php", {
+    // === 4. Enviar al PHP como antes ===
+    const guardar = await fetch("cuentajuego.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ cuenta_id: cuentaID })
@@ -92,11 +103,12 @@ btn.addEventListener("click", async (e) => {
     const respuesta = await guardar.json();
 
     if (respuesta.success === true) {
-        mostrarMsg("✅ Cuenta vinculada correctamente");
+        console.log("Cuenta vinculada correctamente");
     } else {
-        mostrarMsg("❌ Error: " + (respuesta.error || "desconocido"));
+        console.log("Error: " + (respuesta.error || "desconocido"));
     }
 });
+
 
  
    

@@ -25,7 +25,7 @@ $cuenta_id = trim($data["cuenta_id"]); // Puede ser puuid, steamId o nickname
 
 try {
     // Aseguramos que PDO muestre errores reales
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $sql = "
         UPDATE jugador
@@ -33,7 +33,7 @@ try {
         WHERE id_usuario = :usuario
     ";
 
-    $stmt = $pdo->prepare($sql);
+    $stmt = $conn->prepare($sql);
     $stmt->execute([
         ":cuenta"  => $cuenta_id,
         ":usuario" => $usuario_id
