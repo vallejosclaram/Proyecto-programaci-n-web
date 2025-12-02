@@ -104,4 +104,4 @@ if (isset($_SESSION['id_usuario'])) {
     margin-top:5px;
   }
 </style>
-<script src="header.js"></script>
+

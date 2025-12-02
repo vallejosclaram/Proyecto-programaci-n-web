@@ -1,22 +1,14 @@
 <?php
-include '../../connection.php';
+include '../../vistas/connection.php';
 
-if (!isset($_GET['id_torneo']) || !isset($_GET['id_jugador'])) {
-    header("Location: solicitudes.php?error=missing_params");
-    exit;
-}
+$id_solicitud = $_GET['id_solicitud'] ?? null;
 
-$id_torneo = intval($_GET['id_torneo']);
-$id_jugador = intval($_GET['id_jugador']);
+if (!$id_solicitud) exit("Faltan datos");
 
-$sqlDelete = "DELETE FROM solicitud_jugador
-              WHERE id_torneo = :torneo AND id_jugador = :jugador";
+$conn->prepare("DELETE FROM solicitud_torneo WHERE id_solicitud_torneo=?")
+     ->execute([$id_solicitud]);
 
-$stmtDelete = $conn->prepare($sqlDelete);
-$stmtDelete->execute([
-    ':torneo' => $id_torneo,
-    ':jugador' => $id_jugador
-]);
-
-header("Location: solicitudes.php?rejected=1");
+header("Location: http://localhost/Proyecto-programaci-n-web/vistas/Organizador/solicitudes.php?rechazada=1");
 exit;
+?>
+

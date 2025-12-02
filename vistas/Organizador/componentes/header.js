@@ -1,5 +1,5 @@
 
-    (function(){
+    /*(function(){
       const btn = document.getElementById('btnNoti');
       const countEl = document.getElementById('notiCount');
       const dropdown = document.getElementById('notiDropdown');
@@ -91,4 +91,4 @@
 
       // refrescar contador cada 20s
       fetchCount(); setInterval(fetchCount, 20000);
-    })();
+    })();*/
