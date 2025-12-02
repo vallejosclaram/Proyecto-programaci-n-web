@@ -632,4 +632,28 @@ tbody tr.top3 td {
       box-shadow: 0 0 30px rgba(106, 13, 173, 0.6);
     }
 
-    
+    .scroll-row {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 1rem;
+    padding-bottom: 10px;
+    scroll-snap-type: x mandatory;
+    white-space: nowrap;
+}
+
+.scroll-row::-webkit-scrollbar {
+    height: 8px;
+}
+
+.scroll-row::-webkit-scrollbar-thumb {
+    background: #6c63ff;
+    border-radius: 10px;
+}
+
+.scroll-row .card {
+    min-width: 250px; 
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+}

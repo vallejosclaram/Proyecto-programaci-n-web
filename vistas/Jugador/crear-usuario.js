@@ -8,8 +8,35 @@ document.addEventListener('DOMContentLoaded', () => {
   const validPass = document.getElementById('validpass');
   const emailInput = document.getElementById('email');
   const validEmail = document.getElementById('validemail');
+  const paisSelect = document.getElementById('pais');
 
-  // Mostrar / ocultar contraseña
+  // Cargar países
+
+  getPais();
+
+  async function getPais() {
+    try {
+        const response = await fetch('https://restcountries.com/v3.1/all?fields=name,cca2');
+        const paises = await response.json();
+
+        paisSelect.innerHTML = '<option value="">Seleccionar país</option>';
+
+        paises.forEach(pais => {
+            const option = document.createElement("option");
+            option.value = pais.cca2 || ""; 
+            option.textContent = pais.name.common;
+            paisSelect.appendChild(option);
+        });
+
+    } catch (error) {
+        console.error("Error cargando paises:", error);
+        paisSelect.innerHTML = '<option value="">Error al cargar</option>';
+    }
+}
+
+  
+
+  
   showPass.addEventListener('change', () => {
    	passwordInput.type = showPass.checked ? 'text' : 'password';
    	confirmInput.type = showPass.checked ? 'text' : 'password';
@@ -18,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    // Reset de clases
+    
     [fechaInput, passwordInput, confirmInput, emailInput].forEach(input => {
       input.classList.remove('is-invalid');
     });
@@ -27,11 +54,13 @@ document.addEventListener('DOMContentLoaded', () => {
     validEmail.classList.add('d-none');
 
     // Obtener valores
-    const usuario = document.getElementById('usuario').value.trim();
+    const nombre = document.getElementById('nombre').value.trim();
+    const apellido = document.getElementById('apellido').value.trim();
     const email = emailInput.value.trim();
     const fechaNacimiento = fechaInput.value;
     const contrasena = passwordInput.value;
     const confirmPassword = confirmInput.value;
+    const pais = paisSelect.value;
 
     let valido = true;
 
@@ -62,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Campos vacíos
-    if (!usuario || !email || !fechaNacimiento || !contrasena || !confirmPassword) {
+    if (!nombre || !apellido || !paisSelect || !email || !fechaNacimiento || !contrasena || !confirmPassword) {
       form.classList.add('was-validated');
       valido = false;
     }
@@ -71,13 +100,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
    
     const datos = {
-      usuario: usuario,
+      nombre: nombre,
+      apellido: apellido,
       email: email,
       contrasena: contrasena,
       fechaNacimiento: fechaNacimiento,
-      id_rol: 2   
+      pais: pais,
+      id_rol: 2  
     };
-
+     console.log(datos);
     
     localStorage.setItem('jugador', JSON.stringify(datos));
 
@@ -103,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
   } catch (error) {
-    console.error('Error en la solicitud:');
+    console.error('Error en la solicitud:', error);
   }
     
   });

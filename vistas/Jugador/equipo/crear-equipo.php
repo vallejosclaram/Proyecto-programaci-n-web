@@ -1,5 +1,6 @@
 <?php
 require_once(__DIR__ . '/../../connection.php');
+
 session_start();
 
 if (!isset($_SESSION["user"]["id"])) {

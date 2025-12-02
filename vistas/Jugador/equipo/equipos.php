@@ -1,5 +1,6 @@
 <?php
 require_once(__DIR__ . '/../../connection.php');
+
 session_start();
 
 if (!isset($_SESSION["user"]["id"])) {
@@ -20,6 +21,7 @@ $usuario_id = $_SESSION["user"]["id"];
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="equipo.css" />
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="equipos.js"></script>
   
@@ -50,22 +52,25 @@ $usuario_id = $_SESSION["user"]["id"];
 
     <section class="mb-5">
       <h3>📌 Tus equipos</h3>
-      <div id="misEquipos" name="misEquipos"></div>
+      <div class="scroll-row" id="misEquipos" name="misEquipos"></div>
+    </section>
+
+     <section class="mb-5" id="solicitudesSection">
+      <h3>📥 Solicitudes recibidas</h3>
+      <div class="scroll-row" id="listaSolicitudes" name="listaSolicitudes"></div>
     </section>
 
     <section class="mb-5">
       <h3>🧩 Equipos disponibles</h3>
-      <div id="equiposDisponibles" name="equiposDisponibles"></div>
+      <div class="scroll-row" id="equiposDisponibles" name="equiposDisponibles"></div>
     </section>
 
-    <section class="mb-5" id="solicitudesSection">
-      <h3>📥 Solicitudes recibidas</h3>
-      <div id="listaSolicitudes" name="listaSolicitudes"></div>
-    </section>
+   
   </main>
 
+  <!--modales-->
   
-  <div class="modal fade" id="modalEquipo" tabindex="-1" aria-hidden="true">
+  <div class="modal" id="modalEquipo" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content bg-dark text-white">
         <div class="modal-header border-0">
@@ -76,6 +81,74 @@ $usuario_id = $_SESSION["user"]["id"];
       </div>
     </div>
   </div>
+
+ 
+
+    <div class="modal fade" id="modal-cambiar-capitan" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-header">
+        <h5 class="modal-title">Cambiar Capitan</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <select id="select-miembros" class="form-select"></select>
+      </div>
+
+      <div class="modal-footer">
+        <button id="btn-guardar-capitan" class="btn btn-primary">Guardar cambios</button>
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal-sin-permiso" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-header">
+        <h5 class="modal-title">No sos capitan de este equipo</h5>
+        
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+
+      <div class="modal-footer">
+        <p>Solo el capitan puede cambiar de capitán</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal-cambiado" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-header">
+        <h5 class="modal-title">Capitan cambiado</h5>
+        
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+
+      <div class="modal-footer">
+        <p>Ya no sos el capitan</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal-confirmacion" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+    </div>
+  </div>
+</div>
+
+
 
   
 </body>

@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     body.classList.remove('menu-open');
   });
 
-  // Input "otro" para denunciar
+  // Input para denunciar
   let inputOtro = document.createElement('input');
   inputOtro.type = 'text';
   inputOtro.placeholder = 'Escribí el motivo';
@@ -46,15 +46,15 @@ document.addEventListener('DOMContentLoaded', () => {
   let torneosOtrosData = [];
   let torneoSeleccionado = null;
 
-  // Cargar torneos
+  // Carga torneos
   async function cargarTorneos() {
     try {
       const res1 = await fetch('process-torneo.php');             // torneos propios
       torneosPropiosData = await res1.json();
-
-      const res2 = await fetch('process-torneos-otros.php');      // torneos no inscripta
+      console.log(torneosPropiosData);
+      const res2 = await fetch('process-torneos-otros.php');      // torneos no inscripto
       torneosOtrosData = await res2.json();
-
+      console.log(torneosOtrosData);
       renderTorneos();
       renderCalendario();
 
@@ -109,13 +109,14 @@ function crearCardTorneo(t) {
     <h4>${t.nombre}</h4>
     <div class="torneo-info">
       <p>Juego: ${t.juego}</p>
+      <p>Organizador: ${t.organizador_nombre} ${t.organizador_apellido}</p>
       <p>Tipo: ${t.tipo_torneo}</p>
       <p>Inscripción cierra: ${t.fecha_fin}</p>
       <p>Inicio: ${t.fecha_inicio}</p>
     </div>
 
     <div class="torneo-actions">
-      <button class="btn-ver-jugadores">Ver Jugadores</button>
+      <button class="btn-ver-jugadores" disabled>Ver Jugadores</button>
       <button class="btn-denunciar">Denunciar</button>
     </div>
   `;
@@ -162,6 +163,7 @@ function crearCardTorneo(t) {
   } else {
     btnSumarme.addEventListener('click', async () => {
       try {
+        console.log("aca");
         const res = await fetch('procesar-solicitud.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -169,7 +171,7 @@ function crearCardTorneo(t) {
         });
 
         const data = await res.json();
-
+        
         if (data.success) {
           btnSumarme.textContent = 'Pendiente';
           btnSumarme.disabled = true;
@@ -227,7 +229,9 @@ function crearCardTorneo(t) {
   closeJugadores.addEventListener('click', () => modalJugadores.style.display = 'none');
   window.addEventListener('click', e => { if (e.target === modalJugadores) modalJugadores.style.display = 'none'; });
 
-  closeDenuncia.addEventListener('click', () => modalDenuncia.style.display = 'none');
+ closeDenuncia.addEventListener('click', () => {
+  modalDenuncia.style.display = 'none';
+});
   closeConfirmacion.addEventListener('click', () => modalConfirmacion.style.display = 'none');
   btnCerrarConfirmacion.addEventListener('click', () => modalConfirmacion.style.display = 'none');
 
@@ -270,6 +274,8 @@ function crearCardTorneo(t) {
       });
 
       const data = await res.json();
+      modalDenuncia.style.display = 'none';
+    modalConfirmacion.style.display = 'block';
       
     } catch (err) {
       
@@ -281,15 +287,15 @@ function crearCardTorneo(t) {
   function renderCalendario() {
     calendarioTorneos.innerHTML = '';
 
-    const proximos = [...torneosPropiosData, ...torneosOtrosData]
-      .filter(t => new Date(t.fecha_inicio) >= new Date())
-      .sort((a, b) => new Date(a.fecha_inicio) - new Date(b.fecha_inicio));
+  const proximosPropios = torneosPropiosData
+    .filter(t => new Date(t.fecha_inicio) >= new Date()) // solo futuros
+    .sort((a, b) => new Date(a.fecha_inicio) - new Date(b.fecha_inicio)); // ordenar por fecha
 
-    proximos.forEach(t => {
-      const li = document.createElement('li');
-      li.textContent = `${t.nombre} - Inicio: ${t.fecha_inicio}`;
-      calendarioTorneos.appendChild(li);
-    });
+  proximosPropios.forEach(t => {
+    const li = document.createElement('li');
+    li.textContent = `${t.nombre} - Inicio: ${t.fecha_inicio}`;
+    calendarioTorneos.appendChild(li);
+  });
   }
 
   filtroJuego.addEventListener('input', renderTorneos);

@@ -9,6 +9,7 @@ if (!isset($_SESSION["user"]["id"])) {
     exit;
 }
 
+
 $input = file_get_contents("php://input");
 $data = json_decode($input, true);
 
@@ -53,7 +54,6 @@ try {
         exit;
     }
 
-    $id_capitan_jugador = $row["id_jugador"];
 
     
     $sql = "INSERT INTO equipo (nombre, id_capitan_usuario, id_juego, descripcion, estado)
@@ -64,7 +64,7 @@ try {
     $stmt = $conn->prepare($sql);
     $stmt->execute([
         ":n" => $nombre,
-        ":c" => $id_capitan_jugador,
+        ":c" => $usuario_id,
         ":j" => $id_juego,
         ":d" => $desc
     ]);
@@ -73,8 +73,8 @@ try {
     $nuevo_equipo_id = $conn->lastInsertId();
 
     
-    $sql = "INSERT INTO miembros_equipo (id_equipo, id_usuario, rol_en_equipo, fecha_union)
-            VALUES (:e, :u, 'capitana', NOW())";
+    $sql = "INSERT INTO miembros_equipo (id_equipo, id_usuario, fecha_union)
+            VALUES (:e, :u, NOW())";
     $stmt = $conn->prepare($sql);
     $stmt->execute([
         ":e" => $nuevo_equipo_id,
@@ -95,6 +95,6 @@ try {
 
 } catch (Exception $e) {
     // $e->getMessage()
-    echo json_encode(["error" => "Error al crear el equipo"]);
+    echo json_encode(["error" => $e->getMessage()]);
 }
 ?>

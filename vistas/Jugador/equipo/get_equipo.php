@@ -27,7 +27,7 @@ $usuario_id = $_SESSION["user"]["id"];
 
 
         //solicitudes
-        $sql = "SELECT s.fecha_solicitud, j.nombre AS usuario, e.nombre AS equipo
+        $sql = "SELECT s.id_solicitud, s.fecha_solicitud, j.nombre AS usuario, e.nombre AS equipo
                 FROM solicitud_equipo s
                 JOIN jugador j ON s.id_usuario = j.id_usuario
                 JOIN equipo e ON s.id_equipo = e.id_equipo
@@ -44,4 +44,3 @@ $usuario_id = $_SESSION["user"]["id"];
         echo json_encode(['error' => 'Error al cargar los datos']);
     }
     
-

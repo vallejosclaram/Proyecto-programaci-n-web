@@ -28,14 +28,13 @@
           <button class="tab-btn" id="tabJugadores">Jugadores</button>
         </div>
 
-        <!-- 🔍 Barra de búsqueda y filtro -->
+        <!-- búsqueda-->
         <div class="ranking-filtros mt-3">
           <input type="text" id="busquedaInput" class="filtro-input" placeholder="Buscar nombre...">
           <select id="filtroJuego" class="filtro-select">
             <option value="">Todos los juegos</option>
             <option value="Valorant">Valorant</option>
             <option value="League of Legends">League of Legends</option>
-            <option value="FIFA">FIFA</option>
           </select>
         </div>
       </div>

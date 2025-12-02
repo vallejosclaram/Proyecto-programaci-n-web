@@ -26,8 +26,20 @@ require_once(__DIR__ . '/../connection.php');
 
       <form id="formCrearJugador" class="text-start">
         <div class="mb-3">
-          <label for="usuario" class="form-label">Usuario</label>
-          <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Tu nombre de jugador" required />
+          <label for="nombre" class="form-label">Nombre</label>
+          <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Tu nombre" required />
+        </div>
+
+        <div class="mb-3">
+          <label for="apellido" class="form-label">Apellido</label>
+          <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Tu apellido" required />
+        </div>
+
+        <div class="mb-3">
+          <label for="pais" class="mt-3 mb-3">País</label>
+        <select name="pais" id="pais" class="form-select" required>
+          <option value="">Cargando paises...</option>
+        </select>
         </div>
 
         <div class="mb-3">

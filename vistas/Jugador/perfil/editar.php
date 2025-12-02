@@ -51,15 +51,35 @@ if (!Permisos::tienePermiso('Editar perfil', $usuario_id)) {
 
       <label for="descripcion" class="mb-3 mt-3">Descripción</label>
       <textarea id="descripcion" class="form-control" name="descripcion" rows="3"></textarea>
+     
+       
+    <div class="mt-3">
+    <h4>Vincular cuenta de juego</h4>
 
-      <button type="submit" class="btn btn-primary mt-3">Guardar cambios</button>
+    <input class="row form-control" 
+           id="nicknameInput" 
+           type="text"
+           placeholder="Ingresá tu nickname de Valorant o CS2">
 
+    <button class="btn btn-success mt-2" id="btnVincular">
+        Vincular cuenta
+    </button>
+
+    <p id="vincularMsg" class="mt-2 text-info"></p>
+    </div>
+   
+       <div class="perfil-botones mt-3">
       <div class="perfil-actions">
+        <button type="submit" class="btn btn-primary mt-3">Guardar cambios</button>
+
         <a href="ver.php" class="btn btn-primary mt-3">Cancelar</a>
+      </div>
       </div>
 
     </form>
+
   </main>
+
 
 
   <!-- Modal -->

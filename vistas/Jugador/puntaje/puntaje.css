@@ -1,0 +1,33 @@
+
+    body {
+      background: #12001f;
+      color: #fff;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .card {
+      background: #1a012f;
+      border: 1px solid #6a0dad;
+      border-radius: 1rem;
+      box-shadow: 0 0 20px rgba(106, 13, 173, 0.5);
+    }
+
+    .form-label {
+      color: #e0c3fc;
+    }
+
+    .btn-primary {
+      background: linear-gradient(90deg, #6a0dad, #9d00ff);
+      border: none;
+      font-weight: bold;
+    }
+
+    .btn-primary:hover {
+      background: #fff;
+      color: #6a0dad;
+    }
+
+    h2 {
+      font-family: 'Orbitron', sans-serif;
+      color: #e0c3fc;
+    }

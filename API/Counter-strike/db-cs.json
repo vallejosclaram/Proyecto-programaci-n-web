@@ -1,0 +1,53 @@
+{
+  "jugadores": [
+    {
+      "id": 1,
+      "steamId64": "76561198012345678",
+      "nickname": "FlashPeek",
+      "region": "EU",
+      "premier_rating": 10450,
+      "avatar": "https://picsum.photos/200?flash",
+      "stats": {
+        "hs_percentage": 48,
+        "kd": 1.12,
+        "favorite_map": "Mirage",
+        "role": "Entry"
+      }
+    },
+    {
+      "id": 2,
+      "steamId64": "76561198234567891",
+      "nickname": "SilentSpray",
+      "region": "NA",
+      "premier_rating": 9800,
+      "avatar": "https://picsum.photos/200?silent",
+      "stats": {
+        "hs_percentage": 54,
+        "kd": 1.27,
+        "favorite_map": "Inferno",
+        "role": "Rifler"
+      }
+    }
+  ],
+
+  "equipos": [
+    {
+      "id": 10,
+      "nombre": "SmokeBandits",
+      "capitan": 1,
+      "miembros": [1, 2]
+    }
+  ],
+
+  "torneos": [
+    {
+      "id": 100,
+      "nombre": "CS2 Winter Clash",
+      "juego": "Counter-Strike 2",
+      "reglas": "MR12, Bo3 en playoffs",
+      "premios_usd": 5000,
+      "equipos_inscriptos": [10],
+      "estado": "inscripcion"
+    }
+  ]
+}
