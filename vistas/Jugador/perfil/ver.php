@@ -140,9 +140,10 @@ $avatar = !empty($jugador["avatar"]) ? "../img/avatars/" . $jugador["avatar"] : 
 
     
 
-  <div class="perfil-descripcion">
+  <div class="comentarios-section">
   <h3>Comentarios</h3>
     <p id="comentarios" name="comentarios"></p>
+    <div id="comentariosDiv"></div>
 </div>
 
   </div>

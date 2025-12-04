@@ -223,3 +223,53 @@ button {
 }
 
 
+.modal-exito {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    display: none; 
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0, 0, 0, 0.6); 
+    z-index: 99999;
+}
+
+
+.modal-exito-contenido {
+    background: #4c045e;
+    padding: 25px;
+    border-radius: 10px;
+    text-align: center;
+    min-width: 280px;
+
+    box-shadow: 0 0 20px #00000066;
+}
+
+
+.comentarios-section {
+    margin-top: 20px;
+    padding: 15px;
+    background: #1b1b2f;
+    border-radius: 12px;
+    box-shadow: #602f7c 0px 0px 10px;
+}
+
+
+
+#comentarios {
+    max-height: 200px;      
+    overflow-y: auto;       
+    overflow-x: hidden;
+    padding-right: 8px;
+    
+    
+    background: #1b1b2f;
+    border-radius: 8px;
+}
+
+
+

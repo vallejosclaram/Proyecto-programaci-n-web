@@ -41,7 +41,7 @@ $sql = "
 
 $stmt = $conn->prepare($sql);
 $ok = $stmt->execute([
-    ":autor"     => $autor,
+    ":autor"     => $autor_id_usuario,
     ":objetivo"  => $id_objetivo,
     ":comentario"=> $comentario
 ]);
