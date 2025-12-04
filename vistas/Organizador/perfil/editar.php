@@ -34,27 +34,6 @@ $organizador['email'] = $userRow['email'] ?? null;
 </head>
 <body>
 
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <span class="logo">🎮 UPE-SPORT</span>
-      <button class="close-btn" id="closeBtn"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-    <nav class="nav-links">
-      <a href="../dashboard.php" class="nav-item active"><i class="fa-solid fa-house"></i> Dashboard</a>
-      <a href="ver.php" class="nav-item"><i class="fa-solid fa-user-gear" style="color:#c84dff;"></i> Mi perfil</a>
-      <a href="../torneo/mis-torneos.php" class="nav-item"><i class="fa-solid fa-trophy" style="color:#ffb84d;"></i> Mis Torneos</a>
-      <a href="../../equipo/equipo.php" class="nav-item"><i class="fa-solid fa-people-group" style="color:#4dffb8;"></i> Equipos</a>
-      <a href="../ranking.php" class="nav-item active"><i class="fa-solid fa-ranking-star" style="color:#ffb84d;"></i> Ranking</a>
-      <a href="../solicitudes.php" class="nav-item"><i class="fa-solid fa-bell" style="color:#ff4d94;"></i> Solicitudes</a>
-    </nav>
-    <div class="logout">
-      <a href="../../inicio.php" class="nav-item logout-btn">🚪 Cerrar sesión</a>
-    </div>
-  </aside>
-
-    <!-- Overlay -->
-  <div id="sidebarOverlay" class="sidebar-overlay"></div>
-
   <!-- ===== HEADER  ===== -->
   <?php include '../componentes/header.php'; ?>
 

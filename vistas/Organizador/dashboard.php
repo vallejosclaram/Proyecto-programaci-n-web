@@ -1,13 +1,6 @@
 <?php
 include '../connection.php';
-
-session_start();
-
-if (!isset($_SESSION['id_usuario'])) {
-    header("Location: ../auth/login.php");
-    exit;
-}
-
+include '../../Backend/organizador/dashboard.php';
 ?>
 
 <!DOCTYPE html>
@@ -23,27 +16,6 @@ if (!isset($_SESSION['id_usuario'])) {
   <link rel="stylesheet" href="style.css" />
 </head>
 <body >
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <span class="logo">🎮 UPE-SPORT</span>
-      <button class="close-btn" id="closeBtn"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-
-    <nav class="nav-links">
-      <a href="dashboard.php" class="nav-item active"><i class="fa-solid fa-house"></i> Dashboard</a>
-      <a href="perfil/ver.php" class="nav-item"><i class="fa-solid fa-user-gear" style="color:#c84dff;"></i> Mi perfil</a>
-      <a href="../Organizador/torneo/mis-torneos.php" class="nav-item"><i class="fa-solid fa-trophy" style="color:#ffb84d;"></i> Mis Torneos</a>
-      <a href="ranking.php" class="nav-item active"><i class="fa-solid fa-ranking-star" style="color:#ffb84d;"></i> Ranking</a>
-      <a href="solicitudes.php" class="nav-item"><i class="fa-solid fa-bell" style="color:#ff4d94;"></i> Solicitudes</a>
-    </nav>
-
-    <div class="logout">
-      <a href="../inicio.php" class="nav-item logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</a>
-    </div>
-  </aside>
-
-  <!-- Overlay -->
-  <div id="sidebarOverlay" class="sidebar-overlay"></div>
 
   <!-- ===== HEADER / TOPBAR ===== -->
   <?php include 'componentes/header.php'; ?>
@@ -57,21 +29,21 @@ if (!isset($_SESSION['id_usuario'])) {
         <a class="card card-link" href="torneo/mis-torneos.php">
           <i class="fa-solid fa-trophy" style="color:#ffb84d;"></i>
           <h4>Torneos Activos</h4>
-          <p>3 torneos en curso</p>
+          <p><?php echo $torneosActivos; ?> torneos en curso</p>
         </a>
       </div>
       <div class="col-md-4">
         <a class="card card-link" href="equipo/equipo.php">
           <i class="fa-solid fa-users" style="color:#4dffb8;"></i>
           <h4>Equipos Registrados</h4>
-          <p>12 equipos totales</p>
+          <p><?php echo $totalEquipos; ?> equipos totales </p>
         </a>
       </div>
       <div class="col-md-4">
         <a class="card card-link" href="solicitudes.php">
           <i class="fa-solid fa-bell" style="color:#ff4d94;"></i>
           <h4>Solicitudes Pendientes</h4>
-          <p>5 por revisar</p>
+          <p><?php echo $solicitudesPendientes; ?> por revisar</p>
         </a>
       </div>
     </div>

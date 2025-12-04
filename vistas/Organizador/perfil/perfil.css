@@ -221,3 +221,50 @@ button {
   color: #9ca3af;
   font-size: 0.9rem;
 }
+.accordion-card {
+    background: #1b0f2b;
+    padding: 18px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    border: 1px solid #5b1c91;
+    box-shadow: 0 0 15px rgba(150, 70, 255, 0.2);
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    color: #e8d7ff;
+}
+
+.accordion-header h3 {
+    margin: 0;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.accordion-header i {
+    transition: transform .3s ease;
+    color: #c7a4ff;
+    font-size: 18px;
+}
+
+.accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .45s ease;
+}
+
+.accordion-card.open .accordion-body {
+    max-height: 600px;
+    margin-top: 12px;
+}
+
+.accordion-card.open .accordion-header i {
+    transform: rotate(180deg);
+}
+

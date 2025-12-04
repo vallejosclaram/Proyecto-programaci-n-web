@@ -1,41 +1,7 @@
 <?php
 include '../../connection.php';
-session_start();
+include '../../../Backend/organizador/perfil.php';
 
-// Verificar sesión
-$id_usuario = $_SESSION['id_usuario'] ?? null;
-if (!$id_usuario) {
-  header('Location: ../../auth/login.php');
-  exit;
-}
-
-// Obtener datos del organizador por id_usuario
-$stmtOrg = $conn->prepare('SELECT * FROM organizador WHERE id_usuario = ? LIMIT 1');
-$stmtOrg->execute([$id_usuario]);
-$organizador = $stmtOrg->fetch(PDO::FETCH_ASSOC);
-
-if (!$organizador) {
-  echo "<p>No se encontró tu perfil de organizador.</p>";
-  exit;
-}
-
-// Obtener email del usuario
-$stmtUser = $conn->prepare('SELECT email FROM usuario WHERE id_usuario = ? LIMIT 1');
-$stmtUser->execute([$id_usuario]);
-$userRow = $stmtUser->fetch(PDO::FETCH_ASSOC);
-$organizador['email'] = $userRow['email'] ?? null;
-
-// Contar torneos creados por este organizador
-$stmtCount = $conn->prepare('SELECT COUNT(*) as total FROM torneo WHERE id_organizador = ?');
-$stmtCount->execute([$organizador['id_organizador']]);
-$countRow = $stmtCount->fetch(PDO::FETCH_ASSOC);
-$torneos_creados = $countRow['total'] ?? 0;
-
-// Contar jugadores inscritos en todos sus torneos (torneo_jugador)
-$stmtJug = $conn->prepare('SELECT COUNT(*) as inscritos FROM torneo_jugador tj JOIN torneo t ON tj.id_torneo = t.id_torneo WHERE t.id_organizador = ?');
-$stmtJug->execute([$organizador['id_organizador']]);
-$jugRow = $stmtJug->fetch(PDO::FETCH_ASSOC);
-$jugadores_inscritos = $jugRow['inscritos'] ?? 0;
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -50,24 +16,6 @@ $jugadores_inscritos = $jugRow['inscritos'] ?? 0;
   <link rel="stylesheet" href="perfil.css" />
 </head>
 <body >
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <span class="logo">🎮 UPE-SPORT</span>
-      <button class="close-btn" id="closeBtn"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-
-    <nav class="nav-links">
-      <a href="../dashboard.php" class="nav-item active"><i class="fa-solid fa-house"></i> Dashboard</a>
-      <a href="ver.php" class="nav-item"><i class="fa-solid fa-user-gear" style="color:#c84dff;"></i> Mi perfil</a>
-      <a href="../torneo/mis-torneos.php" class="nav-item"><i class="fa-solid fa-trophy" style="color:#ffb84d;"></i> Mis Torneos</a>
-      <a href="../ranking.php" class="nav-item active"><i class="fa-solid fa-ranking-star" style="color:#ffb84d;"></i> Ranking</a>
-      <a href="../solicitudes.php" class="nav-item"><i class="fa-solid fa-bell" style="color:#ff4d94;"></i> Solicitudes</a>
-    </nav>
-
-    <div class="logout">
-      <a href="../../inicio.php" class="nav-item logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</a>
-    </div>
-  </aside>
 
   <!-- Overlay -->
   <div id="sidebarOverlay" class="sidebar-overlay"></div>
@@ -98,6 +46,11 @@ $jugadores_inscritos = $jugRow['inscritos'] ?? 0;
         <h4>Jugadores Inscritos</h4>
         <p><?php echo (int)($jugadores_inscritos ?? 0); ?></p>
       </div>
+      <div class="info-card">
+        <h4>Equipos Inscritos</h4>
+        <p><?php echo $equipos_inscritos; ?></p>
+      </div>
+
 
     <div class="perfil-botones">
       <?php

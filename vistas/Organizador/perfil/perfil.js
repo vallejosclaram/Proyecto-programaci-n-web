@@ -1,5 +1,14 @@
 // perfil.js — lógica del sidebar y de la vista de perfil (seguimiento, contadores)
 document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.accordion-card').forEach(card => {
+  const header = card.querySelector('.accordion-header');
+  const body = card.querySelector('.accordion-body');
+
+  header.addEventListener('click', () => {
+      card.classList.toggle('open');
+  });
+});
+
   // Sidebar basic
   const sidebar = document.getElementById('sidebar');
   const menuToggle = document.getElementById('menuToggle');
@@ -87,5 +96,5 @@ document.addEventListener('DOMContentLoaded', () => {
       updateFollowButtonText();
     }
   });
-
+   
 });
