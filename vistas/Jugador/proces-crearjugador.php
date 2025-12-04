@@ -78,9 +78,9 @@ try {
     $id_usuario = $conn->lastInsertId();
 
     // Crear jugador
-   $sqljugador = "INSERT INTO jugador 
-(id_usuario, nombre, apellido, pais, fecha_nacimiento)
-VALUES (:usuario, :nombre, :apellido, :pais, :fecha_nacimiento)";
+ $sqljugador = "INSERT INTO jugador 
+(id_usuario, nombre, apellido, pais, fecha_nacimiento, id_membresia)
+VALUES (:usuario, :nombre, :apellido, :pais, :fecha_nacimiento, :m)";
 
     $stmt_j = $conn->prepare($sqljugador);
     $stmt_j->execute([
@@ -88,7 +88,8 @@ VALUES (:usuario, :nombre, :apellido, :pais, :fecha_nacimiento)";
     ':nombre' => $nombre,
     ':apellido' => $apellido,
     ':pais' => $pais,
-    ':fecha_nacimiento' => $fechaNacimiento
+    ':fecha_nacimiento' => $fechaNacimiento,
+    ':m' => 1
 ]);
 
 
