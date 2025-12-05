@@ -40,6 +40,7 @@ $usuario_id = $_SESSION["user"]["id"];
         <a href="puntaje/carga-puntaje.php" class="nav-item">🎯 Puntaje</a>
 
       <a href="soporte/soporte.php" class="nav-item">🙋‍♀️ Soporte</a>
+      <a href="perfil/membresia.php" class="nav-item">🎟️ Membresia</a>
       </nav> 
       <div class="logout"> 
         <a href="../auth/logout.php" class="nav-item logout-btn">🚪 Cerrar sesión</a>

@@ -1,6 +1,7 @@
 <?php
 header("Content-Type: application/json");
 require_once(__DIR__ . "/../../connection.php");
+require_once(__DIR__ . '/../../includes/clases/permisos.php'); 
 session_start();
 
 if (!isset($_SESSION["user"]["id"])) {
@@ -9,6 +10,11 @@ if (!isset($_SESSION["user"]["id"])) {
 }
 
 $usuario_id = $_SESSION["user"]["id"];
+
+if (!Permisos::tienePermiso("Crear equipo", $usuario_id)) {
+    echo json_encode(["error" => "No tenés permiso para crear un equipo"]);
+    exit;
+}
 
 
 $sqlCapitan = "

@@ -6,6 +6,8 @@ if (!isset($_SESSION["user"]["id"])) {
 }
 
 $usuario_id = $_SESSION["user"]["id"];
+
+
 ?>
 
 <!DOCTYPE html>

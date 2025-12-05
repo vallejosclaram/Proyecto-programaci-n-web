@@ -1,5 +1,6 @@
 <?php
 require_once(__DIR__ . '/../../connection.php');
+require_once(__DIR__ . '/../../includes/clases/permisos.php'); 
 
 session_start();
 
@@ -8,7 +9,22 @@ if (!isset($_SESSION["user"]["id"])) {
     exit;
 }
 
+
+
 $usuario_id = $_SESSION["user"]["id"];
+
+
+if (!Permisos::tienePermiso("Crear equipo", $usuario_id)) {
+    echo json_encode(["error" => "No tenés permiso para crear un equipo"]);
+    exit;
+}
+
+$sql = "SELECT id_cuentajuego FROM jugador WHERE id_usuario = :id";
+$stmt = $conn->prepare($sql);
+$stmt->execute([":id" => $usuario_id]);
+$jugador = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    
 ?>
 
 <!DOCTYPE html>
@@ -48,10 +64,15 @@ $usuario_id = $_SESSION["user"]["id"];
 
         <label for="descripcionEquipo" class="mt-3 mb-3">Descripción (opcional)</label>
         <textarea name="descripcionEquipo" id="descripcionEquipo" class="form-control" rows="3"></textarea>
-
+<?php if ($jugador["id_cuentajuego"]): ?>
         <div class="d-flex justify-content-between mt-4">
           <button type="submit" id="crearEquipo" name="crearEquipo" class="btn btn-primary">Crear equipo</button>
         </div>
+<?php else: ?>
+        <div class="alert alert-warning mt-4" role="alert">
+          Debes vincular tu cuenta de juego en tu perfil antes de crear un equipo.
+        </div>
+<?php endif; ?>
 
         <div class="d-flex justify-content-between mt-4">
           <a href="equipos.php" class="btn btn-secondary">Volver</a>

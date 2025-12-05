@@ -8,8 +8,22 @@ if (!isset($_SESSION["user"]["id"])) {
 
 $usuario_id = $_SESSION["user"]["id"];
 
+$idEquipo = $_GET["idEquipo"] ?? null;
+
+
+
 
     $resultado = [];
+
+    $sql = "SELECT e.id_equipo, j.nombre AS juego
+            FROM equipo e
+            JOIN juego j ON j.id_juego = e.id_juego
+            WHERE e.id_equipo = :idEquipo";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(":idEquipo", $idEquipo);
+    $stmt->execute();
+    $resultado["equipo"] = $stmt->fetch(PDO::FETCH_ASSOC);
+    
     
         //disponibles
         $sql = "SELECT e.id_equipo, e.nombre, e.descripcion, j.nombre AS juego

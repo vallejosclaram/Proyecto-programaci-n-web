@@ -5,7 +5,7 @@ session_start();
 
 header('Content-Type: application/json');
 
-// Verificar usuario logueado
+
 if (!isset($_SESSION["user"]["id"])) {
     echo json_encode(['success' => false, 'error' => 'No hay usuario logueado']);
     exit;
@@ -13,7 +13,7 @@ if (!isset($_SESSION["user"]["id"])) {
 
 $id_usuario = $_SESSION["user"]["id"];
 
-// Verificar permisos
+
 if (!Permisos::tienePermiso('Denunciar torneo', $id_usuario)) {
     echo json_encode(['success' => false, 'error' => 'No tenés permiso para denunciar torneos']);
     exit;

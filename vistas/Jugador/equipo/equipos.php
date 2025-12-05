@@ -1,5 +1,6 @@
 <?php
 require_once(__DIR__ . '/../../connection.php');
+require_once(__DIR__ . '/../../includes/clases/permisos.php'); 
 
 session_start();
 
@@ -8,6 +9,24 @@ if (!isset($_SESSION["user"]["id"])) {
 }
 
 $usuario_id = $_SESSION["user"]["id"];
+
+if (!Permisos::tienePermiso("Denunciar torneo", $usuario_id)) {
+    echo json_encode(["error" => "No tenés permiso para crear un equipo"]);
+    exit;
+}
+
+if (!Permisos::tienePermiso("solicitar_equipo", $usuario_id)) {
+    echo json_encode(["error" => "No tenés permiso para crear un equipo"]);
+    exit;
+}
+
+
+
+$sql = "SELECT id_cuentajuego FROM jugador WHERE id_usuario = :id";
+$stmt = $conn->prepare($sql);
+$stmt->execute([":id" => $usuario_id]);
+$jugador = $stmt->fetch(PDO::FETCH_ASSOC);
+    
 ?>
 
 
@@ -35,7 +54,13 @@ $usuario_id = $_SESSION["user"]["id"];
     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
       <h1 class="mb-2">🛡️ Equipos</h1>
       
+      <?php if ($jugador["id_cuentajuego"]): ?>
+
       <a href="crear-equipo.php" class="btn btn-violeta">➕ Crear equipo</a>
+      <?php else: ?>
+        
+          <a href="crear-equipo.php" class="btn btn-violeta" disabled>➕ Crear equipo</a>
+        <?php endif; ?>
 
     </div>
 

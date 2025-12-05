@@ -4,6 +4,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const menuToggle = document.getElementById('menuToggle');
   const closeBtn = document.getElementById('closeBtn');
   const body = document.body;
+   const btn = document.getElementById("enviarComentario");
+  const comentarioInput = document.getElementById("dejarcomentario");
+  const comentariosDiv = document.getElementById("comentarios");
+
+    const id_objetivo = new URLSearchParams(window.location.search).get("id");
+
+    
+
+    
 
   if (menuToggle) {
     menuToggle.addEventListener('click', () => {
@@ -19,11 +28,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  
+
   // ---------------------------
 
-  const btn = document.getElementById("enviarComentario");
-  const comentarioInput = document.getElementById("dejarcomentario");
+ 
 
   if (btn && comentarioInput) {
     btn.addEventListener("click", async (e) => {
@@ -54,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (result.ok) {
           comentarioInput.value = "";
           mostrarModalExito();
-          cargarComentario();
+          cargarComentarios();
         } else {
           alert("Error: " + result.error);
         }
@@ -64,24 +72,36 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
     });
-
-    async function cargarComentario() {
-      const comentario = document.getElementById("comentarios");
-      if (!comentario) return;
-
-      const res = await fetch("datos-perfil.php");
-      const data = await res.json();
-
-      if (!data.comentario) {
-        comentario.innerHTML = "<p>No hay comentarios disponibles</p>";
-      } else {
-        comentario.innerHTML = `<p>${data.comentario}</p>`;
-      }
-    }
-
-    cargarComentario();
+   
   }
 
+  cargarComentarios()
+
+    async function cargarComentarios() {
+      
+        const res = await fetch("datos-perfil.php?id=" + id_objetivo);
+        const data = await res.json();
+
+      
+        if (!data.comentarios || data.comentarios.length === 0) {
+          
+            comentariosDiv.innerHTML = "<p>No hay comentarios disponibles</p>";
+            return;
+        }
+
+       comentariosDiv.innerHTML = data.comentarios
+        .map(c => `
+            <div class="comentario-item">
+            <p><strong>${c.autor}</strong></p>
+            <p>— ${c.comentario}</p>
+            <hr>
+            </div>
+        `)
+        .join("");
+           
+    }
+
+    cargarComentarios();
   // ---------------------------
   //  MODAL DE ÉXITO
   // ---------------------------
