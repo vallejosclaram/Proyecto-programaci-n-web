@@ -1,16 +1,17 @@
 <?php
 header("Content-Type: application/json; charset=utf-8");
-
 $games = [
     [
         "id" => 1,
         "nombre" => "Valorant",
-        "descripcion" => "Shooter táctico 5v5 de Riot Games con habilidades y precisión absoluta."
+        "descripcion" => "Shooter táctico 5v5 de Riot Games con habilidades y precisión absoluta.",
+        "imagen" => "../Organizador/img/valorant.jpg"
     ],
     [
         "id" => 2,
         "nombre" => "Counter Strike",
-        "descripcion" => "FPS competitivo clásico donde la estrategia y reflejos definen la partida."
+        "descripcion" => "FPS competitivo clásico donde la estrategia y reflejos definen la partida.",
+        "imagen" => "../Organizador/img/Counter-Strike.jpg"
     ]
 ];
 

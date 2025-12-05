@@ -12,7 +12,6 @@ $nombre = $_SESSION["nombre"] ?? '';
 
 ?>
 
-
 <!DOCTYPE html>
 <html lang="es"> 
   <head> <meta charset="utf-8" /> 
@@ -26,88 +25,50 @@ $nombre = $_SESSION["nombre"] ?? '';
      <link rel="stylesheet" href="dashboard.css"> 
   </head> 
   <body class="dashboard-page"> 
-   
     
-   <aside class="sidebar" id="sidebar"> 
-      <div class="sidebar-header"> 
-        <span class="logo">🎮 UPE-SPORT</span> 
-        <button class="close-btn" id="closeBtn">✖</button> 
-      </div> 
-      <nav class="nav-links" role="navigation" aria-label="Menú principal"> 
-        <a href="dashboard.php" class="nav-item active">🏠 Dashboard</a> 
-        <a href="perfil/ver.php" class="nav-item">👤 Mi perfil</a> 
-        <a href="equipo/equipos.php" class="nav-item">🛡️ Equipos</a> 
-        <a href="torneo/torneo.php" class="nav-item">🏆 Torneos</a> 
-        <a href="ranking.php" class="nav-item">📊 Ranking</a>
-        <a href="partidas/partidas.php" class="nav-item">🖥️ Partidas</a>
-        <a href="puntaje/carga-puntaje.php" class="nav-item">🎯 Puntaje</a>
+  <!-- ===== HEADER / TOPBAR ===== -->
+          <?php include 'componentes/header.php'; ?>
 
-      <a href="soporte/soporte.php" class="nav-item">🙋‍♀️ Soporte</a>
-      <a href="perfil/membresia.php" class="nav-item">🎟️ Membresia</a>
-      </nav> 
-      <div class="logout"> 
-        <a href="../auth/logout.php" class="nav-item logout-btn">🚪 Cerrar sesión</a>
-      </div> 
-    </aside> 
-    
-    <div id="sidebarOverlay" class="sidebar-overlay" tabindex="-1" aria-hidden="true"></div>
-             
-    <header class="topbar"> 
-      
-      <div class="topbar-inner"> 
-        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" title="Abrir menú">☰</button> 
-        
-        <div class="topbar-center"> 
-          <span class="topbar-logo">🎮 UPE-SPORT</span> 
-        </div> 
-        
-        <div id="usuarioResumen" class="usuario-resumen" aria-live="polite"> 
-          <div id="usuarioNombre">Hola, <?php echo htmlspecialchars($nombre); ?></div>
-          <small id="usuarioRol" class="text-muted"><?php echo htmlspecialchars($rol); ?></small>
-        </div> 
-      </div>
-    </header> 
-    <main class="container py-4"> 
-        <section class="main-content" id="mainContent" tabindex="-1"> 
-          <div class="banner-container"> 
-            <img src="img/videojuegos.jpg" alt="Publicidad de torneos" class="banner-img" />
-             <!-- FILTRO--> 
-            <div class="banner-filters-floating"> 
-              <div class="search-box"> 
-                <span class="search-icon">🔍</span> 
-                <input id="globalSearchInput" type="search" placeholder="Buscar usuarios, torneos o partidas..."> 
-              </div> 
-              <select id="searchScope" class="form-select"> 
-                <option value="all">Todo</option> 
-                <option value="players">Jugadores</option> 
-                <option value="tournaments">Torneos</option> 
-              </select> 
-              <button id="clearSearchBtn" class="clear-btn" title="Limpiar">✖</button> 
-            </div> 
-          </div> 
-        </section> 
-       
-        <section class="mb-4"> 
-          <div class="d-flex align-items-center justify-content-between mb-2"> 
-            <h2 class="section-title">Jugadores destacados</h2> 
-            <div class="scroll-controls"> 
-              <button class="btn btn-sm btn-light me-1" data-target="playersList" data-dir="-1">◀</button>
-              <button class="btn btn-sm btn-light" data-target="playersList" data-dir="1">▶</button> 
-            </div> 
-          </div> 
-          <div class="h-scroll" id="playersList" tabindex="0" aria-label="Lista de jugadores"></div> 
-        </section> 
-       
-        <section class="mb-4"> 
-          <div class="d-flex align-items-center justify-content-between mb-2"> 
-            <h2 class="section-title">Juegos</h2> 
-            <div class="scroll-controls"> 
-              <button class="btn btn-sm btn-light me-1" data-target="gamesList" data-dir="-1">◀</button> 
-              <button class="btn btn-sm btn-light" data-target="gamesList" data-dir="1">▶</button> 
-            </div> 
-          </div> 
-          <div class="h-scroll" id="gamesList" tabindex="0" aria-label="Lista de juegos">  </div> 
-        </section> 
+            <main class="container py-4"> 
+                <section class="main-content" id="mainContent" tabindex="-1"> 
+                  <div class="banner-container"> 
+                    <img src="img/videojuegos.jpg" alt="Publicidad de torneos" class="banner-img" />
+                    <!-- FILTRO--> 
+                    <div class="banner-filters-floating"> 
+                      <div class="search-box"> 
+                        <span class="search-icon">🔍</span> 
+                        <input id="globalSearchInput" type="search" placeholder="Buscar usuarios, torneos o partidas..."> 
+                      </div> 
+                      <select id="searchScope" class="form-select"> 
+                        <option value="all">Todo</option> 
+                        <option value="players">Jugadores</option> 
+                        <option value="tournaments">Torneos</option> 
+                      </select> 
+                      <button id="clearSearchBtn" class="clear-btn" title="Limpiar">✖</button> 
+                    </div> 
+                  </div> 
+                </section> 
+              
+                <section class="mb-4"> 
+                  <div class="d-flex align-items-center justify-content-between mb-4"> 
+                    <h2 class="section-title">Jugadores destacados</h2> 
+                    <div class="scroll-controls"> 
+                      <button class="btn btn-sm btn-light me-1" data-target="playersList" data-dir="-1">◀</button>
+                      <button class="btn btn-sm btn-light" data-target="playersList" data-dir="1">▶</button> 
+                    </div> 
+                  </div> 
+                  <div class="h-scroll" id="playersList" tabindex="0" aria-label="Lista de jugadores"></div> 
+                </section> 
+                <section class="mb-4">
+                  <div class="d-flex align-items-center justify-content-between ">
+                    <h2 class="section-title">Juegos</h2>
+                  </div>
+
+                  <div class="h-scroll-game" id="gamesList" tabindex="0" aria-label="Lista de juegos">
+                    <!-- Se llenará dinámicamente con JS -->
+                  </div>
+                </section>
+
         <!-- Torneos próximos--> 
         <section class="mb-4"> 
           <div class="d-flex align-items-center justify-content-between mb-2"> 

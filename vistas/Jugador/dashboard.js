@@ -112,7 +112,8 @@ function openPlayer(id) {
 function cargarJuegos() {
     fetch("juegos.php")
         .then(res => res.json())
-        .then(data => renderGames(data));
+        .then(data => renderGames(data))
+        .catch(console.error);
 }
 
 function renderGames(games) {
@@ -120,17 +121,27 @@ function renderGames(games) {
     cont.innerHTML = "";
 
     games.forEach(g => {
-        const card = h("div", { class: "card game-card p-3", style: "min-width:250px; background:#121212; color:white;" });
+        const card = h("div", { 
+            class: "card game-card p-2 me-3", 
+            style: "min-width:200px; background:#121212; color:white; cursor:pointer;"
+        });
+
         card.innerHTML = `
-            <h5>${g.nombre}</h5>
-            <p>${g.descripcion}</p>
-            <button class="btn btn-secondary btn-sm" onclick="showGameInfo('${g.nombre}', \`${g.descripcion}\`)">
-                Más info
-            </button>
+            <img src="${g.imagen}" class="card-img-top" alt="${g.nombre}" style="height:150px; object-fit:cover;">
+            <div class="card-body text-center">
+                <h5 class="card-title">${g.nombre}</h5>
+            </div>
         `;
+
+        // Abrir modal al click
+        card.addEventListener("click", () => {
+            showGameInfo(g.nombre, g.descripcion);
+        });
+
         cont.appendChild(card);
     });
 }
+
 
 function showGameInfo(title, text) {
     document.getElementById("modalTitle").textContent = title;

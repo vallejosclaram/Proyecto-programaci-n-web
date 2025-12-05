@@ -1,10 +1,28 @@
-.h-scroll {
+.h-scroll-game {
     display: flex;
-    gap: 1rem;
+    gap: 5rem;
+    margin-left: 13rem;
+    align-items: center;
     overflow-x: auto;
     padding-bottom: 1rem;
     scroll-behavior: smooth;
 }
+.section-title {
+    font-family: 'Orbitron', sans-serif;
+    color: #c84dff;
+    margin-bottom: 50px;
+}
+.game-card {
+    flex: 0 0 auto;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.game-card:hover {
+    transform: scale(1.05);
+}
+
 
 .h-scroll::-webkit-scrollbar {
     height: 6px;
