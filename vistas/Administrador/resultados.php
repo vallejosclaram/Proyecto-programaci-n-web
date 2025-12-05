@@ -3,7 +3,6 @@ session_start();
 require_once(__DIR__ . '/../connection.php');
 require_once(__DIR__ . '/../includes/clases/permisos.php');
 
-// Validar sesión y rol
 if (empty($_SESSION['admin']['id'])) {
     echo json_encode(['success' => false, 'error' => 'No hay usuario administrador logueado']);
     exit;
@@ -16,7 +15,6 @@ if ($rol != 1) {
     exit;
 }
 
-// Validar permiso de visualizar resultados
 if (!Permisos::tienePermiso('gestionar_puntaje', $id_usuario)) {
     header('Location: ../error.php?msg=No tenés permiso para visualizar resultados');
     exit;
@@ -121,7 +119,6 @@ if (!Permisos::tienePermiso('gestionar_puntaje', $id_usuario)) {
     </div>
   </main>
 
-  <!-- Modal Detalles -->
   <div class="modal fade" id="modalDetalles" tabindex="-1" aria-labelledby="modalDetallesLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content bg-dark text-white">
@@ -139,7 +136,6 @@ if (!Permisos::tienePermiso('gestionar_puntaje', $id_usuario)) {
     </div>
   </div>
 
-  <!-- Modal Confirmación Aceptar -->
   <div class="modal fade" id="modalConfirmarAceptar" tabindex="-1" aria-labelledby="modalConfirmarAceptarLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content bg-dark text-white">
@@ -158,7 +154,6 @@ if (!Permisos::tienePermiso('gestionar_puntaje', $id_usuario)) {
     </div>
   </div>
 
-  <!-- Modal Confirmación Rechazar -->
   <div class="modal fade" id="modalConfirmarRechazar" tabindex="-1" aria-labelledby="modalConfirmarRechazarLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content bg-dark text-white">
@@ -177,7 +172,6 @@ if (!Permisos::tienePermiso('gestionar_puntaje', $id_usuario)) {
     </div>
   </div>
 
-  <!-- Modal Mensaje -->
   <div class="modal fade" id="modalMensaje" tabindex="-1" aria-labelledby="modalMensajeLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content bg-dark text-white">

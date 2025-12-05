@@ -1,119 +1,219 @@
 <?php
-session_start();
-require_once(__DIR__ . '/../connection.php');
-require_once(__DIR__ . '/../includes/clases/permisos.php');
+    session_start();
+    require_once(__DIR__ . '/../connection.php');
+    require_once(__DIR__ . '/../includes/clases/permisos.php');
 
-header('Content-Type: application/json; charset=UTF-8');
+    header('Content-Type: application/json; charset=UTF-8');
 
-// Validar sesión y rol
-if (empty($_SESSION['admin']['id'])) {
-    echo json_encode(['success' => false, 'error' => 'No hay usuario administrador logueado']);
-    exit;
-}
-$id_usuario = $_SESSION['admin']['id'];
-$rol = $_SESSION['admin']['rol'] ?? null;
+    if (empty($_SESSION['admin']['id'])) {
+        echo json_encode(['success' => false, 'error' => 'No hay usuario administrador logueado']);
+        exit;
+    }
 
-if ($rol != 1) {
-    echo json_encode(['success' => false, 'error' => 'Acceso restringido']);
-    exit;
-}
+    $id_usuario = $_SESSION['admin']['id'];
+    $rol = $_SESSION['admin']['rol'] ?? null;
 
-// Leer acción
-$input = json_decode(file_get_contents('php://input'), true);
-$accion = $input['accion'] ?? null;
+    if ($rol != 1) {
+        echo json_encode(['success' => false, 'error' => 'Acceso restringido']);
+        exit;
+    }
 
-if (!$accion) {
-    // Listado de denuncias
-    $sql = "SELECT d.id_denuncia, d.descripcion, d.fecha_creacion,
-               d.id_reportador, d.id_reportado, d.id_organizador,
-               r.email AS reportador,
-               rep.email AS reportado,
-               rep.bloqueado_hasta AS bloqueado_hasta,
-               o.nombre AS organizador,
-               o.bloqueado_hasta AS torneo_bloqueado_hasta
-        FROM denuncias d
-        LEFT JOIN usuario r ON r.id_usuario = d.id_reportador
-        LEFT JOIN usuario rep ON rep.id_usuario = d.id_reportado
-        LEFT JOIN torneo o ON o.id_torneo = d.id_organizador
-        ORDER BY d.fecha_creacion DESC";
+    $input  = json_decode(file_get_contents('php://input'), true);
+    $accion = $input['accion'] ?? null;
 
+    $hasUsuarioFecha = false;
+    $hasTorneoFecha  = false;
 
     try {
-        $stmt = $conn->query($sql);
-        $denuncias = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmtCols = $conn->prepare("
+            SELECT COUNT(*) AS c 
+            FROM INFORMATION_SCHEMA.COLUMNS 
+            WHERE TABLE_SCHEMA = DATABASE() 
+              AND TABLE_NAME = ? 
+              AND COLUMN_NAME = 'fecha_fin_bloqueo'
+        ");
+        $stmtCols->execute(['usuario']);
+        $hasUsuarioFecha = intval($stmtCols->fetchColumn()) > 0;
 
-        // Separar usuarios y torneos
-        $usuario = array_filter($denuncias, function($d) {
-            // Filtrar denuncias de usuarios donde bloqueado_hasta ya pasó
-            if (empty($d['id_reportado'])) return false;
-            if (!empty($d['bloqueado_hasta']) && $d['bloqueado_hasta'] !== '0000-00-00 00:00:00' && $d['bloqueado_hasta'] !== null) {
-                $fechaBloqueo = strtotime($d['bloqueado_hasta']);
-                if ($fechaBloqueo !== false && $fechaBloqueo < time()) {
-                    return false; // Ocultar si la fecha ya pasó
-                }
-            }
-            return true;
-        });
-        
-        $torneo = array_filter($denuncias, function($d) {
-            // Filtrar denuncias de torneos donde bloqueado_hasta ya pasó
-            if (empty($d['id_organizador'])) return false;
-            if (!empty($d['torneo_bloqueado_hasta']) && $d['torneo_bloqueado_hasta'] !== '0000-00-00 00:00:00' && $d['torneo_bloqueado_hasta'] !== null) {
-                $fechaBloqueo = strtotime($d['torneo_bloqueado_hasta']);
-                if ($fechaBloqueo !== false && $fechaBloqueo < time()) {
-                    return false; // Ocultar si la fecha ya pasó
-                }
-            }
-            return true;
-        });
+        $stmtCols->execute(['torneo']);
+        $hasTorneoFecha = intval($stmtCols->fetchColumn()) > 0;
+    } catch (PDOException $e) {}
 
-        echo json_encode([
-            'success' => true,
-            'usuario' => array_values($usuario),
-            'torneo'  => array_values($torneo)
-        ]);
-    } catch (PDOException $e) {
-        echo json_encode(['success' => false, 'error' => 'Error en la consulta: '.$e->getMessage()]);
+    if ($hasUsuarioFecha) {
+        try {
+            $conn->exec("
+                UPDATE usuario 
+                SET id_estado = 1, fecha_fin_bloqueo = NULL 
+                WHERE id_estado = 3 
+                  AND fecha_fin_bloqueo IS NOT NULL 
+                  AND fecha_fin_bloqueo <= NOW()
+            ");
+        } catch (PDOException $e) {}
     }
-    exit;
-}
 
-switch ($accion) {
-    case 'bloquear_usuario':
-        if (!Permisos::tienePermiso('Bloquear usuario', $id_usuario)) {
-            echo json_encode(['success' => false, 'error' => 'No tenés permiso para bloquear usuarios']);
+    if ($hasTorneoFecha) {
+        try {
+            $conn->exec("
+                UPDATE torneo 
+                SET id_estado = 1, fecha_fin_bloqueo = NULL 
+                WHERE id_estado = 4 
+                  AND fecha_fin_bloqueo IS NOT NULL 
+                  AND fecha_fin_bloqueo <= NOW()
+            ");
+        } catch (PDOException $e) {}
+    }
+
+    if (!$accion) {
+        try {
+            $usuarioFechaField = $hasUsuarioFecha ? 'rep.fecha_fin_bloqueo AS fecha_fin_bloqueo_usuario,' : '';
+            $torneoFechaField  = $hasTorneoFecha ? 't.fecha_fin_bloqueo AS fecha_fin_bloqueo_torneo,' : '';
+
+            $sql = "
+                SELECT d.id_denuncia,
+                       d.descripcion,
+                       d.fecha_creacion,
+                       d.id_reportador,
+                       d.id_reportado,
+                       d.id_torneo,
+                       r.email AS reportador,
+                       rep.email AS reportado,
+                       u_estado.descripcion AS estado_usuario,
+                       (CASE 
+                            WHEN (t.nombre IS NULL OR t.nombre = '') 
+                                 AND d.id_torneo IS NOT NULL 
+                                 AND d.id_torneo > 0 
+                            THEN CONCAT('Torneo ID: ', d.id_torneo) 
+                            ELSE t.nombre 
+                        END) AS torneo,
+                       t.id_juego AS id_juego,
+                       j.nombre AS juego,
+                       t.id_tipo AS id_tipo,
+                       tipo.descripcion AS tipo_torneo,
+                       $usuarioFechaField
+                       $torneoFechaField
+                       t_estado.descripcion AS estado_torneo
+                FROM denuncias d
+                LEFT JOIN usuario r ON r.id_usuario = d.id_reportador
+                LEFT JOIN usuario rep ON rep.id_usuario = d.id_reportado
+                LEFT JOIN estado u_estado ON rep.id_estado = u_estado.id_estado
+                LEFT JOIN torneo t ON t.id_torneo = d.id_torneo
+                LEFT JOIN juego j ON j.id_juego = t.id_juego
+                LEFT JOIN tipo_torneo tipo ON tipo.id_tipo = t.id_tipo
+                LEFT JOIN estado_torneo t_estado ON t.id_estado = t_estado.id_estado
+                ORDER BY d.fecha_creacion DESC
+            ";
+
+            $stmt     = $conn->query($sql);
+            $denuncias = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            try {
+                $juegos = $conn->query('SELECT id_juego, nombre FROM juego ORDER BY nombre')->fetchAll(PDO::FETCH_ASSOC);
+            } catch (PDOException $e) { $juegos = []; }
+
+            try {
+                $torneos_all = $conn->query('SELECT id_torneo, nombre FROM torneo ORDER BY nombre')->fetchAll(PDO::FETCH_ASSOC);
+            } catch (PDOException $e) { $torneos_all = []; }
+
+            try {
+                $tipos = $conn->query('SELECT id_tipo, descripcion FROM tipo_torneo ORDER BY descripcion')->fetchAll(PDO::FETCH_ASSOC);
+            } catch (PDOException $e) { $tipos = []; }
+
+            $usuario = array_filter($denuncias, function($d) {
+                return (empty($d['id_torneo']) || intval($d['id_torneo']) <= 0) && !empty($d['id_reportado']);
+            });
+
+            $torneo = array_filter($denuncias, function($d) {
+                return (isset($d['id_torneo']) && intval($d['id_torneo']) > 0);
+            });
+
+            echo json_encode([
+                'success'      => true,
+                'usuario'      => array_values($usuario),
+                'torneo'       => array_values($torneo),
+                'juegos'       => $juegos,
+                'torneos'      => $torneos_all,
+                'tipos_torneo' => $tipos
+            ]);
+        } catch (PDOException $e) {
+            echo json_encode(['success' => false, 'error' => 'Error en la consulta: '.$e->getMessage()]);
+        }
+        exit;
+    }
+
+    if ($accion == 'bloquear_usuario') {
+        if (empty($input['id_reportado'])) {
+            echo json_encode(['success' => false, 'error' => 'ID de usuario reportado es requerido.']);
             exit;
         }
-        $id_reportado = $input['id_reportado'] ?? null;
-        if (!$id_reportado) {
-            echo json_encode(['success' => false, 'error' => 'Usuario a bloquear no especificado']);
+
+        $id_reportado = $input['id_reportado'];
+
+        try {
+            if ($hasUsuarioFecha) {
+                $stmt = $conn->prepare("
+                    UPDATE usuario 
+                    SET id_estado = 3, 
+                        fecha_fin_bloqueo = DATE_ADD(NOW(), INTERVAL 15 DAY) 
+                    WHERE id_usuario = ?
+                ");
+                $stmt->execute([$id_reportado]);
+                $affected = $stmt->rowCount();
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Usuario bloqueado exitosamente por 15 días.',
+                    'affected' => $affected
+                ]);
+            } else {
+                $stmt = $conn->prepare("UPDATE usuario SET id_estado = 3 WHERE id_usuario = ?");
+                $stmt->execute([$id_reportado]);
+                $affected = $stmt->rowCount();
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Usuario bloqueado exitosamente.',
+                    'affected' => $affected
+                ]);
+            }
+        } catch (PDOException $e) {
+            echo json_encode(['success' => false, 'error' => 'Error al bloquear usuario: ' . $e->getMessage()]);
+        }
+        exit;
+    }
+
+    if ($accion == 'bloquear_torneo') {
+        if (empty($input['id_torneo'])) {
+            echo json_encode(['success' => false, 'error' => 'ID de torneo es requerido.']);
             exit;
         }
-        $stmt = $conn->prepare("UPDATE usuario 
-                                SET id_estado = 3, bloqueado_hasta = DATE_ADD(NOW(), INTERVAL 15 DAY) 
-                                WHERE id_usuario = ?");
-        $stmt->execute([$id_reportado]);
-        echo json_encode(['success' => true, 'message' => 'Usuario bloqueado  por 15 días']);
-        break;
 
-    case 'bloquear_torneo':
-        if (!Permisos::tienePermiso('Bloquear torneo', $id_usuario)) {
-            echo json_encode(['success' => false, 'error' => 'No tenés permiso para bloquear torneos']);
-            exit;
+        $id_torneo = $input['id_torneo'];
+
+        try {
+            if ($hasTorneoFecha) {
+                $stmt = $conn->prepare("
+                    UPDATE torneo 
+                    SET id_estado = 4, 
+                        fecha_fin_bloqueo = DATE_ADD(NOW(), INTERVAL 15 DAY) 
+                    WHERE id_torneo = ?
+                ");
+                $stmt->execute([$id_torneo]);
+                $affected = $stmt->rowCount();
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Torneo bloqueado exitosamente por 15 días.',
+                    
+                ]);
+            } else {
+                $stmt = $conn->prepare("UPDATE torneo SET id_estado = 4 WHERE id_torneo = ?");
+                $stmt->execute([$id_torneo]);
+                $affected = $stmt->rowCount();
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Torneo bloqueado exitosamente.',
+                ]);
+            }
+        } catch (PDOException $e) {
+            echo json_encode(['success' => false, 'error' => 'Error al bloquear torneo: ' . $e->getMessage()]);
         }
-        $id_torneo = $input['id_torneo'] ?? null;
-        if (!$id_torneo) {
-            echo json_encode(['success' => false, 'error' => 'Torneo a bloquear no especificado']);
-            exit;
-        }
-        $stmt = $conn->prepare("UPDATE torneo 
-                        SET id_estado = 3, bloqueado_hasta = DATE_ADD(NOW(), INTERVAL 15 DAY) 
-                        WHERE id_torneo = ?");
-        $stmt->execute([$id_torneo]);
-        echo json_encode(['success' => true, 'message' => 'Torneo bloqueado por 15 días']);
-
-        break;
-
-    default:
-        echo json_encode(['success' => false, 'error' => 'Acción desconocida']);
-}
+        exit;
+    }
+?>

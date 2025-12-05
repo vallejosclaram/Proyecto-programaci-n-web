@@ -33,7 +33,7 @@ $accion = $input['accion'] ?? null;
 
 if (!$accion) {
     $search      = isset($input['search']) ? trim($input['search']) : null;
-    $estado      = $input['estado'] ?? null; // pendiente | respondido
+    $estado      = $input['estado'] ?? null; 
     $fechaDesde  = $input['fecha_desde'] ?? null;
     $fechaHasta  = $input['fecha_hasta'] ?? null;
 
