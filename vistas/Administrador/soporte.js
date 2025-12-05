@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderTickets(tickets) {
     if (!tickets.length) {
-      ticketsContainer.innerHTML = `<div class="text-center text-muted py-5">No se encontraron tickets</div>`;
+      ticketsContainer.innerHTML = `<div class="text-center text-muted py-5"></div>`;
       return;
     }
 
