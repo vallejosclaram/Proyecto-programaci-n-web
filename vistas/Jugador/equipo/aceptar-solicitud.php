@@ -29,7 +29,7 @@ $idEquipo  = $sol["id_equipo"];
 try {
     $conn->beginTransaction();
 
-    // 1) Insertar el usuario como miembro del equipo
+    
     $sqlInsert = "INSERT INTO miembros_equipo (id_equipo, id_usuario, fecha_union)
                   VALUES (:eq, :usu, NOW())";
 
@@ -39,12 +39,12 @@ try {
         ":usu" => $idUsuario
     ]);
 
-    // 2) Borrar la solicitud aceptada
+    
     $sqlDelete = "DELETE FROM solicitud_equipo WHERE id_solicitud = :id";
     $stmtDel = $conn->prepare($sqlDelete);
     $stmtDel->execute([":id" => $idSolicitud]);
 
-    // 3) Buscar el capitán del equipo
+    
     $sqlCap = "SELECT id_usuario_capitan FROM equipo WHERE id_equipo = :eq LIMIT 1";
     $stmtCap = $conn->prepare($sqlCap);
     $stmtCap->execute([":eq" => $idEquipo]);
@@ -54,7 +54,7 @@ try {
 
         $idCapitan = $cap["id_usuario_capitan"];
 
-        // 4) Enviar notificación al usuario aceptado
+       
         $mensaje = "Tu solicitud para unirte al equipo fue aceptada.";
 
         $sqlNotif = "INSERT INTO notificacion (id_receptor, id_emisor, notificacion, fecha)
@@ -62,7 +62,7 @@ try {
 
         $stmtNotif = $conn->prepare($sqlNotif);
         $stmtNotif->execute([
-            ":receptor" => $idUsuario,   // quien recibe la buena noticia
+            ":receptor" => $idUsuario,   // quien recibe 
             ":emisor"   => $idCapitan,   // el capitán que aceptó
             ":msg"      => $mensaje
         ]);

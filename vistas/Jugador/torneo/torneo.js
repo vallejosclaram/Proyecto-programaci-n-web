@@ -116,7 +116,6 @@ function crearCardTorneo(t) {
     </div>
 
     <div class="torneo-actions">
-      <button class="btn-ver-jugadores" disabled>Ver Jugadores</button>
       <button class="btn-denunciar">Denunciar</button>
     </div>
   `;
@@ -126,8 +125,8 @@ function crearCardTorneo(t) {
   
   //VER JUGADORES
   
-  card.querySelector('.btn-ver-jugadores')
-      .addEventListener('click', () => verJugadores(t.id_torneo));
+  /*card.querySelector('.btn-ver-jugadores')
+      .addEventListener('click', () => verJugadores(t.id_torneo));*/
 
  
   //DENUNCIAR
@@ -147,9 +146,7 @@ function crearCardTorneo(t) {
   
   //SUMARME
   
-  const btnSumarme = document.createElement('button');
-  btnSumarme.textContent = 'Sumarme';
-  btnSumarme.classList.add('btn-sumarse', 'btn-primary');
+  
 
   if (t.inscripta > 0) {
     if (t.estado_inscripcion === 'pendiente') {
@@ -161,9 +158,12 @@ function crearCardTorneo(t) {
     }
     btnSumarme.disabled = true;
   } else {
+    const btnSumarme = document.createElement('button');
+    btnSumarme.textContent = 'Sumarme';
+    btnSumarme.classList.add('btn-sumarse', 'btn-primary');
     btnSumarme.addEventListener('click', async () => {
       try {
-        console.log("aca");
+       
         const res = await fetch('procesar-solicitud.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

@@ -50,8 +50,7 @@ GROUP BY e.id_equipo, e.nombre, e.descripcion, e.id_juego, j.nombre, ju.id_usuar
 ";
 
 $stmt = $conn->prepare($sql);
-$stmt->bindValue(":id", $id, PDO::PARAM_INT);
-$stmt->bindValue(":uid", $usuario_id, PDO::PARAM_INT);
+$stmt->bindValue(":id_equipo", $id, PDO::PARAM_INT);
 $stmt->execute();
 
 $detalles = $stmt->fetch(PDO::FETCH_ASSOC);

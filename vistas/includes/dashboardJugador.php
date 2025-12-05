@@ -55,6 +55,8 @@ $BASE = rtrim($BASE, "/");
       <a href="<?php echo $BASE; ?>/Jugador/puntaje/carga-puntaje.php" class="nav-item">🎯 Puntaje</a>
 
       <a href="<?php echo $BASE; ?>/Jugador/perfil/membresia.php" class="nav-item">🎟️ Membresía</a>
+      
+      <a href="<?php echo $BASE; ?>/Jugador/perfil/membresia.php" class="nav-item">🔔 Notificaciones</a>
 
 
     </nav>

@@ -213,13 +213,13 @@ document.addEventListener("DOMContentLoaded", () => {
         juegoCuenta = 2; 
     } 
     else {
-        console.log("Tu cuenta no pertenece a ningún juego compatible.");
+        alert("Tu cuenta no pertenece a ningún juego compatible.");
         return;
     }
 
     
     if (juegoCuenta !== juegoEquipo) {
-    console.log(`
+    alert(`
         Tu cuenta no coincide con el juego del equipo.
     `);
     return;
