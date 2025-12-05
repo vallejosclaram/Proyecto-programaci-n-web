@@ -4,11 +4,13 @@ require_once(__DIR__ . '/../../includes/clases/permisos.php');
 session_start();
 
 
-$usuario_id = $_SESSION["user"]["id"] ?? null;
-if (!$usuario_id) {
-    die("No hay usuario logueado");
+if (!isset($_SESSION["id_usuario"])) {
+    die("Error: no hay usuario logueado.");
 }
 
+$usuario_id = $_SESSION["id_usuario"];
+$rol = $_SESSION["rol"] ?? '';
+$nombre = $_SESSION["nombre"] ?? '';
 
 if (!Permisos::tienePermiso('solicitar_membresia', $usuario_id)) {
     echo json_encode(['success' => false, 'error' => 'No tenés permiso para solicitar membresia']);
