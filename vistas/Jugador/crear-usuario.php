@@ -24,7 +24,7 @@ require_once(__DIR__ . '/../connection.php');
         <h2>Registro de Jugador</h2>
       </div>
 
-      <form id="formCrearJugador" class="text-start">
+      <form id="formCrearJugador" class="text-start"  action="" method="POST">
         <div class="mb-3">
           <label for="nombre" class="form-label">Nombre</label>
           <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Tu nombre" required />

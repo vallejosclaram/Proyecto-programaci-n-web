@@ -1,12 +1,13 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["user"]["id"])) {
+if (!isset($_SESSION["id_usuario"])) {
     die("Error: no hay usuario logueado.");
 }
 
-$usuario_id = $_SESSION["user"]["id"];
-
+$usuario_id = $_SESSION["id_usuario"];
+$rol = $_SESSION["rol"] ?? '';
+$nombre = $_SESSION["nombre"] ?? '';
 
 ?>
 

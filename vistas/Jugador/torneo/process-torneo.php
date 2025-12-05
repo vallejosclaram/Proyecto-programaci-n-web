@@ -4,15 +4,15 @@ session_start();
 
 header('Content-Type: application/json');
 
-if (!isset($_SESSION["user"]["id"])) {
-    echo json_encode(["error" => "No hay usuario logueado"]);
-    exit;
+if (!isset($_SESSION["id_usuario"])) {
+    die("Error: no hay usuario logueado.");
 }
 
-//$usuario_id = $_SESSION["user"]["id"];
-$logueado_id = $_SESSION["user"]["id"];
+$usuario_id = $_SESSION["id_usuario"];
+$rol = $_SESSION["rol"] ?? '';
+$nombre = $_SESSION["nombre"] ?? '';
 
-$jugador_id = isset($_GET['id']) ? (int)$_GET['id'] : $logueado_id;
+$jugador_id = isset($_GET['id']) ? (int)$_GET['id'] : $usuario_id;
 
 $sql = "
 SELECT 

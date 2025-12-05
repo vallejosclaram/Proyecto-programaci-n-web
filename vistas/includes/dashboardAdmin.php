@@ -17,7 +17,7 @@
 
     </nav>
     <div class="logout">
-      <a href="../auth/admin-login.php" class="nav-item logout-btn">🚪 Cerrar sesión</a>
+      <a href="../inicio.php" class="nav-item logout-btn">🚪 Cerrar sesión</a>
     </div>
   </aside>
   <script src="dashboard.js"></script>

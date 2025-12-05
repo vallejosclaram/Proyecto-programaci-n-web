@@ -4,13 +4,15 @@ require_once(__DIR__ . '/../../includes/clases/permisos.php');
 session_start();
 
 // Verificamos si está logueado
-if (!isset($_SESSION["user"]["id"])) {
+if (!isset($_SESSION["id_usuario"])) {
     die("Error: no hay usuario logueado.");
 }
 
-$id_usuario = $_SESSION["user"]["id"];
+$usuario_id = $_SESSION["id_usuario"];
+$rol = $_SESSION["rol"] ?? '';
+$nombre = $_SESSION["nombre"] ?? '';
 
-if (!Permisos::tienePermiso("Crear ticket", $id_usuario)) {
+if (!Permisos::tienePermiso("Crear ticket", $usuario_id)) {
     echo json_encode(["error" => "No tenés permiso para crear un ticket"]);
     exit;
 }

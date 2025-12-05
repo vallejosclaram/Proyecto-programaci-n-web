@@ -9,51 +9,45 @@ document.addEventListener('DOMContentLoaded', () => {
   const emailInput = document.getElementById('email');
   const validEmail = document.getElementById('validemail');
   const paisSelect = document.getElementById('pais');
+  const erroresDiv = document.getElementById('errores');
 
   // Cargar países
+  cargarPaises();
 
-  getPais();
-
-  async function getPais() {
+  async function cargarPaises() {
     try {
-        const response = await fetch('https://restcountries.com/v3.1/all?fields=name,cca2');
-        const paises = await response.json();
-
-        paisSelect.innerHTML = '<option value="">Seleccionar país</option>';
-
-        paises.forEach(pais => {
-            const option = document.createElement("option");
-            option.value = pais.cca2 || ""; 
-            option.textContent = pais.name.common;
-            paisSelect.appendChild(option);
-        });
-
-    } catch (error) {
-        console.error("Error cargando paises:", error);
-        paisSelect.innerHTML = '<option value="">Error al cargar</option>';
+      const res = await fetch('https://restcountries.com/v3.1/all?fields=name,cca2');
+      const paises = await res.json();
+      paisSelect.innerHTML = '<option value="">Seleccionar país</option>';
+      paises.forEach(pais => {
+        const option = document.createElement('option');
+        option.value = pais.cca2 || '';
+        option.textContent = pais.name.common;
+        paisSelect.appendChild(option);
+      });
+    } catch (err) {
+      paisSelect.innerHTML = '<option value="">Error al cargar países</option>';
+      console.error(err);
     }
-}
+  }
 
-  
-
-  
+  // Mostrar/ocultar contraseña
   showPass.addEventListener('change', () => {
-   	passwordInput.type = showPass.checked ? 'text' : 'password';
-   	confirmInput.type = showPass.checked ? 'text' : 'password';
+    const tipo = showPass.checked ? 'text' : 'password';
+    passwordInput.type = tipo;
+    confirmInput.type = tipo;
   });
 
-  form.addEventListener('submit', async function (e) {
+  // Enviar formulario
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    
-    [fechaInput, passwordInput, confirmInput, emailInput].forEach(input => {
-      input.classList.remove('is-invalid');
-    });
-    validFecha.classList.add('d-none');
-    validPass.classList.add('d-none');
-    validEmail.classList.add('d-none');
+    // Reset validaciones
+    [fechaInput, passwordInput, confirmInput, emailInput].forEach(input => input.classList.remove('is-invalid'));
+    [validFecha, validPass, validEmail].forEach(el => el.classList.add('d-none'));
+    erroresDiv.innerHTML = '';
 
-    // Obtener valores
+    // Valores
     const nombre = document.getElementById('nombre').value.trim();
     const apellido = document.getElementById('apellido').value.trim();
     const email = emailInput.value.trim();
@@ -64,78 +58,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let valido = true;
 
-    // validación de edad
+    // Edad mínima 13 años
     const hoy = new Date();
     const nacimiento = new Date(fechaNacimiento);
-    const cumple = new Date(nacimiento);
-    cumple.setFullYear(cumple.getFullYear() + 13);
-
-    if (hoy < cumple) {
+    const cumple13 = new Date(nacimiento);
+    cumple13.setFullYear(cumple13.getFullYear() + 13);
+    if (hoy < cumple13) {
       fechaInput.classList.add('is-invalid');
       validFecha.classList.remove('d-none');
       valido = false;
     }
 
-    // Validación de contraseñas
+    // Contraseñas coinciden
     if (contrasena !== confirmPassword) {
       confirmInput.classList.add('is-invalid');
       validPass.classList.remove('d-none');
       valido = false;
     }
 
-    // Validación de email HTML5
+    // Email válido
     if (!emailInput.checkValidity()) {
       emailInput.classList.add('is-invalid');
       validEmail.classList.remove('d-none');
       valido = false;
     }
 
-    // Campos vacíos
-    if (!nombre || !apellido || !paisSelect || !email || !fechaNacimiento || !contrasena || !confirmPassword) {
-      form.classList.add('was-validated');
+    // Campos obligatorios
+    if (!nombre || !apellido || !pais || !email || !fechaNacimiento || !contrasena || !confirmPassword) {
       valido = false;
     }
 
     if (!valido) return;
 
-   
-    const datos = {
-      nombre: nombre,
-      apellido: apellido,
-      email: email,
-      contrasena: contrasena,
-      fechaNacimiento: fechaNacimiento,
-      pais: pais,
-      id_rol: 2  
-    };
-     console.log(datos);
-    
-    localStorage.setItem('jugador', JSON.stringify(datos));
+    // Preparar datos
+    const datos = { nombre, apellido, email, contrasena, fechaNacimiento, pais };
 
-  try {
-    
-    const resp = await fetch('proces-crearjugador.php', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(datos)
-    });
-    const respuesta = await resp.json();
+    try {
+      const res = await fetch('http://localhost/Proyecto-programaci-n-web/Backend/jugador/crear-jugador.php', { // PHP que te preparé antes
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(datos)
+      });
+      const data = await res.json();
 
-    const erroresDiv = document.getElementById('errores');
-
-    if(respuesta.mensaje) {
-          const modal = new bootstrap.Modal(document.getElementById('registroExitoso'));
-          modal.show();
-          form.reset();
-    } else {
-      
-      erroresDiv.innerHTML = `<div class="alert alert-danger">${respuesta.error}</div>`;
-      
+      if (data.success) {
+        // Mostrar modal éxito
+        const modal = new bootstrap.Modal(document.getElementById('registroExitoso'));
+        modal.show();
+        form.reset();
+      } else {
+        erroresDiv.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
+      }
+    } catch (err) {
+      console.error(err);
+      erroresDiv.innerHTML = `<div class="alert alert-danger">Error en la conexión con el servidor</div>`;
     }
-    
-  } catch (error) {
-    console.error('Error en la solicitud:', error);
-  }
-    
   });
 });
+
+
