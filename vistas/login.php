@@ -61,6 +61,14 @@ if ($rol === 'organizador') {
     $org = $stmt->fetch(PDO::FETCH_ASSOC);
     $nombreCompleto = $org ? $org['nombre'] . ' ' . $org['apellido'] : '';
 } 
+// Obtener datos adicionales si es jugador
+$nombreCompleto = '';
+if ($rol === 'jugador') {
+    $stmt = $conn->prepare("SELECT nombre, apellido FROM jugador WHERE id_usuario = ?");
+    $stmt->execute([$usuario['id_usuario']]);
+    $jug = $stmt->fetch(PDO::FETCH_ASSOC);
+    $nombreCompleto = $jug ? $jug['nombre'] . ' ' . $jug['apellido'] : '';
+} 
 
 // 5️⃣ Guardar datos en sesión
 $_SESSION['id_usuario'] = $usuario['id_usuario'];

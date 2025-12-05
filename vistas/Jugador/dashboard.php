@@ -1,12 +1,15 @@
 <?php
-require_once(__DIR__ . '/../connection.php');
+include '../connection.php';
 session_start();
 
-if (!isset($_SESSION["user"]["id"])) {
+if (!isset($_SESSION["id_usuario"])) {
     die("Error: no hay usuario logueado.");
 }
 
-$usuario_id = $_SESSION["user"]["id"];
+$usuario_id = $_SESSION["id_usuario"];
+$rol = $_SESSION["rol"] ?? '';
+$nombre = $_SESSION["nombre"] ?? '';
+
 ?>
 
 
@@ -59,8 +62,8 @@ $usuario_id = $_SESSION["user"]["id"];
         </div> 
         
         <div id="usuarioResumen" class="usuario-resumen" aria-live="polite"> 
-          <div id="usuarioNombre">Hola, Jugador</div> 
-          <small id="usuarioRol" class="text-muted"></small> 
+          <div id="usuarioNombre">Hola, <?php echo htmlspecialchars($nombre); ?></div>
+          <small id="usuarioRol" class="text-muted"><?php echo htmlspecialchars($rol); ?></small>
         </div> 
       </div>
     </header> 
