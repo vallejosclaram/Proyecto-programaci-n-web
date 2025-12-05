@@ -45,9 +45,38 @@ function imagenJuego($juego) {
   $juego = strtolower($juego);
 
   if (strpos($juego, "valorant") !== false) return "../img/valorant.jpg";
-  if (stripos($juego, "counter") !== false) return "../img/Counter-Strike.jpg";
+  if (strpos($juego, "counter") !== false) return "../img/Counter-Strike.jpg";
 
   return "../img/default.png";
+}
+
+// =============================
+//  Obtener torneos activos
+// =============================
+$stmtActivos = $conn->prepare("
+  SELECT 
+      id_torneo,
+      nombre,
+      fecha_inicio,
+      fecha_fin
+  FROM torneo
+  WHERE id_organizador = ? AND id_estado = 1
+");
+$stmtActivos->execute([$id_organizador]);
+$torneosActivos = $stmtActivos->fetchAll(PDO::FETCH_ASSOC);
+
+// =============================
+//  Convertir torneos en eventos JS
+// =============================
+$eventosJS = [];
+
+foreach ($torneosActivos as $t) {
+    $eventosJS[] = json_encode([
+        "id"    => $t["id_torneo"],
+        "title" => $t["nombre"],
+        "start" => $t["fecha_inicio"],
+        "end"   => date("Y-m-d", strtotime($t["fecha_fin"] . " +1 day")) // FullCalendar exige +1 día
+    ]);
 }
 ?>
 <!DOCTYPE html>
@@ -59,6 +88,8 @@ function imagenJuego($juego) {
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- FullCalendar (SIEMPRE primero) -->
+  <!--<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script> -->
   <link rel="stylesheet" href="../style.css" />
   <link rel="stylesheet" href="mis-torneos.css">
   <style>
@@ -69,262 +100,301 @@ function imagenJuego($juego) {
     }
     </style>
 </head>
-<body>
+  <body>
 
-  <!-- HEADER -->
-  <?php include '../componentes/header.php'; ?>
+    <!-- HEADER -->
+    <?php include '../componentes/header.php'; ?>
 
-  <!-- CONTENIDO -->
-  <main class="main-content">
-    <section class="torneos-section">
+    <!-- CONTENIDO -->
+    <main class="main-content">
+      <section class="torneos-section">
 
-      <div class="torneos-header">
-        <h2>Mis Torneos</h2>
-        <button id="nuevoTorneoBtn" class="btn-nuevo-torneo" data-bs-toggle="modal" data-bs-target="#crearTorneoModal">
-          <i class="fa-solid fa-plus"></i> Crear Torneo
-        </button>
-      </div>
+        <div class="torneos-header">
+          <h2>Mis Torneos</h2>
+          <button id="nuevoTorneoBtn" class="btn-nuevo-torneo" data-bs-toggle="modal" data-bs-target="#crearTorneoModal">
+            <i class="fa-solid fa-plus"></i> Crear Torneo
+          </button>
+        </div>
 
-      <!-- GRID -->
-      <div class="torneos-grid">
+        <!-- GRID -->
+        <div class="torneos-grid">
 
-        <?php foreach ($result as $row): ?>
-          <div class="torneo-card" data-id="<?= $row['id_torneo'] ?>">
+          <?php foreach ($result as $row): ?>
+            <div class="torneo-card" data-id="<?= $row['id_torneo'] ?>">
 
-            <!-- Imagen dinámica -->
-            <img src="<?= imagenJuego($row['juego']) ?>" alt="<?= htmlspecialchars($row['juego']) ?>">
+              <!-- Imagen dinámica -->
+              <img src="<?= imagenJuego($row['juego']) ?>" alt="<?= htmlspecialchars($row['juego']) ?>">
 
-            <h3><?= htmlspecialchars($row['nombre_torneo']) ?></h3>
+              <h3><?= htmlspecialchars($row['nombre_torneo']) ?></h3>
 
-            <p><i class="fa-solid fa-gamepad"></i> 
-              <strong>Juego:</strong> <?= htmlspecialchars($row['juego']) ?>
-            </p>
+              <p><i class="fa-solid fa-gamepad"></i> 
+                <strong>Juego:</strong> <?= htmlspecialchars($row['juego']) ?>
+              </p>
 
-            <p><i class="fa-solid fa-calendar"></i> 
-              <strong>Fecha:</strong>
-              <?= date("d/m/Y", strtotime($row['fecha_inicio'])) ?> -
-              <?= date("d/m/Y", strtotime($row['fecha_fin'])) ?>
-            </p>
+              <p><i class="fa-solid fa-calendar"></i> 
+                <strong>Fecha:</strong>
+                <?= date("d/m/Y", strtotime($row['fecha_inicio'])) ?> -
+                <?= date("d/m/Y", strtotime($row['fecha_fin'])) ?>
+              </p>
 
-            <p><i class="fa-solid fa-flag"></i> 
-              <strong>Estado:</strong> <?= htmlspecialchars($row['estado']) ?>
-            </p>
+              <p><i class="fa-solid fa-flag"></i> 
+                <strong>Estado:</strong> <?= htmlspecialchars($row['estado']) ?>
+              </p>
 
-            <p><i class="fa-solid fa-layer-group"></i> 
-              <strong>Tipo:</strong> <?= htmlspecialchars($row['tipo']) ?>
-            </p>
+              <p><i class="fa-solid fa-layer-group"></i> 
+                <strong>Tipo:</strong> <?= htmlspecialchars($row['tipo']) ?>
+              </p>
 
-            <div class="card-actions">
-              <button class="btn-ver"><i class="fa-solid fa-eye"></i></button>
-              <button class="btn-editar"><i class="fa-solid fa-pen"></i></button>
-              <button class="btn-eliminar"><i class="fa-solid fa-trash"></i></button>
+              <div class="card-actions">
+                <button class="btn-ver"><i class="fa-solid fa-eye"></i></button>
+                <button class="btn-editar"><i class="fa-solid fa-pen"></i></button>
+                <button class="btn-eliminar"><i class="fa-solid fa-trash"></i></button>
+              </div>
             </div>
-          </div>
-        <?php endforeach; ?>
+          <?php endforeach; ?>
 
-      </div><!-- /torneos-grid -->
+        </div><!-- /torneos-grid -->
+        <hr class="my-5">
 
-    </section>
-  </main>
+        <h3 class="text-center mb-4">📅 Calendario de Torneos Activos</h3>
 
-  <!-- Modal Crear Torneo -->
-<div class="modal fade" id="crearTorneoModal" tabindex="-1" aria-labelledby="crearTorneoLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content custom-modal">
+        <div id="calendar" style="max-width: 1000px; margin: 0 auto;"></div>
 
-      <div class="modal-header border-0">
-        <h5 class="modal-title" id="crearTorneoLabel">🎮 Crear Nuevo Torneo</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
+      </section>
+    </main>
 
-      <div class="modal-body">
-        <form id="formTorneo" class="form-container" action="" method="POST">
-
-          <div class="form-group">
-            <label for="nombre">Nombre del Torneo</label>
-            <input type="text" id="nombre" name="nombre" placeholder="Torneo Legends" required>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Juego</label>
-            <select class="form-select" id="juego" name="juego" required>
-              <option value="" disabled selected>Seleccione...</option>
-              <option value="Valorant">Valorant</option>
-              <option value="Counter Strike">Counter Strike</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Tipo</label>
-            <select class="form-select" name="tipo" id="tipo" required>
-              <option value="individual">Individual</option>
-              <option value="equipo">Equipo</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="fechaInscripcion">Fecha de Inicio</label>
-            <input type="date" id="fechaInscripcion" name="fechaInscripcion" required>
-          </div>
-
-          <div class="form-group">
-            <label for="fechaInscripcionFin">Fecha de Fin</label>
-            <input type="date" id="fechaInscripcionFin" name="fechaInscripcionFin" required>
-          </div>
-
-          <button type="submit" class="btn-submit btn-gradient">🎯 Crear Torneo</button>
-        </form>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-  <!-- Toast -->
-  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-    <div id="toastTorneo" class="toast align-items-center text-white bg-purple border-0" aria-live="assertive" aria-atomic="true">
-      <div class="d-flex">
-        <div class="toast-body">Torneo pendiente de Aprobacion ....</div>
-        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-      </div>
-    </div>
-  </div>
-  <!-- MODAL GAMER PRO -->
-    <div class="modal fade" id="verTorneoModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content gamer-modal">
-
-        <!-- IMAGEN -->
-        <div class="gamer-banner">
-          <img id="verImagenJuego" class="gamer-banner-img" src="" alt="">
-        </div>
-
-        <!-- Cerrar -->
-        <button class="btn-close position-absolute end-0 m-3" data-bs-dismiss="modal"></button>
-
-        <!-- TÍTULO -->
-        <div class="gamer-title-box">
-          <h2 id="verNombre"></h2>
-        </div>
-
-        <div class="modal-body">
-
-          <!-- ORGANIZADOR -->
-          <p >
-            👤 Organizador: <strong id="verOrganizador"></strong>
-          </p>
-
-          <!-- ESTADO -->
-          <div id="estadoBadge"></div>
-
-          <!-- INFO DEL TORNEO (COLUMNA) -->
-          <div class="gamer-info-box">
-            <p>🎮 <strong>Juego:</strong> <span id="verJuego"></span></p>
-            <p>⏳ <strong>Inicio:</strong> <span id="verInicio"></span></p>
-            <p>🏁 <strong>Fin:</strong> <span id="verFin"></span></p>
-            <p><i class="fa-solid fa-users-rays" style="color:#ffb84d;"></i><strong>Tipo:</strong> <span id="verTipo"></span></p>
-          </div>
-
-          <!-- JUGADORES -->
-          <div id="bloqueJugadores" class="gamer-jugadores-box"></div>
-
-        </div>
-
-      </div>
-    </div>
-  </div>
-  <!-- MODAL EDITAR TORNEO -->
-  <div class="modal fade" id="editarTorneoModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog ">
+    <!-- Modal Crear Torneo -->
+  <div class="modal fade" id="crearTorneoModal" tabindex="-1" aria-labelledby="crearTorneoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content custom-modal">
 
         <div class="modal-header border-0">
-          <h5 class="modal-title">✏️ Editar Torneo</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+          <h5 class="modal-title" id="crearTorneoLabel">🎮 Crear Nuevo Torneo</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
         </div>
 
         <div class="modal-body">
-
-          <form id="formEditarTorneo">
-
-            <input type="hidden" id="editarIdTorneo">
+          <form id="formTorneo" class="form-container" action="" method="POST">
 
             <div class="form-group">
-              <label>Nombre del Torneo</label>
-              <input type="text" id="editarNombre" class="form-control" required>
+              <label for="nombre">Nombre del Torneo</label>
+              <input type="text" id="nombre" name="nombre" placeholder="Torneo Legends" required>
             </div>
 
             <div class="form-group">
-              <label>Juego</label>
-              <select id="editarJuego" class="form-select">
+              <label class="form-label">Juego</label>
+              <select class="form-select" id="juego" name="juego" required>
+                <option value="" disabled selected>Seleccione...</option>
                 <option value="Valorant">Valorant</option>
                 <option value="Counter Strike">Counter Strike</option>
               </select>
             </div>
 
             <div class="form-group">
-              <label>Tipo</label>
-              <select id="editarTipo" class="form-select">
-                <option value="Individual">Individual</option>
-                <option value="Equipo">Equipo</option>
+              <label class="form-label">Tipo</label>
+              <select class="form-select" name="tipo" id="tipo" required>
+                <option value="individual">Individual</option>
+                <option value="equipo">Equipo</option>
               </select>
             </div>
 
             <div class="form-group">
-              <label>Inicio</label>
-              <input type="date" id="editarInicio" class="form-control">
+              <label for="fechaInscripcion">Fecha de Inicio</label>
+              <input type="date" id="fechaInscripcion" name="fechaInscripcion" required>
             </div>
 
             <div class="form-group">
-              <label>Fin</label>
-              <input type="date" id="editarFin" class="form-control">
+              <label for="fechaInscripcionFin">Fecha de Fin</label>
+              <input type="date" id="fechaInscripcionFin" name="fechaInscripcionFin" required>
             </div>
 
-            <div class="form-group">
-              <label>Estado</label>
-              <select id="editarEstado" class="form-select">
-                <option value="1">Activo</option>
-                <option value="2">Cerrado</option>
-              </select>
-            </div>
-
-            <button class="btn btn-primary w-100 mt-3">Guardar cambios</button>
-
+            <button type="submit" class="btn-submit btn-gradient">🎯 Crear Torneo</button>
           </form>
-
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- MODAL ELIMINAR TORNEO -->
-  <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content" style="background:#1c1c2b; border:2px solid #ff4d6d; border-radius:15px; color:white;">
-
-        <div class="modal-header" style="border-bottom:1px solid #ff4d6d;">
-          <h5 class="modal-title">⚠️ Eliminar Torneo</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-        </div>
-
-        <div class="modal-body">
-          <p id="deleteText">¿Seguro que deseas eliminar este torneo?</p>
-          <p class="text-danger"><b>Esta acción es permanente.</b></p>
-        </div>
-
-        <div class="modal-footer" style="border-top:1px solid #ff4d6d;">
-          <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-
-          <button id="btnConfirmDelete" class="btn btn-danger">Eliminar</button>
         </div>
 
       </div>
     </div>
   </div>
 
+    <!-- Toast -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+      <div id="toastTorneo" class="toast align-items-center text-white bg-purple border-0" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+          <div class="toast-body">Torneo pendiente de Aprobacion ....</div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+      </div>
+    </div>
+    <!-- MODAL GAMER PRO -->
+      <div class="modal fade" id="verTorneoModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content gamer-modal">
+
+          <!-- IMAGEN -->
+          <div class="gamer-banner">
+            <img id="verImagenJuego" class="gamer-banner-img" src="" alt="">
+          </div>
+
+          <!-- Cerrar -->
+          <button class="btn-close position-absolute end-0 m-3" data-bs-dismiss="modal"></button>
+
+          <!-- TÍTULO -->
+          <div class="gamer-title-box">
+            <h2 id="verNombre"></h2>
+          </div>
+
+          <div class="modal-body">
+
+            <!-- ORGANIZADOR -->
+            <p >
+              👤 Organizador: <strong id="verOrganizador"></strong>
+            </p>
+
+            <!-- ESTADO -->
+            <div id="estadoBadge"></div>
+
+            <!-- INFO DEL TORNEO (COLUMNA) -->
+            <div class="gamer-info-box">
+              <p>🎮 <strong>Juego:</strong> <span id="verJuego"></span></p>
+              <p>⏳ <strong>Inicio:</strong> <span id="verInicio"></span></p>
+              <p>🏁 <strong>Fin:</strong> <span id="verFin"></span></p>
+              <p><i class="fa-solid fa-users-rays" style="color:#ffb84d;"></i><strong>Tipo:</strong> <span id="verTipo"></span></p>
+            </div>
+
+            <!-- JUGADORES -->
+            <div id="bloqueJugadores" class="gamer-jugadores-box"></div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- MODAL EDITAR TORNEO -->
+    <div class="modal fade" id="editarTorneoModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog ">
+        <div class="modal-content custom-modal">
+
+          <div class="modal-header border-0">
+            <h5 class="modal-title">✏️ Editar Torneo</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+          </div>
+
+          <div class="modal-body">
+
+            <form id="formEditarTorneo">
+
+              <input type="hidden" id="editarIdTorneo">
+
+              <div class="form-group">
+                <label>Nombre del Torneo</label>
+                <input type="text" id="editarNombre" class="form-control" required>
+              </div>
+
+              <div class="form-group">
+                <label>Juego</label>
+                <select id="editarJuego" class="form-select">
+                  <option value="Valorant">Valorant</option>
+                  <option value="Counter Strike">Counter Strike</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Tipo</label>
+                <select id="editarTipo" class="form-select">
+                  <option value="Individual">Individual</option>
+                  <option value="Equipo">Equipo</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Inicio</label>
+                <input type="date" id="editarInicio" class="form-control">
+              </div>
+
+              <div class="form-group">
+                <label>Fin</label>
+                <input type="date" id="editarFin" class="form-control">
+              </div>
+
+              <div class="form-group">
+                <label>Estado</label>
+                <select id="editarEstado" class="form-select">
+                  <option value="1">Activo</option>
+                  <option value="2">Cerrado</option>
+                </select>
+              </div>
+
+              <button class="btn btn-primary w-100 mt-3">Guardar cambios</button>
+
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- MODAL ELIMINAR TORNEO -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background:#1c1c2b; border:2px solid #ff4d6d; border-radius:15px; color:white;">
+
+          <div class="modal-header" style="border-bottom:1px solid #ff4d6d;">
+            <h5 class="modal-title">⚠️ Eliminar Torneo</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+          </div>
+
+          <div class="modal-body">
+            <p id="deleteText">¿Seguro que deseas eliminar este torneo?</p>
+            <p class="text-danger"><b>Esta acción es permanente.</b></p>
+          </div>
+
+          <div class="modal-footer" style="border-top:1px solid #ff4d6d;">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+
+            <button id="btnConfirmDelete" class="btn btn-danger">Eliminar</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
 
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- FULLCALENDAR  -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+
+  <script>
+  const eventos = <?= json_encode(array_map(function($t){
+      return [
+          'title' => $t['nombre'],
+          'start' => $t['fecha_inicio'],
+          'end' => date('Y-m-d', strtotime($t['fecha_fin'].' +1 day')),
+          'id' => $t['id_torneo'],
+          'backgroundColor' => '#6C63FF',  // color principal
+          'borderColor' => '#4B3DA1',      // borde
+          'textColor' => '#fff'            // texto blanco
+      ];
+  }, $torneosActivos)) ?>;
+
+
+  const calendarEl = document.getElementById('calendar');
+  const calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: "dayGridMonth",
+      locale: "es",
+      height: 650,
+      events: eventos,
+      headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek'
+      }
+  });
+
+  calendar.render();
+  </script>
+
+
   <script src="mis-torneos.js"></script>
-
-</body>
+  </body>
 </html>

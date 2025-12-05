@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const toast = new bootstrap.Toast(toastEl);
   const modalEl = document.getElementById('crearTorneoModal');
   const modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+  
 
   // SIDEBAR
   menuToggle?.addEventListener('click', () => {
@@ -346,5 +347,36 @@ console.log("JS cargado correctamente");
             alert("No se pudo conectar al servidor.");
         }
     });
+    window.abrirModalTorneo = async function(idTorneo) {
+
+    const formData = new FormData();
+    formData.append("id_torneo", idTorneo);
+
+    const res = await fetch("http://localhost/Proyecto-programaci-n-web/vistas/obtener-torneo.php", {
+        method: "POST",
+        body: formData
+    });
+
+    const json = await res.json();
+
+    if (json.status !== "ok") {
+        console.error(json.msg);
+        return;
+    }
+
+    const t = json.data;
+
+    // Cargar datos al modal (EL MISMO CÓDIGO DE .btn-ver)
+    document.getElementById("verNombre").textContent = t.nombre_torneo;
+    document.getElementById("verJuego").textContent = t.juego;
+    document.getElementById("verTipo").textContent = t.tipo;
+    document.getElementById("verInicio").textContent = t.fecha_inicio.split("-").reverse().join("/");
+    document.getElementById("verFin").textContent = t.fecha_fin.split("-").reverse().join("/");
+
+    // Mostrar modal
+    new bootstrap.Modal(document.getElementById("verTorneoModal")).show();
+};
+
+    
 
 });
