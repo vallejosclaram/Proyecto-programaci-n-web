@@ -657,3 +657,16 @@ tbody tr.top3 td {
     flex: 0 0 auto;
     scroll-snap-align: start;
 }
+.usuario-resumen #usuarioNombre{
+  font-family: 'Orbitron', sans-serif;
+  margin-top: 12px;
+  font-size: 1.3rem;
+  color: #f0f0f0;
+}
+#usuarioRol {
+  font-family: 'Orbitron', sans-serif;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #f0f0f0;
+  margin-left: 20px;
+}

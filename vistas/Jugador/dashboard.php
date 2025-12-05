@@ -27,7 +27,7 @@ $nombre = $_SESSION["nombre"] ?? '';
   <body class="dashboard-page"> 
     
   <!-- ===== HEADER / TOPBAR ===== -->
-          <?php include 'componentes/header.php'; ?>
+          <?php include '../Jugador/componentes/header.php'; ?>
 
             <main class="container py-4"> 
                 <section class="main-content" id="mainContent" tabindex="-1"> 

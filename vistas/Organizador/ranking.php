@@ -35,8 +35,6 @@ try {
 </head>
 <body >
 
-  <!-- Overlay -->
-  <div id="sidebarOverlay" class="sidebar-overlay"></div>
 
   <!-- ===== HEADER ===== -->
   <?php include './componentes/header.php'; ?>

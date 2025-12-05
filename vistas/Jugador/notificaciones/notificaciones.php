@@ -17,11 +17,11 @@ $id_usuario = $_SESSION["user"]["id"];
 
 
 $stmt = $conn->prepare("
-    SELECT n.*, u.nombre, u.apellido
+     SELECT n.*, j.nombre, j.apellido
     FROM notificacion n
-    LEFT JOIN usuario u ON u.id_usuario = n.id_emisor
+    LEFT JOIN jugador j ON j.id_usuario = n.id_emisor
     WHERE n.id_receptor = :id_receptor
-    ORDER BY n.fecha DESC
+    ORDER BY n.fecha DESC
 ");
 $stmt->bindValue(':id_receptor', $id_usuario);
 $stmt->execute();

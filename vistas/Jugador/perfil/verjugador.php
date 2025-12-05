@@ -2,12 +2,14 @@
 require_once(__DIR__ . '/../../connection.php');
 session_start();
 
-if (!isset($_GET["id"])) {
-    echo json_encode(["error" => "Falta el ID del usuario"]);
-    exit;
+// Verificamos si está logueado
+if (!isset($_SESSION["id_usuario"])) {
+    die("Error: no hay usuario logueado.");
 }
 
-$id_usuario = intval($_GET["id"]);
+$usuario_id = $_SESSION["id_usuario"];
+$rol = $_SESSION["rol"] ?? '';
+$nombre = $_SESSION["nombre"] ?? '';
 
 $sql = "
     SELECT 
@@ -37,7 +39,7 @@ $sql = "
 ";
 
 $stmt = $conn->prepare($sql);
-$stmt->execute([":id" => $id_usuario]);
+$stmt->execute([":id" => $usuario_id]);
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if (count($result) === 0) {

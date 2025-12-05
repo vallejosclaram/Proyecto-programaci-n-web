@@ -7,7 +7,7 @@ if (!isset($_SESSION["id_usuario"])) {
     die("Error: no hay usuario logueado.");
 }
 
-$usuario_id = $_SESSION["id_usuario"];
+$id_usuario = $_SESSION["id_usuario"];
 $rol = $_SESSION["rol"] ?? '';
 $nombre = $_SESSION["nombre"] ?? '';
 
@@ -43,7 +43,7 @@ WHERE u.id_usuario = :usuario_id;
 ";
 
 $stmt = $conn->prepare($sql);
-$stmt->execute([":usuario_id" => $usuario_id]);
+$stmt->execute([":usuario_id" => $id_usuario]);
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
@@ -126,11 +126,9 @@ $avatar = !empty($jugador["avatar"]) ? "../img/avatars/" . $jugador["avatar"] : 
 
     <!-- Botones -->
     <div class="perfil-botones">
-      <button id="editProfileBtn"><a href="editar.php">Editar Perfil</a></button>
-      <button><a href="mistorneos.php?id=<?php echo $jugador["id_usuario"]; ?>" 
-        >
-        Ver torneos
-      </a></button>
+      <!--<button id="editProfileBtn"><a href="editar.php">Editar Perfil</a></button>-->
+      <button id="editProfileBtn" onclick="window.location.href='editar.php'">Editar Perfil</button>
+      <button onclick="window.location.href='../torneo/torneo.php'">Ver Torneos</button>
     </div>
 
     <!-- Descripción -->

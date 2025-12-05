@@ -70,10 +70,15 @@ if (!Permisos::tienePermiso("Crear ticket", $usuario_id)) {
     </form>
 
   </div>
-  
-</div>
-<div id="misTickets" class="mt-5 h-scroll"></div>
 
+</div>
+  <div class="container d-flex align-items-center justify-content-center">
+      <h2>Mis Tickets</h2>
+      
+  </div>
+  <div class="container d-flex align-items-center justify-content-center">
+  <div id="misTickets" class="mt-5 h-scroll"></div>
+    </div>
 <!-- Modal de éxito -->
 <div class="modal fade" id="ticketExitoso" tabindex="-1" aria-labelledby="ticketExitosoLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">

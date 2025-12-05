@@ -1,4 +1,6 @@
 <?php
+require_once(__DIR__ . '/../../connection.php');
+require_once(__DIR__ . '/../../includes/clases/permisos.php'); 
 session_start();
 
 if (!isset($_SESSION["id_usuario"])) {
