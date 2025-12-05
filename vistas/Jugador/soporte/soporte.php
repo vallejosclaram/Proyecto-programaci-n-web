@@ -1,5 +1,6 @@
 <?php
 require_once(__DIR__ . '/../../connection.php');
+require_once(__DIR__ . '/../../includes/clases/permisos.php');
 session_start();
 
 // Verificamos si está logueado
@@ -8,6 +9,12 @@ if (!isset($_SESSION["user"]["id"])) {
 }
 
 $id_usuario = $_SESSION["user"]["id"];
+
+if (!Permisos::tienePermiso("Crear ticket", $id_usuario)) {
+    echo json_encode(["error" => "No tenés permiso para crear un ticket"]);
+    exit;
+}
+
 ?>
 
 <!DOCTYPE html>

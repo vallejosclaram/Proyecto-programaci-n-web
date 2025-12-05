@@ -7,6 +7,7 @@ $input = file_get_contents("php://input");
 $data = json_decode($input, true);
 
 $usuario_id = $_SESSION["user"]["id"];
+
 $id_torneo = $data['id_torneo'] ?? null;
 
 if (!Permisos::tienePermiso("solicitar_torneo", $usuario_id)) {

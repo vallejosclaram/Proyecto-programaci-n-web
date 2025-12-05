@@ -10,6 +10,7 @@ if (!isset($_SESSION["user"]["id"])) {
 
 $usuario_id = $_SESSION["user"]["id"];
 
+
 if (!Permisos::tienePermiso('Editar perfil', $usuario_id)) {
     echo json_encode(['success' => false, 'error' => 'No tenés permiso para editar el perfil']);
     exit;

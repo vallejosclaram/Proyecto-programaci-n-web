@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const equipoData = await equipoRes.json();
         const juegoEquipo = equipoData.id_juego;
         
-        
+        console.log(equipoData);
 
         
         const validar = await fetch("verificar_cuentajuego.php");
@@ -203,30 +203,29 @@ document.addEventListener("DOMContentLoaded", () => {
     const csData = csJSON.jugadores.filter(j => 
         j.steamId64 === tieneCuenta.id_cuentajuego
     );
-
    
-    let cuentaID = null;
+    let juegoCuenta = null;
 
     if (vData.length > 0) {
-    juegoCuenta = "1"; 
+    juegoCuenta = 1; 
     } 
     else if (csData.length > 0) {
-        juegoCuenta = "2"; 
+        juegoCuenta = 2; 
     } 
     else {
         console.log("Tu cuenta no pertenece a ningún juego compatible.");
         return;
     }
 
+    
     if (juegoCuenta !== juegoEquipo) {
     console.log(`
         Tu cuenta no coincide con el juego del equipo.
-        Necesitás una cuenta de ${juegoEquipo == 1 ? "Valorant" : "Counter Strike"}.
     `);
     return;
-}
+    }
 
-        if(juegoCuenta == juegoEquipo){
+        if(juegoCuenta === juegoEquipo){
         
         const resp = await fetch("solicitud-equipo.php", {
             method: "POST",

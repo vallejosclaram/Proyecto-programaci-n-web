@@ -1,5 +1,6 @@
 <?php
 require_once(__DIR__ . '/../../connection.php');
+require_once(__DIR__ . '/../../includes/clases/permisos.php'); 
 session_start();
 
 header("Content-Type: application/json; charset=utf-8");
@@ -11,6 +12,11 @@ if (!isset($_SESSION["user"]["id"])) {
 }
 
 $usuario_id = $_SESSION["user"]["id"];
+
+if (!Permisos::tienePermiso('Editar perfil', $usuario_id)) {
+    echo json_encode(['success' => false, 'error' => 'No tenés permiso para editar el perfil']);
+    exit;
+}
 
 // Recibir JSON de JS
 $raw = file_get_contents("php://input");

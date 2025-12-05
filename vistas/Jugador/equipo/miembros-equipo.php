@@ -1,6 +1,7 @@
 <?php
 require_once("../../connection.php");
 
+
 $idEquipo = $_GET["id"] ?? null;
 
 if (!$idEquipo) {

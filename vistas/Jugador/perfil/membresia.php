@@ -1,15 +1,22 @@
 <?php
 require_once "../../connection.php";
+require_once(__DIR__ . '/../../includes/clases/permisos.php'); 
 session_start();
 
 
-$id_usuario = $_SESSION["user"]["id"] ?? null;
-if (!$id_usuario) {
+$usuario_id = $_SESSION["user"]["id"] ?? null;
+if (!$usuario_id) {
     die("No hay usuario logueado");
 }
 
 
-$membresias = $conn->query("SELECT id_membresia, descripcion FROM membresia")->fetchAll();
+if (!Permisos::tienePermiso('solicitar_membresia', $usuario_id)) {
+    echo json_encode(['success' => false, 'error' => 'No tenés permiso para solicitar membresia']);
+    exit;
+}
+
+
+$membresias = $conn->query("SELECT id_membresia, descripcion FROM membresia WHERE descripcion <> 'Estandar'")->fetchAll();
 
 ?>
 

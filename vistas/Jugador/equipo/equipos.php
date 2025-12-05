@@ -1,5 +1,6 @@
 <?php
 require_once(__DIR__ . '/../../connection.php');
+require_once(__DIR__ . '/../../includes/clases/permisos.php'); 
 
 session_start();
 
@@ -8,6 +9,18 @@ if (!isset($_SESSION["user"]["id"])) {
 }
 
 $usuario_id = $_SESSION["user"]["id"];
+
+if (!Permisos::tienePermiso("Denunciar torneo", $usuario_id)) {
+    echo json_encode(["error" => "No tenés permiso para crear un equipo"]);
+    exit;
+}
+
+if (!Permisos::tienePermiso("solicitar_equipo", $usuario_id)) {
+    echo json_encode(["error" => "No tenés permiso para crear un equipo"]);
+    exit;
+}
+
+
 
 $sql = "SELECT id_cuentajuego FROM jugador WHERE id_usuario = :id";
 $stmt = $conn->prepare($sql);

@@ -9,6 +9,13 @@ if (!isset($_SESSION["user"]["id"])) {
     exit;
 }
 
+$usuario_id = $_SESSION["user"]["id"];
+
+if (!Permisos::tienePermiso("Crear equipo", $usuario_id)) {
+    echo json_encode(["error" => "No tenés permiso para crear un equipo"]);
+    exit;
+}
+
 
 $input = file_get_contents("php://input");
 $data = json_decode($input, true);
@@ -18,7 +25,7 @@ $cant = trim($data['cantidad'] ?? '');
 $id_juego = $data['juego'] ?? null;
 $desc = trim($data['descripcion'] ?? '');
 
-$usuario_id = $_SESSION["user"]["id"];
+
 
 
 if (!Permisos::tienePermiso("Crear equipo", $usuario_id)) {

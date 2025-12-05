@@ -1,5 +1,6 @@
 <?php
 header("Content-Type: application/json");
+require_once(__DIR__ . '/../../includes/clases/permisos.php'); 
 require_once "../../connection.php";
 session_start();
 
@@ -8,6 +9,12 @@ if (!$id_usuario) {
     echo json_encode(["error" => "Usuario no logueado"]);
     exit;
 }
+
+if (!Permisos::tienePermiso('solicitar_membresia', $usuario_id)) {
+    echo json_encode(['success' => false, 'error' => 'No tenés permiso para editar el perfil']);
+    exit;
+}
+
 
 if (!isset($_POST["id_membresia"])) {
     echo json_encode(["error" => "Falta tipo de membresía"]);

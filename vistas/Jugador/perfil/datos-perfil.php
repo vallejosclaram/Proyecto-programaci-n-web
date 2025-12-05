@@ -4,13 +4,13 @@ session_start();
 
 header("Content-Type: application/json");
 
-// Solo verificamos sesión si realmente lo necesitás
+
 if (!isset($_SESSION["user"]["id"])) {
     echo json_encode(["error" => "No hay usuario logueado"]);
     exit;
 }
 
-// Traemos el id del perfil desde GET
+
 $id_objetivo = $_GET["id"] ?? null;
 
 if (!$id_objetivo) {
