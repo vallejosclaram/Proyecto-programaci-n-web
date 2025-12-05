@@ -117,7 +117,7 @@
       if (data.ok) {
         alert('Resultados guardados correctamente');
         setDisabledResultados(true);
-        // habilitar evidencia y guardar id_reporte_15 para asociar la captura
+        
         estado.id_reporte_15 = data.id_reporte_15 || null;
         setDisabledEvidencia(false);
       } else {
@@ -125,7 +125,7 @@
       }
     } catch (err) {
       console.error(err);
-      alert('Error de red al guardar resultados');
+      alert('Error al guardar resultados');
     }
   });
 
@@ -143,7 +143,7 @@
     const fd = new FormData();
     fd.append('torneo_id', String(estado.torneo_id));
     fd.append('id_partida', String(estado.id_partida));
-    // si tenemos el id_reporte_15, lo mandamos; si no, el backend tomará el último
+    
     if (estado.id_reporte_15) fd.append('id_reporte', String(estado.id_reporte_15));
     fd.append('evidencia', file);
 
@@ -152,7 +152,7 @@
       const data = await resp.json();
       if (data.ok) {
         alert('Evidencia subida correctamente');
-        // opcional: limpiar input
+        
         inputEvidencia.value = '';
       } else {
         alert(data.error || 'Error al subir evidencia');

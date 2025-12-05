@@ -46,6 +46,7 @@ if ($torneo['id_tipo'] == 2) {
 }
 
 try {
+    // Insertar solicitud
     $stmt = $conn->prepare("
         INSERT INTO solicitud_torneo (id_equipo, id_usuario, id_torneo, fecha_solicitud)
         VALUES (:id_equipo, :id_usuario, :id_torneo, NOW())
@@ -55,7 +56,66 @@ try {
     $stmt->bindValue(':id_torneo', $id_torneo);
     $stmt->execute();
 
+    
+
+    // Buscar a la capitana
+    $stmtCap = $conn->prepare("
+        SELECT id_capitan_usuario 
+        FROM equipo 
+        WHERE id_equipo = :id_equipo
+        LIMIT 1
+    ");
+    $stmtCap->bindValue(':id_equipo', $id_equipo);
+    $stmtCap->execute();
+    $capitana = $stmtCap->fetch(PDO::FETCH_ASSOC);
+
+    if ($capitana) {
+        $capitana_id = $capitana['id_capitan_usuario'];
+
+        // Obtener nombre del torneo
+$stmtTor = $conn->prepare("
+    SELECT nombre 
+    FROM torneo 
+    WHERE id_torneo = :id_torneo
+    LIMIT 1
+");
+$stmtTor->bindValue(':id_torneo', $id_torneo);
+$stmtTor->execute();
+$torData = $stmtTor->fetch(PDO::FETCH_ASSOC);
+
+$nombreTorneo = $torData ? $torData['nombre'] : 'Torneo desconocido';
+
+
+$stmtUser = $conn->prepare("
+    SELECT nombre, apellido
+    FROM usuario
+    WHERE id_usuario = :id_usuario
+    LIMIT 1
+");
+$stmtUser->bindValue(':id_usuario', $usuario_id);
+$stmtUser->execute();
+$userData = $stmtUser->fetch(PDO::FETCH_ASSOC);
+
+$nombreSolicitante = $userData 
+    ? $userData['nombre'] . ' ' . $userData['apellido']
+    : 'Usuario desconocido';
+
+
+$mensaje = "🔔 Nueva solicitud para *$nombreTorneo* enviada por *$nombreSolicitante*.";
+
+        
+        $stmtNotif = $conn->prepare("
+            INSERT INTO notificaciones (id_receptor, id_emisor notificacion, fecha)
+            VALUES (:id_usuario, :mensaje, NOW())
+        ");
+        $stmtNotif->bindValue(':id_receptor', $capitana_id);
+        $stmtNotif->bindValue(':id_emisor', $usuario_id);
+        $stmtNotif->bindValue(':notififcacion', $mensaje);
+        $stmtNotif->execute();
+    }
+
     echo json_encode(['success'=>true]);
+
 } catch (Exception $e) {
     echo json_encode(['success'=>false,'error'=>$e->getMessage()]);
 }
