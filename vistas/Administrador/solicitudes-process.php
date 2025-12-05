@@ -17,7 +17,6 @@ if ($rol != 1) {
     exit;
 }
 
-// Validar permiso
 if (!Permisos::tienePermiso('solicitar_creacion_torneo', $id_admin)) {
     echo json_encode(['success' => false, 'error' => 'No tenés permiso para gestionar solicitudes de creación de torneos']);
     exit;
@@ -26,7 +25,6 @@ if (!Permisos::tienePermiso('solicitar_creacion_torneo', $id_admin)) {
 $input = json_decode(file_get_contents('php://input'), true);
 $accion = $input['accion'] ?? null;
 
-// Listado de solicitudes con filtros
 if (!$accion) {
     $juego = $_GET['juego'] ?? '';
     $tipo = $_GET['tipo'] ?? '';
@@ -77,7 +75,6 @@ switch ($accion) {
         try {
             $conn->beginTransaction();
 
-            // Obtener datos de la solicitud
             $stmt = $conn->prepare("SELECT * FROM solicitud_creacion_torneo WHERE id_solicitud_creacion = ?");
             $stmt->execute([$id_solicitud]);
             $solicitud = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -88,7 +85,6 @@ switch ($accion) {
                 exit;
             }
 
-            // Buscar organizador
             $stmt = $conn->prepare("SELECT id_organizador FROM organizador WHERE id_usuario = ?");
             $stmt->execute([$solicitud['id_usuario']]);
             $org = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -101,7 +97,6 @@ switch ($accion) {
                 $id_organizador = $org['id_organizador'];
             }
 
-            // Crear torneo
             $stmt = $conn->prepare("INSERT INTO torneo 
                 (id_organizador, id_juego, nombre, descripcion, fecha_inicio, fecha_fin, id_estado, id_tipo) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
@@ -112,11 +107,10 @@ switch ($accion) {
                 $solicitud['descripcion'],
                 $solicitud['fecha_inicio'],
                 $solicitud['fecha_fin'],
-                1, // estado inicial
+                1, 
                 $solicitud['id_tipo']
             ]);
 
-            // Eliminar solicitud
             $stmt = $conn->prepare("DELETE FROM solicitud_creacion_torneo WHERE id_solicitud_creacion = ?");
             $stmt->execute([$id_solicitud]);
 

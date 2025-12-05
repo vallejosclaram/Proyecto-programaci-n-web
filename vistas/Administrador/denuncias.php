@@ -3,7 +3,6 @@
     require_once(__DIR__ . '/../connection.php');
     require_once(__DIR__ . '/../includes/clases/permisos.php');
 
-    // Validar sesión y rol
     if (empty($_SESSION['admin']['id'])) {
         echo json_encode(['success' => false, 'error' => 'No hay usuario administrador logueado']);
         exit;
@@ -17,7 +16,6 @@
         exit;
     }
 
-    // Validar permiso de visualizar denuncias
     if (!Permisos::tienePermiso('Visualizar denuncia', $id_usuario)) {
         header('Location: ../error.php?msg=No tenés permiso para visualizar denuncias');
         exit;
@@ -109,7 +107,6 @@
         </div>
     </main>
 
-    <!-- Modal Detalles -->
     <div class="modal fade" id="modalDetalles" tabindex="-1" aria-labelledby="modalDetallesLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-dark text-white">
@@ -126,7 +123,6 @@
         </div>
     </div>
 
-    <!-- Modal Confirmar -->
     <div class="modal fade" id="modalConfirmar" tabindex="-1" aria-labelledby="modalConfirmarLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-dark text-white">
@@ -145,7 +141,6 @@
         </div>
     </div>
 
-    <!-- Modal Mensaje -->
     <div class="modal fade" id="modalMensaje" tabindex="-1" aria-labelledby="modalMensajeLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-dark text-white">

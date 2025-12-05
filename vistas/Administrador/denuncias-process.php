@@ -5,7 +5,6 @@
 
     header('Content-Type: application/json; charset=UTF-8');
 
-    // Validar sesión y rol
     if (empty($_SESSION['admin']['id'])) {
         echo json_encode(['success' => false, 'error' => 'No hay usuario administrador logueado']);
         exit;
@@ -19,14 +18,12 @@
         exit;
     }
 
-    // Entrada JSON
     $input  = json_decode(file_get_contents('php://input'), true);
     $accion = $input['accion'] ?? null;
 
     $hasUsuarioFecha = false;
     $hasTorneoFecha  = false;
 
-    // Verificar columnas fecha_fin_bloqueo
     try {
         $stmtCols = $conn->prepare("
             SELECT COUNT(*) AS c 
@@ -42,7 +39,6 @@
         $hasTorneoFecha = intval($stmtCols->fetchColumn()) > 0;
     } catch (PDOException $e) {}
 
-    // Liberar bloqueos vencidos
     if ($hasUsuarioFecha) {
         try {
             $conn->exec("
@@ -67,7 +63,6 @@
         } catch (PDOException $e) {}
     }
 
-    // Si no hay acción → devolver denuncias
     if (!$accion) {
         try {
             $usuarioFechaField = $hasUsuarioFecha ? 'rep.fecha_fin_bloqueo AS fecha_fin_bloqueo_usuario,' : '';
@@ -111,7 +106,6 @@
             $stmt     = $conn->query($sql);
             $denuncias = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Catálogos auxiliares
             try {
                 $juegos = $conn->query('SELECT id_juego, nombre FROM juego ORDER BY nombre')->fetchAll(PDO::FETCH_ASSOC);
             } catch (PDOException $e) { $juegos = []; }
@@ -124,7 +118,6 @@
                 $tipos = $conn->query('SELECT id_tipo, descripcion FROM tipo_torneo ORDER BY descripcion')->fetchAll(PDO::FETCH_ASSOC);
             } catch (PDOException $e) { $tipos = []; }
 
-            // Separar denuncias
             $usuario = array_filter($denuncias, function($d) {
                 return (empty($d['id_torneo']) || intval($d['id_torneo']) <= 0) && !empty($d['id_reportado']);
             });
@@ -147,7 +140,6 @@
         exit;
     }
 
-    // Bloqueo de usuario
     if ($accion == 'bloquear_usuario') {
         if (empty($input['id_reportado'])) {
             echo json_encode(['success' => false, 'error' => 'ID de usuario reportado es requerido.']);
@@ -187,7 +179,6 @@
         exit;
     }
 
-    // Bloqueo de torneo
     if ($accion == 'bloquear_torneo') {
         if (empty($input['id_torneo'])) {
             echo json_encode(['success' => false, 'error' => 'ID de torneo es requerido.']);

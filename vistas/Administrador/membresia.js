@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const modal = new bootstrap.Modal(modalEl);
 
-  // Botones aceptar/rechazar
   document.querySelectorAll(".btn-accion").forEach((btn) => {
     btn.addEventListener("click", () => {
       idSolicitud = btn.dataset.id;
@@ -35,7 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Confirmar acción
   confirmBtn.addEventListener("click", () => {
     if (!idSolicitud || !accion) {
       showAlert("No se pudo procesar: faltan datos.", "danger");

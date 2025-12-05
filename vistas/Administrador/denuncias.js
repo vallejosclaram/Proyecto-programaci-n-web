@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnClearFilters = document.getElementById('btnClearFilters');
   const filterUsuario = document.getElementById('filterUsuario'); // Campo de búsqueda de usuario
 
-  // 🎯 INICIALIZACIÓN ÚNICA DE INSTANCIAS DE MODAL
   const modalDetallesElm = document.getElementById('modalDetalles');
   const modalDetalles = modalDetallesElm ? new bootstrap.Modal(modalDetallesElm) : null;
   const modalConfirmarInst = modalConfirmarElm ? new bootstrap.Modal(modalConfirmarElm) : null;
@@ -165,7 +164,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function applyFilters() {
-    // 1. FILTRADO DE TORNEOS (Juego, Torneo, Tipo)
     const j = filterJuego.value ? parseInt(filterJuego.value, 10) : '';
     const t = filterTorneo.value ? parseInt(filterTorneo.value, 10) : '';
     const tp = filterTipo.value ? parseInt(filterTipo.value, 10) : '';
@@ -178,15 +176,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     renderTorneos(fTorneos);
     
-    // 2. FILTRADO DE USUARIOS (Solo por nombre de usuario)
     const uQuery = filterUsuario ? filterUsuario.value.toLowerCase().trim() : '';
 
     const fUsuarios = rawUsuarios.filter(d => { 
-      // Filtrar por nombre de usuario (la columna 'reportado' contiene el email del usuario)
       if (uQuery && (d.reportado || '').toLowerCase().indexOf(uQuery) === -1) {
         return false;
       }
-      // Se mantiene el orden por fecha de creación establecido en PHP
       return true;
     });
     renderUsuarios(fUsuarios);

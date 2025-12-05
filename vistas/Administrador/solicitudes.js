@@ -81,7 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Eventos de filtro
   document.getElementById('btnFiltrar').addEventListener('click', () => {
     cargarSolicitudes();
   });

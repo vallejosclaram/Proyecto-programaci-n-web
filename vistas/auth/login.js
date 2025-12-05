@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const validEmail = document.getElementById('validemail');
   const validPass = document.getElementById('validpass');
 
-  // proteger por si no existen en el HTML
   if (showPass) {
     showPass.addEventListener('change', () => {
       if (passwordInput) passwordInput.type = showPass.checked ? 'text' : 'password';

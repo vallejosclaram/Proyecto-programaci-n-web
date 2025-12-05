@@ -101,7 +101,6 @@ $solicitudes = $stmt ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];
     </div>
   </main>
 
-  <!-- Modal de confirmación -->
   <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content bg-dark text-white">

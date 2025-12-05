@@ -21,7 +21,6 @@ if (!$id_solicitud || !$accion) {
 try {
     $conn->beginTransaction();
 
-    // Buscar la solicitud en solicitud_membresia
     $stmt = $conn->prepare("SELECT id_usuario, membresia FROM solicitud_membresia WHERE id_membresia = ?");
     $stmt->execute([$id_solicitud]);
     $solicitud = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -34,7 +33,6 @@ try {
     $membresia_nombre = $solicitud['membresia'];
 
     if ($accion === "aceptar") {
-        // Buscar id real de la membresía
         $stmt = $conn->prepare("SELECT id_membresia FROM membresia WHERE descripcion = ?");
         $stmt->execute([$membresia_nombre]);
         $m = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -44,16 +42,13 @@ try {
 
         $id_membresia_real = (int)$m['id_membresia'];
 
-        // Actualizar jugador con la membresía elegida
         $stmt = $conn->prepare("UPDATE jugador SET id_membresia = ? WHERE id_usuario = ?");
         $stmt->execute([$id_membresia_real, $id_usuario_solicitante]);
 
-        // Eliminar la solicitud
         $stmt = $conn->prepare("DELETE FROM solicitud_membresia WHERE id_membresia = ?");
         $stmt->execute([$id_solicitud]);
 
     } elseif ($accion === "rechazar") {
-        // Eliminar la solicitud sin tocar jugador
         $stmt = $conn->prepare("DELETE FROM solicitud_membresia WHERE id_membresia = ?");
         $stmt->execute([$id_solicitud]);
 
