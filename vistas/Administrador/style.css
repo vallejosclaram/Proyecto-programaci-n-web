@@ -87,7 +87,6 @@ body {
   transition: margin-left 0.3s ease;
 }
 
-/* Top bar */
 .topbar {
   background-color: #2c2c3e;
   padding: 15px 20px;
@@ -102,7 +101,6 @@ body {
   cursor: pointer;
 }
 
-/* Sidebar */
 .sidebar {
   position: fixed;
   top: 0;
@@ -144,7 +142,6 @@ body {
   cursor: pointer;
 }
 
-/* Navigation */
 .nav-links {
   flex-grow: 1;
 }
@@ -166,7 +163,6 @@ body {
   color: #1a1a2e;
 }
 
-/* Logout */
 .logout {
   margin-top: auto;
 }
@@ -176,7 +172,6 @@ body {
   font-weight: bold;
 }
 
-/* Main content */
 .main-content {
   padding: 40px;
   transition: margin-left 0.3s ease;
@@ -383,7 +378,6 @@ h1 {
   background-color: #a855f7;
 }
 
-/* Contenedor de denuncias */
 .denuncias-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -391,7 +385,6 @@ h1 {
   margin-top: 20px;
 }
 
-/* Card de denuncia */
 .denuncia-card {
   background-color: #2c2c3e;
   border-left: 4px solid #c77dff;
@@ -411,13 +404,13 @@ h1 {
 }
 
 .denuncia-actions button {
-  padding: 6px 12px;     /* más pequeño que los botones del dashboard */
-  font-size: 0.9rem;     /* reduce tamaño de texto */
+  padding: 6px 12px;     
+  font-size: 0.9rem;     
   border-radius: 6px;
   cursor: pointer;
-  flex: 1 1 auto;        /* que se adapten al ancho disponible */
-  max-width: 150px;      /* evita que sean demasiado largos */
-  white-space: nowrap;    /* no se rompan las palabras */
+  flex: 1 1 auto;        
+  max-width: 150px;      
+  white-space: nowrap;    
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -437,7 +430,7 @@ h1 {
 .btn-editar.btn-delete:hover { background-color: #e0365a; }
 
 .btn-warning {
-  background-color: #3f3f5e; /* un amarillo/rosado elegante */
+  background-color: #3f3f5e; 
   color: #1a1a2e;
 }
 
@@ -445,7 +438,7 @@ h1 {
   background-color: #e0365a;
 }
 .dropdown {
-  position: relative; /* necesario para posicionar contenido absoluto */
+  position: relative; 
   display: inline-block;
 }
 
@@ -457,9 +450,9 @@ h1 {
 .dropdown-content {
   display: none;
   position: absolute;
-  top: 100%; /* aparece debajo del botón */
+  top: 100%; 
   left: 0;
-  background-color: #2c2c3e; /* mismo color de card */
+  background-color: #2c2c3e; 
   min-width: 150px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
   border-radius: 6px;
@@ -485,7 +478,6 @@ h1 {
   color: #1a1a2e;
 }
 
-/* Mostrar el dropdown al hover */
 .dropdown:hover .dropdown-content {
   display: flex;
 }

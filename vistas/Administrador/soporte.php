@@ -73,7 +73,6 @@ if (!Permisos::tienePermiso('responder_tickets', $id_admin)) {
     </div>
   </main>
 
-  <!-- Modal Responder -->
   <div class="modal fade" id="modalRespuesta" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content bg-dark text-white">
@@ -93,7 +92,6 @@ if (!Permisos::tienePermiso('responder_tickets', $id_admin)) {
     </div>
   </div>
 
-  <!-- Modal Confirmación -->
   <div class="modal fade" id="modalConfirmarEnvio" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content bg-dark text-white">
@@ -112,7 +110,6 @@ if (!Permisos::tienePermiso('responder_tickets', $id_admin)) {
     </div>
   </div>
 
-  <!-- Modal Mensajes -->
   <div class="modal fade" id="modalMensaje" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content bg-dark text-white">

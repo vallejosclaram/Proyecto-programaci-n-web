@@ -47,13 +47,18 @@ if ($rol != 1) {
     </div>
     <div class="dashboard-card">
       <h3>Soporte</h3>
-      <p>Respondé tickets enviados por los usuarios desde el centro de soporte.</p>
+      <p>Respondé tickets enviados por los usuarios desde soporte.</p>
       <a href="soporte.php">Ir a Soporte</a>
     </div>
     <div class="dashboard-card">
       <h3>Denuncias</h3>
       <p>Visualiza las denuncias de usuarios y torneos.</p>
       <a href="denuncias.php">Ir a Denuncias</a>
+    </div>
+    <div class="dashboard-card">
+      <h3>Membresias</h3>
+      <p>Visualiza las solicitudes los jugadores.</p>
+      <a href="membresia.php">Ir a Membresias</a>
     </div>
   </section>
 </main>

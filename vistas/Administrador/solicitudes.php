@@ -3,7 +3,6 @@ session_start();
 require_once(__DIR__ . '/../connection.php');
 require_once(__DIR__ . '/../includes/clases/permisos.php');
 
-// Validar sesión y rol
 if (empty($_SESSION['admin']['id'])) {
     header("Location: login.php");
     exit;
@@ -11,8 +10,15 @@ if (empty($_SESSION['admin']['id'])) {
 $id_admin = $_SESSION['admin']['id'];
 $rol = $_SESSION['admin']['rol'] ?? null;
 
+// Solo rol admin
 if ($rol != 1) {
     echo "Acceso restringido";
+    exit;
+}
+
+// Validar permiso para ver/gestionar solicitudes de creación de torneos
+if (!Permisos::tienePermiso('solicitar_creacion_torneo', $id_admin)) {
+    header('Location: ../error.php?msg=No tenés permiso para gestionar solicitudes de creación de torneos');
     exit;
 }
 ?>
@@ -22,9 +28,7 @@ if ($rol != 1) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Solicitudes de Creación de Torneo</title>
-  <!-- Tipografías y estilos -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet" />
-  <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -34,40 +38,30 @@ if ($rol != 1) {
   <main class="main-content" id="mainContent">
     <div class="form-container">
       <h2>Solicitudes de creación de torneo</h2>
-
       <div class="filters mb-3 row g-3">
-        <div class="col-md-3">
-          <label for="filtroNombreTorneo" class="form-label">Nombre del torneo</label>
-          <input type="text" id="filtroNombreTorneo" class="form-control" placeholder="Ej: Valorant Cup">
-        </div>
-        <div class="col-md-3">
-          <label for="filtroJuego" class="form-label">Juego</label>
-          <input type="text" id="filtroJuego" class="form-control" placeholder="Ej: Valorant">
-        </div>
-        <div class="col-md-3">
-          <label for="filtroTipo" class="form-label">Tipo</label>
-          <select id="filtroTipo" class="form-select">
-            <option value="">Todos</option>
-            <option value="1">Individual</option>
-            <option value="2">Equipo</option>
-          </select>
-        </div>
-        <div class="col-md-3">
-          <label for="filtroEstado" class="form-label">Estado</label>
-          <select id="filtroEstado" class="form-select">
-            <option value="">Todos</option>
-            <option value="pendiente">Pendiente</option>
-            <option value="aprobado">Aprobado</option>
-            <option value="rechazado">Rechazado</option>
-          </select>
-        </div>
-        <div class="col-12">
-          <button id="btnFiltrar" class="btn btn-primary">Filtrar</button>
-          <button id="btnLimpiar" class="btn btn-secondary">Limpiar filtros</button>
-        </div>
+      <div class="col-md-3">
+        <label for="filtroJuego" class="form-label">Juego</label>
+        <select id="filtroJuego" class="form-select">
+          <option value="">Todos</option>
+          <option value="Valorant">Valorant</option>
+          <option value="Counter Strike">Counter Strike</option>
+        </select>
       </div>
+      <div class="col-md-3">
+        <label for="filtroTipo" class="form-label">Tipo de torneo</label>
+        <select id="filtroTipo" class="form-select">
+          <option value="">Todos</option>
+          <option value="1">Individual</option>
+          <option value="2">Equipo</option>
+        </select>
+      </div>
+      <div class="col-12">
+        <button id="btnFiltrar" class="btn btn-primary">Filtrar</button>
+        <button id="btnLimpiar" class="btn btn-secondary">Limpiar filtros</button>
+      </div>
+    </div>
 
-      <!-- Tabla de solicitudes -->
+
       <table class="table table-dark table-hover">
         <thead>
           <tr>
@@ -89,7 +83,6 @@ if ($rol != 1) {
     </div>
   </main>
 
-  <!-- Modal de detalles -->
   <div class="modal fade" id="modalDetalles" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content bg-dark">
@@ -106,7 +99,20 @@ if ($rol != 1) {
     </div>
   </div>
 
-<!-- Modal Confirmar Aceptación -->
+  <div class="modal fade" id="modalMensaje" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-dark text-white">
+        <div class="modal-header border-0">
+          <h5 class="modal-title">Información</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="modalMensajeBody"></div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 <div class="modal fade" id="modalConfirmarAceptar" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content bg-dark text-white">
@@ -125,7 +131,6 @@ if ($rol != 1) {
   </div>
 </div>
 
-<!-- Modal Confirmar Rechazo -->
 <div class="modal fade" id="modalConfirmarRechazar" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content bg-dark text-white">
@@ -144,23 +149,7 @@ if ($rol != 1) {
   </div>
 </div>
 
-<!-- Modal Mensaje -->
-<div class="modal fade" id="modalMensaje" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content bg-dark text-white">
-      <div class="modal-header border-0">
-        <h5 class="modal-title">Información</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body" id="modalMensajeBody"></div>
-      <div class="modal-footer border-0">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-      </div>
-    </div>
-  </div>
-</div>
 
-  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="solicitudes.js"></script>
 </body>

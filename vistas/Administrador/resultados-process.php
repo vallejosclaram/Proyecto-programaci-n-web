@@ -5,7 +5,6 @@ require_once(__DIR__ . '/../includes/clases/permisos.php');
 
 header('Content-Type: application/json; charset=UTF-8');
 
-// Validar sesión y rol
 if (empty($_SESSION['admin']['id'])) {
     echo json_encode(['success' => false, 'error' => 'No hay usuario administrador logueado']);
     exit;
@@ -22,7 +21,6 @@ $input = json_decode(file_get_contents('php://input'), true);
 $accion = $input['accion'] ?? null;
 
 if (!$accion) {
-    // Filtros opcionales
     $id_juego      = !empty($input['id_juego']) ? $input['id_juego'] : null;
     $id_torneo     = !empty($input['id_torneo']) ? $input['id_torneo'] : null;
     $tipo_torneo   = !empty($input['tipo_torneo']) ? $input['tipo_torneo'] : null;
@@ -142,7 +140,6 @@ switch ($accion) {
         $tipo = !empty($input['tipo']) ? $input['tipo'] : null;
 
         try {
-            // Ranking de jugadores individuales
             $sql_individual = "SELECT u.email AS nombre, j.nombre AS juego, 
                                       SUM(p.puntaje_obtenido) AS puntos_totales
                                FROM puntaje_torneo p
@@ -164,7 +161,6 @@ switch ($accion) {
                                  ORDER BY puntos_totales DESC
                                  LIMIT 50";
 
-            // Ranking de equipos
             $sql_equipo = "SELECT e.nombre AS nombre, j.nombre AS juego,
                                   SUM(p.puntaje_obtenido) AS puntos_totales
                            FROM puntaje_torneo p
@@ -187,7 +183,6 @@ switch ($accion) {
 
             $ranking = [];
 
-            // Obtener ranking individual si no se filtra por tipo o si es individual
             if (!$tipo || $tipo === 'individual') {
                 $stmt = $conn->prepare($sql_individual);
                 $stmt->execute($params_individual);
@@ -195,7 +190,6 @@ switch ($accion) {
                 $ranking = array_merge($ranking, $individuales);
             }
 
-            // Obtener ranking de equipos si no se filtra por tipo o si es equipo
             if (!$tipo || $tipo === 'equipo') {
                 $stmt = $conn->prepare($sql_equipo);
                 $stmt->execute($params_equipo);
@@ -203,7 +197,6 @@ switch ($accion) {
                 $ranking = array_merge($ranking, $equipos);
             }
 
-            // Ordenar por puntos totales descendente
             usort($ranking, function($a, $b) {
                 return $b['puntos_totales'] - $a['puntos_totales'];
             });
