@@ -1,7 +1,7 @@
 .h-scroll-game {
     display: flex;
     gap: 5rem;
-    margin-left: 15rem;
+    margin-left: 13rem;
     align-items: center;
     overflow-x: auto;
     padding-bottom: 1rem;

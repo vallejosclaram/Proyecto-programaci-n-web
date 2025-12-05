@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-12-2025 a las 20:52:03
+-- Tiempo de generación: 05-12-2025 a las 16:46:03
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -317,6 +317,20 @@ INSERT INTO `miembros_equipo` (`id_miembro`, `id_equipo`, `id_usuario`, `fecha_u
 (13, 5, 15, '2025-04-14'),
 (14, 5, 18, '2025-04-15'),
 (15, 5, 19, '2025-04-16');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `notificacion`
+--
+
+CREATE TABLE `notificacion` (
+  `id_notificacion` int(11) NOT NULL,
+  `id_receptor` int(11) NOT NULL,
+  `id_emisor` int(11) NOT NULL,
+  `notificacion` varchar(50) NOT NULL,
+  `fecha` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1124,6 +1138,12 @@ ALTER TABLE `miembros_equipo`
   ADD KEY `fk_miembros_equipo_usuario` (`id_usuario`);
 
 --
+-- Indices de la tabla `notificacion`
+--
+ALTER TABLE `notificacion`
+  ADD PRIMARY KEY (`id_notificacion`);
+
+--
 -- Indices de la tabla `organizador`
 --
 ALTER TABLE `organizador`
@@ -1365,6 +1385,12 @@ ALTER TABLE `membresia`
 --
 ALTER TABLE `miembros_equipo`
   MODIFY `id_miembro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT de la tabla `notificacion`
+--
+ALTER TABLE `notificacion`
+  MODIFY `id_notificacion` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `organizador`

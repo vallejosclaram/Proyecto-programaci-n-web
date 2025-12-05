@@ -28,8 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute();
 
         if ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            // ⚠️ Idealmente usar password_verify() si guardás contraseñas con password_hash()
-            if ($result['contrasena'] === $pass && $result['id_rol'] == 1) {
+            if (password_verify($pass, $result['contrasena']) && $result['id_rol'] == 1) {
                 $_SESSION['admin'] = [
                     'id' => $result['id_usuario'],
                     'email' => $result['email'],

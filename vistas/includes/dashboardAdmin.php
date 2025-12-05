@@ -1,3 +1,11 @@
+<?php
+require_once(__DIR__ . '/../connection.php');
+require_once(__DIR__ . '/../includes/clases/permisos.php');
+if (empty($_SESSION['admin']['id'])) {
+    header("Location: login.php");
+    exit;
+}
+?>
 <header class="topbar">
     <button class="menu-toggle" id="menuToggle">☰</button>
   </header>
@@ -13,7 +21,7 @@
       <a href="../Administrador/resultados.php" class="nav-item">📤 Resultados</a>
       <a href="../Administrador/solicitudes.php" class="nav-item">📨 Solicitud de torneos</a>
       <a href="../Administrador/soporte.php" class="nav-item">💬 Soporte</a>
-      <a href="../Administrador/membresia.php" class="nav-item">🪪 Membresia</a>
+      <a href="../Administrador/membresia.php" class="nav-item">🎖️ Membresia</a>
 
     </nav>
     <div class="logout">
