@@ -1,5 +1,5 @@
 <?php
-include '../../vistas/connection.php';
+include __DIR__ . '/../../vistas/connection.php';
 session_start();
 
 // Verificar sesión

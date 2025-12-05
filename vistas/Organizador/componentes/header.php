@@ -95,7 +95,7 @@ if (isset($_SESSION['id_usuario'])) {
     </nav>
 
     <div class="logout">
-      <a href="../inicio.php" class="nav-item logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</a>
+      <a href="/Proyecto-programaci-n-web/vistas/inicio.php" class="nav-item logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</a>
     </div>
   </aside>
     <!-- Overlay -->
