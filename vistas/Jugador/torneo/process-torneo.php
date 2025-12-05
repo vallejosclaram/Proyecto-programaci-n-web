@@ -48,7 +48,7 @@ ORDER BY t.fecha_inicio ASC;
 ";
 
 $stmt = $conn->prepare($sql);
-$stmt->bindParam(":usuario_id", $usuario_id, PDO::PARAM_INT);
+$stmt->bindParam(":usuario_id", $jugador_id, PDO::PARAM_INT);
 $stmt->execute();
 
 $torneos = $stmt->fetchAll(PDO::FETCH_ASSOC);

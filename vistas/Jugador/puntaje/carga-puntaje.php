@@ -9,41 +9,68 @@ if (!isset($_SESSION["user"]["id"])) {
 
 $usuario_id = $_SESSION["user"]["id"];
 
+
 if (!Permisos::tienePermiso("subir_puntaje", $usuario_id)) {
-    echo json_encode(["error" => "No tenés permiso para unirte a un torneo"]);
+    echo json_encode(["error" => "No tenés permiso para subir puntaje"]);
     exit;
 }
 
 try {
-    
-    $sqlTorneos = "
-        SELECT DISTINCT t.id_torneo, t.nombre 
-        FROM torneo t
-        JOIN inscripcion i ON i.id_torneo = t.id_torneo
-        WHERE i.id_jugador = :id_jugador
-    ";
-    $stmt = $conn->prepare($sqlTorneos);
-    $stmt->bindParam(':id_jugador', $usuario_id);
-    $stmt->execute();
-    $torneos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
    
-    $sqlEquipos = "
-        SELECT e.id_equipo, e.nombre 
-        FROM equipo_jugador ej
-        JOIN equipo e ON e.id_equipo = ej.id_equipo
-        WHERE ej.id_jugador = :id_jugador
+    $sqlJugador = "SELECT id_jugador FROM jugador WHERE id_usuario = :u LIMIT 1";
+    $stJ = $conn->prepare($sqlJugador);
+    $stJ->execute([":u" => $usuario_id]);
+    $jug = $stJ->fetch(PDO::FETCH_ASSOC);
+
+    if (!$jug) {
+        $torneos = [];
+        throw new Exception("No existe jugadora en la tabla jugador");
+    }
+
+    $id_jugador = $jug["id_jugador"];
+
+
+    // 2) Torneos donde se inscribe individualmente
+    $sqlInd = "
+        SELECT t.id_torneo, t.nombre
+        FROM torneo t
+        INNER JOIN torneo_jugador tj ON tj.id_torneo = t.id_torneo
+        WHERE tj.id_jugador = :j
     ";
-    $stmt2 = $conn->prepare($sqlEquipos);
-    $stmt2->bindParam(':id_jugador', $usuario_id);
-    $stmt2->execute();
-    $equipos = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+    $stmtInd = $conn->prepare($sqlInd);
+    $stmtInd->execute([":j" => $id_jugador]);
+    $torneosInd = $stmtInd->fetchAll(PDO::FETCH_ASSOC);
+
+
+    // 3) Torneos donde participa por equipo
+    $sqlEq = "
+        SELECT DISTINCT t.id_torneo, t.nombre
+        FROM torneo t
+        INNER JOIN torneo_equipo te ON te.id_torneo = t.id_torneo
+        INNER JOIN miembros_equipo me ON me.id_equipo = te.id_equipo
+        WHERE me.id_usuario = :u
+    ";
+    $stmtEq = $conn->prepare($sqlEq);
+    $stmtEq->execute([":u" => $usuario_id]);
+    $torneosEq = $stmtEq->fetchAll(PDO::FETCH_ASSOC);
+
+
+    // 4) Unificar sin duplicar
+    $torneos = [];
+
+    foreach ($torneosInd as $t) {
+        $torneos[$t["id_torneo"]] = $t["nombre"];
+    }
+    foreach ($torneosEq as $t) {
+        $torneos[$t["id_torneo"]] = $t["nombre"];
+    }
 
 } catch (Exception $e) {
     $torneos = [];
-    $equipos = [];
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -53,7 +80,8 @@ try {
   
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="puntaje.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script> 
+  <link href="puntaje.css" rel="stylesheet">
     <link rel="stylesheet" href="../style.css" />
     <script src="puntaje.js"></script>
 </head>
@@ -65,47 +93,71 @@ try {
   <div class="row justify-content-center">
     <div class="col-md-8">
 
-      <div class="card p-4">
-        <h2 class="text-center mb-4">Cargar Puntaje</h2>
+  
+        <h2 class="text-center mb-4">Cargar resultados</h2>
+         
 
-        <form action="procesar-cargar-puntaje.php" method="POST">
+<label for="selectTorneo">Seleccioná un torneo:</label>
+<select id="selectTorneo" class="form-select mb-3">
+    <option value="">-- Elegí un torneo --</option>
+    <?php foreach ($torneos as $id => $nombre): ?>
+    <option value="<?= $id ?>"><?= $nombre ?></option>
+    <?php endforeach; ?>
+</select>
 
-          <div class="mb-3">
-            <label for="torneo" class="form-label">Seleccionar Torneo</label>
-            <select class="form-select" id="torneo" name="id_torneo" required>
-              <option value="">Elegí un torneo</option>
-              <?php foreach ($torneos as $t): ?>
-                <option value="<?= $t['id_torneo'] ?>"><?= $t['nombre'] ?></option>
-              <?php endforeach; ?>
-            </select>
-          </div>
 
-          <div class="mb-3">
-            <label for="equipo" class="form-label">Seleccionar Equipo</label>
-            <select class="form-select" id="equipo" name="id_equipo" required>
-              <option value="">Elegí tu equipo</option>
-              <?php foreach ($equipos as $e): ?>
-                <option value="<?= $e['id_equipo'] ?>"><?= $e['nombre'] ?></option>
-              <?php endforeach; ?>
-            </select>
-          </div>
+<table class="table table-dark table-striped" id="tablaRondas">
+    <thead>
+        <tr>
+            <th>Partida</th>
+            <th>Ronda</th>
+            <th>Resultado</th>
+        </tr>
+    </thead>
 
-          <div class="mb-3">
-            <label for="puntaje" class="form-label">Puntaje Obtenido</label>
-            <input type="number" min="0" class="form-control" id="puntaje" name="puntaje_obtenido" required>
-          </div>
+    <tbody>
+        <?php for ($r = 1; $r <= 15; $r++): ?>
+            <tr>
+                <td>
+                    <span class="nombre-torneo"></span> - Partida <?= $r ?>
+                </td>
 
-          <button type="submit" class="btn btn-primary w-100 mt-3">
-            Guardar Puntaje
-          </button>
+                <td>
+                    Ronda <?= $r ?>
+                </td>
 
-        </form>
-      </div>
+                <td>
+                    <input 
+                        type="checkbox" 
+                        class="check-resultado" 
+                        data-ronda="<?= $r ?>"
+                    >
+                </td>
+            </tr>
+        <?php endfor; ?>
+    </tbody>
+</table>
 
-    </div>
+<button class="btn btn-primary mt-3" id="btnGuardarResultados">Guardar Resultados</button>
+
+
+
+<div class="mt-4">
+  <h5>Subir evidencia (captura)</h5>
+  <input type="file" id="fileEvidencia" accept="image/jpeg,image/png,image/webp" class="form-control mb-2">
+  <button class="btn btn-secondary" id="btnSubirEvidencia">Subir evidencia</button>
+  <small class="text-muted d-block mt-2">
+    Formatos permitidos: JPG, PNG, WEBP. Máx: 8MB.
+  </small>
+</div>
+
+
+
+        
+    
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

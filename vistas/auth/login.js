@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const validEmail = document.getElementById('validemail');
   const validPass = document.getElementById('validpass');
 
-  // proteger por si no existen en el HTML
+ 
   if (showPass) {
     showPass.addEventListener('change', () => {
       if (passwordInput) passwordInput.type = showPass.checked ? 'text' : 'password';
@@ -49,9 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // --- GUARDAR SESIÓN / usuario logueado en localStorage ---
-    // guardamos el objeto 'usuario' como la sesión actual bajo la clave 'jugador'
-    // (esto permite que perfil.js detecte quién está logueado)
+
     try {
       localStorage.setItem('jugador', JSON.stringify(usuario));
     } catch (err) {
@@ -69,19 +67,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const btnIr = document.getElementById('irDashboard');
       if (btnIr) {
         btnIr.addEventListener('click', () => {
-          // Si querés redirigir directo al perfil del jugador en vez del dashboard, sustituí la URL
+
           if (usuario.rol === 'organizador') {
             window.location.href = '../organizador/dashboard.html';
           } else {
-            // ejemplo: redirigir al dashboard del jugador
+           
             window.location.href = '../jugador/dashboard.html';
-            // Si preferís ir directamente al perfil:
-            // window.location.href = `../jugador/ver.html?jugador=${encodeURIComponent(usuario.usuario)}`;
+      
           }
         });
       }
     } else {
-      // fallback: navegar según rol
+      
       if (usuario.rol === 'organizador') {
         window.location.href = '../organizador/dashboard.html';
       } else {
